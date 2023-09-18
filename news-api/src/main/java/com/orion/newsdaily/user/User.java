@@ -1,42 +1,47 @@
-package com.orion.newsdaily.User;
+package com.orion.newsdaily.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.orion.newsdaily.AuditTrail.AuditTrail;
-import com.orion.newsdaily.Comment.Comment;
-import com.orion.newsdaily.NewsArticle.NewsArticle;
+import com.orion.newsdaily.auditTrail.AuditTrail;
+import com.orion.newsdaily.comment.Comment;
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.util.List;
 
 @Entity
-@Table(name="Users")
+@Table(name="users")
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
+    @NonNull
     private String userName;
+    @NonNull
     private String password;
+    @NonNull
     private String email;
+    @NonNull
     private String role;
+    @NonNull
     private boolean loggedIn;
 
-    @OneToMany(mappedBy = "Users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<NewsArticle> newsArticles;
 
-    @OneToMany(mappedBy = "Users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "Users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<AuditTrail> auditTrails;
-
-
 }

@@ -1,11 +1,12 @@
-package com.orion.newsdaily.AuditTrail;
+package com.orion.newsdaily.auditTrail;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orion.newsdaily.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
+import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
@@ -19,14 +20,14 @@ public class AuditTrail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NonNull
     private String action;
-    @NotNull
+    @NonNull
     private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)
     @JsonIgnore
-    private Long userId;
+    private User user;
 
 }
