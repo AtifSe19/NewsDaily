@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static jakarta.transaction.Status.STATUS_ACTIVE;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -37,13 +40,31 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
+    public UserDetails loadUserByUsername(String jti, String userName) throws UsernameNotFoundException {
+        return loadUserByUsername(userName);
+    }
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User user = userRepo.findByUserName(userName);
+        if (user == null) {
+            throw new UsernameNotFoundException("Invalid user: " + userName);
+        }
+        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), true,
+                true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole()));
     }
 
     public List<User> findAll() {
         return userRepo.findAll();
+    }
+
+    public Optional<User> findById(Long id) {
+        Optional<User> acc = userRepo.findById(id);
+        if (acc.isPresent())
+        {
+            return acc;
+        }
+        return null;
     }
 
     public List<User> findAllByName(int page, int size, String title) {
@@ -109,14 +130,5 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
-    }
-
-    public Optional<User> findById(Long id) {
-        Optional<User> acc = userRepo.findById(id);
-        if (acc.isPresent())
-        {
-            return acc;
-        }
-        return null;
     }
 }

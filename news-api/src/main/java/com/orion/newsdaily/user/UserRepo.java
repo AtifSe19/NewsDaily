@@ -14,4 +14,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     ApiResponse<Object> findByOrderByIdDesc(Pageable pageable);
 
     ApiResponse<Object> findByUserNameLikeOrderByIdDesc(Pageable pageable, String title);
+
+    User findByUserName(String userName);
 }
