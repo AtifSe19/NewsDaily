@@ -1,8 +1,9 @@
-package com.orion.newsdaily.Tag;
+package com.orion.newsdaily.tag;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.orion.newsdaily.NewsArticle.NewsArticle;
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import jakarta.persistence.*;
+import lombok.NonNull;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Tag {
     @Column(name = "tag_id") // Rename the column
     private long tag_id;
 
+    @NonNull
     private String tagName;
 
     @ManyToMany(mappedBy = "tags",cascade = CascadeType.ALL)

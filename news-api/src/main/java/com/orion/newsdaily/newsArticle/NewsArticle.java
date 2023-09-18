@@ -1,8 +1,9 @@
-package com.orion.newsdaily.NewsArticle;
+package com.orion.newsdaily.newsArticle;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.orion.newsdaily.Comment.Comment;
-import com.orion.newsdaily.Tag.Tag;
+import com.orion.newsdaily.comment.Comment;
+import com.orion.newsdaily.tag.Tag;
+import com.orion.newsdaily.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,14 +32,13 @@ public class NewsArticle {
     private LocalDateTime postedAt;
     @NonNull
     private Boolean status;
-
     @NonNull
     private Boolean isSponsored;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)
     @JsonIgnore
-    private Long userId;
+    private User user;
 
     @OneToMany(mappedBy = "news_articles", cascade = CascadeType.ALL)
     @JsonIgnore
