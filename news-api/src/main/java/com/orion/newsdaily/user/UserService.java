@@ -80,10 +80,11 @@ public class UserService implements UserDetailsService {
         logger.debug("News search with page: {}, size: {}, title: {}", page, size, title.replaceAll("[\r\n]", ""));   //log forgery
         Pageable pageable = PageRequest.of(page, size);
         if (title.isEmpty() || title.isBlank()) {
-            return (List<User>) userRepo.findByOrderByIdDesc(pageable).getContent();
+            return  userRepo.findByOrderByIdDesc(pageable).getContent();
         }
-        return (List<User>) userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
+        return userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
     }
+
 
     @Transactional
     public User insert(User accToInsert) {
