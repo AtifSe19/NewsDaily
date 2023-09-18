@@ -67,23 +67,25 @@ public class UserService implements UserDetailsService {
         return null;
     }
 
-//    public List<User> findAllByName(int page, int size, String title) {
-//
-//        if (page < pageMin) {
-//            page = pageMin;
-//        }
-//        if (size > pageSizeMax) {
-//            size = pageSizeMax;
-//        } else if (size < pageSizeMin) {
-//            size = pageSizeMin;
-//        }
-//        logger.debug("News search with page: {}, size: {}, title: {}", page, size, title.replaceAll("[\r\n]", ""));   //log forgery
-//        Pageable pageable = PageRequest.of(page, size);
-//        if (title.isEmpty() || title.isBlank()) {
-//            return userRepo.findByOrderByIdDesc(pageable).getContent();
-//        }
-//        return userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
-//    }
+    public List<User> findAllByName(int page, int size, String title) {
+
+        if (page < pageMin) {
+            page = pageMin;
+        }
+        if (size > pageSizeMax) {
+            size = pageSizeMax;
+        } else if (size < pageSizeMin) {
+            size = pageSizeMin;
+        }
+        logger.debug("News search with page: {}, size: {}, title: {}", page, size, title.replaceAll("[\r\n]", ""));   //log forgery
+        Pageable pageable = PageRequest.of(page, size);
+        if (title.isEmpty() || title.isBlank()) {
+            return  userRepo.findByOrderByIdDesc(pageable).getContent();
+        }
+        return userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
+    }
+
+
 
     @Transactional
     public User insert(User accToInsert) {

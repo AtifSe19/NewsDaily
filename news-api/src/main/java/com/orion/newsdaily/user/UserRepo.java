@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
-//    Page<User> findByOrderByIdDesc(Pageable pageable);
-//
-//    Page<User> findByUserNameLikeOrderByIdDesc(Pageable pageable, String title);
+    Page<User> findByOrderByIdDesc(Pageable pageable);
+
+    Page<User> findByUserNameLikeOrderByIdDesc(Pageable pageable, String name);
 
     User findByUserName(String userName);
 }
