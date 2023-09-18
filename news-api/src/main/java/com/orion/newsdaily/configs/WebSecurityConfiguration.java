@@ -1,6 +1,8 @@
 package com.orion.newsdaily.configs;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.orion.newsdaily.user.UserService;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +12,6 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
