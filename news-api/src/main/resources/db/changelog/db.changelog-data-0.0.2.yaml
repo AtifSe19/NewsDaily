@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.2
+      author: ATIF IQBAL BUTT
+      changes:
+      - insert:
+          tableName: balances
+          columns:
+            - column:
+                name: amount
+                value: 100
+            - column:
+                name: db_cr_indicator
+                value: 'CR'
+            - column:
+                name: fk_account_holder_id
+                value: 2
+
+      - insert:
+          tableName: balances
+          columns:
+            - column:
+                name: amount
+                value: 50
+            - column:
+                name: db_cr_indicator
+                value: 'CR'
+            - column:
+                name: fk_account_holder_id
+                value: 3
