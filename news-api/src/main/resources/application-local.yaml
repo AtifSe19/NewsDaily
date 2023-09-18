@@ -1,0 +1,30 @@
+newsapp:
+  db:
+    url: jdbc:h2:mem:newsDB
+    username: sa
+    password:
+spring:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto:none
+  h2:
+    console:
+      enabled: true
+  liquibase:
+    contexts: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  show-login-endpoint: true
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}] ${HOSTNAME}"
