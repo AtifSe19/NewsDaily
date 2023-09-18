@@ -42,18 +42,18 @@ public class UserController {
         return ResponseEntity.ok(acc);
     }
 
-//    @PreAuthorize("permitAll()")
-//    @GetMapping
-//    public ResponseEntity<ApiResponse<List<User>>> findAllByName(
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "size", defaultValue = "100") int size,
-//            @RequestParam(name = "title", defaultValue = "") String title) {
-//        List<User> news = userService.findAllByName(page, size, title);
-//        if (news.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(ApiResponse.of(news));
-//    }
+    @PreAuthorize("permitAll()")
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<User>>> findAllByName(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "100") int size,
+            @RequestParam(name = "title", defaultValue = "") String title) {
+        List<User> news = userService.findAllByName(page, size, title);
+        if (news.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ApiResponse.of(news));
+    }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
