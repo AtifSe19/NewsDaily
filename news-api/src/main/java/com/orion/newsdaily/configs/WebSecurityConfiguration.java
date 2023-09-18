@@ -1,7 +1,7 @@
 package com.orion.newsdaily.configs;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
-import com.orion.newsdaily.user.UserService;
+import com.orion.newsdaily.User.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;

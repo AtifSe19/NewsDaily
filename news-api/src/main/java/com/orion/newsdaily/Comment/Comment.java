@@ -35,4 +35,53 @@ public class Comment {
     @JoinColumn(name = "fk_news_article_id", nullable = false)
     @JsonIgnore
     private Long newsArticleId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getPostedAt() {
+        return postedAt;
+    }
+
+    public void setPostedAt(LocalDateTime postedAt) {
+        this.postedAt = postedAt;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getNewsArticleId() {
+        return newsArticleId;
+    }
+
+    public void setNewsArticleId(Long newsArticleId) {
+        this.newsArticleId = newsArticleId;
+    }
+
 }

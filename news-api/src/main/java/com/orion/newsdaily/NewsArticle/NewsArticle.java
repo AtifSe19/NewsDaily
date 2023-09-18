@@ -18,20 +18,18 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class NewsArticle {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NonNull
     private String title;
-
     @NonNull
     private String description;
     @NonNull
     private LocalDateTime postedAt;
     @NonNull
     private Boolean status;
-
     @NonNull
     private Boolean isSponsored;
 
@@ -47,4 +45,6 @@ public class NewsArticle {
     @ManyToMany(mappedBy = "news_articles", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Tag> tags;
+
+
 }
