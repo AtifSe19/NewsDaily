@@ -30,7 +30,7 @@ public class TagService {
 
     public Tag updateTag(long id, Tag tagDetails) {
         Tag tag = getTagById(id);
-        tag.setTagName(tagDetails.getTagName());
+        tag.setName(tagDetails.getName());
         // Update other fields as needed
         return tagRepository.save(tag);
     }
