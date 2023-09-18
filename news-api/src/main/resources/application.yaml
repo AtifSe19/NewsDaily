@@ -1,16 +1,32 @@
 spring:
-  profiles:
-    include: local
   application:
-    name: newsapp
+    name: NewsDaily
+  profiles:
+    include:
+      #      - prod
+      - local
   datasource:
-    url: ${newsapp.db.url}
-    username: ${newsapp.db.username}
-    password: ${newsapp.db.password}
-
+    url: ${news.db.url}
+    username: ${news.db.username:}
+    password: ${news.db.password:}
+  liquibase:
+    contexts: ${news.liquibase.contexts:}
+  h2:
+    console:
+      enabled: ${h2.console.enabled:false}
+  jpa:
+    hibernate:
+      ddl-auto: update # make this property none if you want to retain your data in the database
 logging:
   level:
     sql: debug
-    '[org.springframework.web.servlet.DispatcherServlet]': debug
-    '[org.springframework.web.client.RestTemplate]': debug
-    '[com.orion.newsdaily]': debug
+#    web: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

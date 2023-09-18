@@ -9,10 +9,11 @@ databaseChangeLog:
       file: db.changelog-schema-0.0.3.yaml
       relativeToChangelogFile: true
   - include:
-      file: db.changelog-data-0.0.1.yaml
+      file: db.changelog-schema-0.0.4.yaml
       relativeToChangelogFile: true
-      context: local
   - include:
-      file: db.changelog-data-0.0.2.yaml
+      file: db.changelog-schema-0.0.5.yaml
       relativeToChangelogFile: true
-      context: local
+  - include:
+      file: db.changelog-schema-0.0.6.yaml
+      relativeToChangelogFile: true

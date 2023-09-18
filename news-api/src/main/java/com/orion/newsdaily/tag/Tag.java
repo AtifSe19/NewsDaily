@@ -19,15 +19,12 @@ import java.util.List;
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tag_id") // Rename the column
-    private long tag_id;
+    private long id;
 
     @NonNull
-    private String tagName;
+    private String name;
 
     @ManyToMany(mappedBy = "tags",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<NewsArticle> newsArticles;
-
-
 }
