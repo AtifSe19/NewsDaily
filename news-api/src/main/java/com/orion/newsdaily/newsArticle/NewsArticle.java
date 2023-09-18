@@ -29,10 +29,12 @@ public class NewsArticle {
     @NonNull
     private String description;
     @NonNull
+    @Column(name = "posted_at")
     private LocalDateTime postedAt;
     @NonNull
     private Boolean status;
     @NonNull
+    @Column(name = "is_sponsored")
     private Boolean isSponsored;
 
     @ManyToOne
@@ -40,11 +42,13 @@ public class NewsArticle {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "news_articles", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "newsArticle", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 
-    @ManyToMany(mappedBy = "news_articles", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "news_tags", joinColumns = { @JoinColumn(name = "news_article_id") },
+            inverseJoinColumns = { @JoinColumn(name = "tag_id") })
     @JsonIgnore
     private List<Tag> tags;
 }

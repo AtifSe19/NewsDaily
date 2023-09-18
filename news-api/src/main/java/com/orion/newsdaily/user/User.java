@@ -31,17 +31,18 @@ public class User {
     @NonNull
     private String role;
     @NonNull
-    private boolean loggedIn;
+    @Column(name = "is_logged_in")
+    private boolean isLoggedIn;
 
-    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<NewsArticle> newsArticles;
 
-    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "users",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<AuditTrail> auditTrails;
 }

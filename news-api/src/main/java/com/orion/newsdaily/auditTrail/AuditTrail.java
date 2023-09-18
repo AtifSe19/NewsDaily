@@ -23,6 +23,7 @@ public class AuditTrail {
     @NonNull
     private String action;
     @NonNull
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @ManyToOne

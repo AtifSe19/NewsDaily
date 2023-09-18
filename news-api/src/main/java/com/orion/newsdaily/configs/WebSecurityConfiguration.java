@@ -12,6 +12,7 @@ import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -78,21 +79,21 @@ public class WebSecurityConfiguration {
     public CsrfTokenRepository csrfTokenRepository() {
         return new HttpSessionCsrfTokenRepository();
     }
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return web -> web.ignoring().requestMatchers(
-//                new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
-//                new AntPathRequestMatcher("/h2-console/**", "POST"),
-//                new AntPathRequestMatcher("/actuator", "GET")
-//                , new AntPathRequestMatcher("/actuator/**", "GET"),
-//                new AntPathRequestMatcher("/actuator", "POST")
-//                , new AntPathRequestMatcher("/actuator/**", "POST"));
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
+                new AntPathRequestMatcher("/h2-console/**", "POST"),
+                new AntPathRequestMatcher("/actuator", "GET")
+                , new AntPathRequestMatcher("/actuator/**", "GET"),
+                new AntPathRequestMatcher("/actuator", "POST")
+                , new AntPathRequestMatcher("/actuator/**", "POST"));
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().requestMatchers("GET", Arrays.toString(ignoredGet)).permitAll();
-        http.authorizeRequests().requestMatchers(Arrays.toString(ignored)).permitAll();
+//        http.authorizeRequests().requestMatchers("GET", Arrays.toString(ignoredGet)).permitAll();
+//        http.authorizeRequests().requestMatchers(Arrays.toString(ignored)).permitAll();
 
 
         http.formLogin(config -> config.successHandler(authenticationSuccessHandler()));
@@ -109,7 +110,7 @@ public class WebSecurityConfiguration {
         http.oauth2ResourceServer(config -> config.opaqueToken(Customizer.withDefaults()));
         http.logout(config -> config.addLogoutHandler(new CookieClearingLogoutHandler(sessionId)));
         return http.build();
-}
+    }
     private AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, ex) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
     }
@@ -161,7 +162,7 @@ public class WebSecurityConfiguration {
     private OAuth2AuthenticatedPrincipal introspectorToken(String token) {
         try {
             Jwt jwt = jwtDecoder.decode(token);
-            UserDetails userDetails = userService.loadUserByUsername(jwt.getId(), jwt.getSubject());
+            UserDetails userDetails = userService.loadUserByUsername(jwt.getId());
             return new DefaultOAuth2User(userDetails.getAuthorities(), Map.of("sub", userDetails.getUsername()), "sub");
         } catch (Exception e) {
             throw new CredentialsExpiredException(e.getMessage(), e);

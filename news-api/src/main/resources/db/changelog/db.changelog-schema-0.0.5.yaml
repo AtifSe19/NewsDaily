@@ -1,39 +1,36 @@
 databaseChangeLog:
   - changeSet:
-      id: schema-0.0.2
+      id: schema-0.0.5
       author: ORION
       changes:
         - createTable:
-            tableName: news_articles
+            tableName: audit_trails
             columns:
               - column:
                   name: id
                   type: BIGINT
                   autoIncrement: true
               - column:
-                  name: title
+                  name: action
                   type: VARCHAR(255)
               - column:
-                  name: description
-                  type: VARCHAR(255)
-              - column:
-                  name: posted_at
+                  name: created_at
                   type: TIMESTAMP
-              - column:
-                  name: status
-                  type: BOOLEAN
-              - column:
-                  name: is_sponsored
-                  type: BOOLEAN
               - column:
                   name: fk_user_id
                   type: BIGINT
         - addPrimaryKey:
-            tableName: news_articles
+            tableName: audit_trails
             columnNames: id
         - addForeignKeyConstraint:
-            baseTableName: news_articles
+            baseTableName: audit_trails
             baseColumnNames: fk_user_id
             referencedTableName: users
             referencedColumnNames: id
-            constraintName: fk_user_id
+            constraintName: fk_audits_users
+        - createIndex:
+            tableName: audit_trails
+            indexName: audit_trails_fk_user_id_idx
+            columns:
+              - column:
+                  name: fk_user_id
