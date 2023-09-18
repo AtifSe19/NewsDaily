@@ -85,6 +85,7 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
     }
 
+        
 
     @Transactional
     public User insert(User accToInsert) {
