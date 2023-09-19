@@ -1,6 +1,16 @@
 spring:
   application:
     name: NewsDaily
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${news.google.client-id}
+            client-secret: ${news.google.client-secret}
+            scope:
+              - email
+              - profile
   profiles:
     include:
       #      - prod

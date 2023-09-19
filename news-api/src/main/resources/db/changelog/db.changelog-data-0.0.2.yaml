@@ -74,7 +74,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 4
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -98,4 +98,28 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 4
+                  value: 3
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sample Article 5'
+              - column:
+                  name: description
+                  value: 'This is a sample article description 5.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
+                  value: false
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_sponsored
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 3
