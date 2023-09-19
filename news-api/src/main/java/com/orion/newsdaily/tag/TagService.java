@@ -1,5 +1,7 @@
 package com.orion.newsdaily.tag;
 
+import com.orion.newsdaily.newsTag.NewsTag;
+import com.orion.newsdaily.newsTag.NewsTagRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,9 @@ import java.util.List;
 @Service
 public class TagService {
     private final TagRepo tagRepository;
+
+    @Autowired
+    private NewsTagRepo newsTagRepo;
 
     @Autowired
     public TagService(TagRepo tagRepository) {
@@ -24,15 +29,39 @@ public class TagService {
                 .orElseThrow(() -> new EntityNotFoundException("Tag not found with id: " + id));
     }
 
-    public Tag createTag(Tag tag) {
-        return tagRepository.save(tag);
+    public Tag createTag(TagDTO tagDTO) {
+
+        Tag tag = new Tag();
+        tag.setName(tagDTO.getName());
+        Tag myTag = tagRepository.save(tag);     //TId, name
+
+        NewsTag newsTag = new NewsTag();
+        newsTag.setNewsArticleId(tagDTO.getNewsId());
+        newsTag.setTagId(myTag.getId());
+
+        newsTagRepo.save(newsTag);    //tagId, NewsId
+
+        return myTag;
     }
 
-    public Tag updateTag(long id, Tag tagDetails) {
+    public Tag updateTag(long id, TagDTO tagDTO) {
         Tag tag = getTagById(id);
-        tag.setName(tagDetails.getName());
+        tag.setName(tagDTO.getName());             //just updating name.
         // Update other fields as needed
-        return tagRepository.save(tag);
+        Tag myTag = tagRepository.save(tag);
+
+//        tid = id;
+//        nid = tagDTO.getNewsId();
+
+//        NewsTag newsTagObj = newsTagRepo.getIdByNTID(id, tagDTO.getNewsId());
+//
+//        NewsTag newsTag = newsTagRepo.getIdByNTID(id, tagDTO.getNewsId());
+//        newsTag.setNewsArticleId(tagDTO.getNewsId());
+//        newsTag.setTagId(myTag.getId());
+//
+//        newsTagRepo.save(newsTag);    //tagId, NewsId
+
+        return myTag;
     }
 
     public void deleteTag(long id) {

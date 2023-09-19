@@ -99,6 +99,8 @@ public class UserService implements UserDetailsService {
         // Check if the account item with the given id exists in the repository
         Optional<User> existingAccountOptional = userRepo.findById(id);
 
+        logger.debug("check this.");
+
         if (existingAccountOptional.isEmpty()) {
             logger.trace("There is nothing to update with id = {}",id);
             return null; // Return null or throw an exception to handle the case where the account item doesn't exist

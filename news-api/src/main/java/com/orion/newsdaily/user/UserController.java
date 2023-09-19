@@ -1,9 +1,17 @@
 package com.orion.newsdaily.user;
 
+
 import com.orion.newsdaily.basic.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +25,7 @@ public class UserController {
     final UserService userService;
 
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -47,7 +56,7 @@ public class UserController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "100") int size,
             @RequestParam(name = "title", defaultValue = "") String title) {
-        List<User> news = userService.findAllByName(page, size, title);
+        List<User> news = userService.findAllByName(page, size, "%"+title+"%");
         if (news.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -79,6 +88,7 @@ public class UserController {
     }
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
+
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("id") Long id)
     {

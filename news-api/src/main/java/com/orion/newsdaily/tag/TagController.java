@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/tags")
+@RequestMapping("/api/v1/tags")
 public class TagController {
     private final TagService tagService;
 
@@ -31,14 +31,14 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Tag>> createTag(@RequestBody Tag tag) {
-        Tag createdTag = tagService.createTag(tag);
+    public ResponseEntity<ApiResponse<Tag>> createTag(@RequestBody TagDTO tagDTO) {
+        Tag createdTag = tagService.createTag(tagDTO);
         return ResponseEntity.ok(ApiResponse.of(createdTag));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Tag>> updateTag(@PathVariable long id, @RequestBody Tag tag) {
-        Tag updatedTag = tagService.updateTag(id, tag);
+    public ResponseEntity<ApiResponse<Tag>> updateTag(@PathVariable long id, @RequestBody TagDTO tagDTO) {
+        Tag updatedTag = tagService.updateTag(id, tagDTO);
         return ResponseEntity.ok(ApiResponse.of(updatedTag));
     }
 
