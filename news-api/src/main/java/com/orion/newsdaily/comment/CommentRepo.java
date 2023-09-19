@@ -16,14 +16,6 @@ public interface CommentRepo extends JpaRepository <Comment, Long> {
     @Query(value = "SELECT * FROM comments WHERE fk_news_article_id = ?1 AND status = 'true'", nativeQuery = true)
     List<Comment> NewsSpecificComments(Long id);
 
-    @Query(value = "SELECT * FROM comments WHERE status = 'false'", nativeQuery = true)
+    @Query(value = "SELECT * FROM comments WHERE is_approved = false", nativeQuery = true)
     List<Comment> findPendingComments();
-
-    @Modifying
-    @Query(value = "UPDATE comments SET is_disabled = 'true' WHERE id = ?1", nativeQuery = true)
-    void disableComment(long id);
-
-    @Modifying
-    @Query(value = "UPDATE comments SET is_disabled = 'false' WHERE id = ?1", nativeQuery = true)
-    void enableComment(long id);
 }

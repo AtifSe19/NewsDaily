@@ -26,9 +26,6 @@ public class NewsArticleController {
     private UserService userService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
-    //-------------REPORTER
-
     @PreAuthorize("hasAuthority('REPORTER')")
     @PostMapping
     public ResponseEntity<NewsArticle> create(Authentication authentication, @RequestBody NewsArticle newsArticle) {
@@ -52,49 +49,39 @@ public class NewsArticleController {
 
     }
 
-    //-----------EDITOR
-
     @PreAuthorize("hasAuthority('EDITOR')")
     @GetMapping("/pending")
     public ResponseEntity<List<NewsArticle>> findPendingNews() {
-        return  ResponseEntity.ok(newsArticleService.findPendingNews());
+        return ResponseEntity.ok(newsArticleService.findPendingNews());
     }
 
-
-    //Give id of news which editor wants to approve
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/approve/{id}")
-    public ResponseEntity<NewsArticle> toggleApprovedStatus(@PathVariable("id") long id) {
-
-        NewsArticle updated = newsArticleService.toggleApprovedStatus(id);
-
+    public ResponseEntity<NewsArticle> approveNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.approveNewsToggle(id);
         if (updated==null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
     }
 
-    @PutMapping("/sponser/{id}")
-    public ResponseEntity<NewsArticle> sponsored(@PathVariable("id") long id) {
-        NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle==null) {
+    @PutMapping("/sponsor/{id}")
+    public ResponseEntity<NewsArticle> sponsorNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.sponsorNewsToggle(id);
+        if (updated==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.sponsorNewsToggle(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updated);
     }
-
-    //---------ADMIN-----EDITOR
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/disable/{id}")
-    public ResponseEntity<Void> disableNewsToggle(@PathVariable("id") long id) {
-        NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle==null) {
+    public ResponseEntity<NewsArticle> disableNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.disableNewsToggle(id);
+        if (updated==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.disableNewsToggle(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updated);
     }
 
 }

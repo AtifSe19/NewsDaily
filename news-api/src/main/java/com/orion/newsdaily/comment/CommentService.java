@@ -60,18 +60,6 @@ public class CommentService {
     {
         return commentRepo.NewsSpecificComments(id);
     }
-    public Comment update(Comment commentToUpdate, long id) {
-
-        Optional<Comment> existingCommentOptional = commentRepo.findById(id);
-
-        if (existingCommentOptional.isEmpty()) {
-            return null;
-        }
-        Comment previous = existingCommentOptional.get();
-        previous.setIsApproved(true);
-        commentRepo.save(previous);
-        return previous;
-    }
     public List<Comment> findPendingComments()
     {
         return commentRepo.findPendingComments();
@@ -84,37 +72,35 @@ public class CommentService {
         return commentRepo.findById(id).orElse(null);
     }
 
-    public Comment toggleApprovedStatus(long id) {
-        Optional<Comment> existingCommentOptional=commentRepo.findById(id);
-
-        if (existingCommentOptional.isEmpty()) {
-            return null;
+    public Comment approveCommentToggle(long id) {
+        Optional<Comment> comment = commentRepo.findById(id);
+        if (comment.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found");
         }
-
-        Comment commentToUpdate=existingCommentOptional.get();
+        Comment commentToUpdate = comment.get();
         if(commentToUpdate.getIsApproved().equals(Boolean.FALSE)){
             commentToUpdate.setIsApproved(true);
         } else if (commentToUpdate.getIsApproved().equals(Boolean.TRUE)) {
             commentToUpdate.setIsApproved(false);
 
         }
-
         commentRepo.save(commentToUpdate);
         return commentToUpdate;
     }
 
     @Transactional
-    public void disableCommentToggle(long id) {
+    public Comment disableCommentToggle(long id) {
         Optional<Comment> comment = commentRepo.findById(id);
-        if (comment.isPresent()) {
-            if(comment.get().getIsDisabled().equals(Boolean.FALSE)){
-                commentRepo.disableComment(id);
-            } else if (comment.get().getIsDisabled().equals(Boolean.TRUE)) {
-                commentRepo.enableComment(id);
-            }
-        }
-        else {
+        if (comment.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found");
         }
+        Comment commentToUpdate = comment.get();
+        if(commentToUpdate.getIsDisabled().equals(Boolean.FALSE)){
+            commentToUpdate.setIsDisabled(true);
+        } else if (commentToUpdate.getIsDisabled().equals(Boolean.TRUE)) {
+            commentToUpdate.setIsDisabled(false);
+        }
+        commentRepo.save(commentToUpdate);
+        return commentToUpdate;
     }
 }
