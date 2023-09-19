@@ -73,26 +73,27 @@ public class NewsArticleController {
         return ResponseEntity.ok(updated);
     }
 
-    @PutMapping("/{id}/sponsored")
-    public ResponseEntity<NewsArticle> sponsored(@PathVariable("id") long id,@RequestBody NewsArticle newsArticle) {
-
-        NewsArticle up = newsArticleService.sponsored(newsArticle, id);
-        if (up==null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(up);
-    }
-
-    //---------ADMIN-----EDITOR
-
-    @PutMapping("/disable/{id}")
-    public ResponseEntity<Void> disableNews(@PathVariable("id") long id) {
+    @PutMapping("/sponser/{id}")
+    public ResponseEntity<NewsArticle> sponsored(@PathVariable("id") long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
         if (newsArticle==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.disableNews(id);
-        return ResponseEntity.noContent().build();
+        newsArticleService.togglesponsored(id);
+        return ResponseEntity.ok().build();
+    }
+
+    //---------ADMIN-----EDITOR
+
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<Void> disableNewsToggle(@PathVariable("id") long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
+        if (newsArticle==null) {
+            return ResponseEntity.notFound().build();
+        }
+        newsArticleService.disableNewsToggle(id);
+        return ResponseEntity.ok().build();
     }
 
 }

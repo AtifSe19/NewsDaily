@@ -16,4 +16,16 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
     @Modifying
     @Query(value = "UPDATE news_articles SET is_disabled = 'true' WHERE id = ?1", nativeQuery = true)
     void disableNews(long id);
+
+    @Modifying
+    @Query(value = "UPDATE news_articles SET is_disabled = 'false' WHERE id = ?1", nativeQuery = true)
+    void enableNews(long id);
+
+    @Modifying
+    @Query(value = "UPDATE news_articles SET is_sponsored = 'true' WHERE id = ?1", nativeQuery = true)
+    void sponsored(long id);
+
+    @Modifying
+    @Query(value = "UPDATE news_articles SET is_sponsored = 'false' WHERE id = ?1", nativeQuery = true)
+    void notsponsored(long id);
 }
