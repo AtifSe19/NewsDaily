@@ -71,7 +71,7 @@ public class NewsArticleController {
 
     //Give id of news which editor wants to approve
     @PreAuthorize("hasAuthority('EDITOR')")
-    @PutMapping("/status/{id}")
+    @PutMapping("/approve/{id}")
     public ResponseEntity<NewsArticle> toggleApprovedStatus(@PathVariable("id") long id) {
 
         NewsArticle updated = newsArticleService.toggleApprovedStatus(id);

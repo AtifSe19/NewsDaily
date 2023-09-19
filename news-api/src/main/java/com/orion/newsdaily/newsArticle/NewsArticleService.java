@@ -31,7 +31,7 @@ public class NewsArticleService {
     @PersistenceContext
     private EntityManager entityManager;
 
-
+    @Transactional
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
         String username=authentication.getName();
         User user=userService.findByUserName(username);
@@ -104,15 +104,12 @@ public class NewsArticleService {
     @Transactional
     public void disableNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
-
         if (newsArticle.isPresent()) {
             if(newsArticle.get().getIsDisabled().equals(Boolean.FALSE)){
-            newsArticleRepo.disableNews(id);
+                newsArticleRepo.disableNews(id);
             } else if (newsArticle.get().getIsDisabled().equals(Boolean.TRUE)) {
                 newsArticleRepo.enableNews(id);
-
             }
-
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");

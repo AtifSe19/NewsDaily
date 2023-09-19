@@ -1,5 +1,6 @@
 package com.orion.newsdaily.comment;
 
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,17 +71,28 @@ public class CommentController {
 
     }
 
-    //for admin to delete a comment
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
+
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<Comment> toggleApprovedStatus(@PathVariable("id") long id) {
+
+        Comment updated = commentService.toggleApprovedStatus(id);
+
+        if (updated==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
+
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<Void> disableCommentToggle(@PathVariable("id") long id) {
         Comment comment = commentService.findById(id);
         if (comment==null) {
             return ResponseEntity.notFound().build();
         }
-        commentService.delete(id);
-        return ResponseEntity.noContent().build();
+        commentService.disableCommentToggle(id);
+        return ResponseEntity.ok().build();
     }
-
-
-
 }
