@@ -21,16 +21,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<ApiResponse<List<User>>> findAll()
     {
         return ResponseEntity.ok(ApiResponse.of(userService.findAll()));
     }
 
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findById(@PathVariable("id") Long id)
+    public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id)
     {
         Optional<User> acc = userService.findById(id);
 
@@ -38,7 +38,7 @@ public class UserController {
         {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(acc);
+        return ResponseEntity.ok(ApiResponse.of(acc));
     }
 
 //    @PreAuthorize("permitAll()")
