@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
 
-    @Query(value = "SELECT * FROM news_articles WHERE status = 'false'", nativeQuery = true)
+    @Query(value = "SELECT * FROM news_articles WHERE is_approved = 'false'", nativeQuery = true)
     List<NewsArticle> findPendingNews();
+
+    @Query(value = "UPDATE news_articles SET is_disabled = 'true' WHERE id = ?1", nativeQuery = true)
+    void disableNews(long id);
 }

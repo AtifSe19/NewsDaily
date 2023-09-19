@@ -14,14 +14,14 @@ import java.util.List;
 public class NewsArticleController {
 
     @Autowired
-    private NewsArticleService service;
+    private final NewsArticleService newsArticleService;
 
     //-------------REPORTER
 
     @PostMapping
     public ResponseEntity<NewsArticle> create(@RequestBody NewsArticle newsArticle) {
 
-        NewsArticle created = service.create(newsArticle);
+        NewsArticle created = newsArticleService.create(newsArticle);
         if (created != null) {
             return ResponseEntity.ok(created);
         }
@@ -33,7 +33,7 @@ public class NewsArticleController {
     //Get all news that are approved and every user can see!
     @GetMapping
     public ResponseEntity<List<NewsArticle>> findAll() {
-        List<NewsArticle> newsArticles = service.findAll();
+        List<NewsArticle> newsArticles = newsArticleService.findAll();
         return ResponseEntity.ok(newsArticles);
 
     }
@@ -42,13 +42,13 @@ public class NewsArticleController {
 
     @GetMapping("/pending")
     public ResponseEntity<List<NewsArticle>> findPendingNews() {
-        return  ResponseEntity.ok(service.findPendingNews());
+        return  ResponseEntity.ok(newsArticleService.findPendingNews());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<NewsArticle> updateStatus(@PathVariable("id") long id,@RequestBody NewsArticle newsArticle) {
 
-        NewsArticle up = service.update(newsArticle, id);
+        NewsArticle up = newsArticleService.update(newsArticle, id);
         if (up==null) {
             return ResponseEntity.notFound().build();
         }
@@ -58,7 +58,7 @@ public class NewsArticleController {
     @PutMapping("/{id}/sponsored")
     public ResponseEntity<NewsArticle> sponsored(@PathVariable("id") long id,@RequestBody NewsArticle newsArticle) {
 
-        NewsArticle up = service.sponsored(newsArticle, id);
+        NewsArticle up = newsArticleService.sponsored(newsArticle, id);
         if (up==null) {
             return ResponseEntity.notFound().build();
         }
@@ -67,13 +67,13 @@ public class NewsArticleController {
 
     //---------ADMIN-----EDITOR
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
-        NewsArticle newsArticle = service.findById(id);
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<Void> disableNews(@PathVariable("id") long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
         if (newsArticle==null) {
             return ResponseEntity.notFound().build();
         }
-        service.delete(id);
+        newsArticleService.disableNews(id);
         return ResponseEntity.noContent().build();
     }
 

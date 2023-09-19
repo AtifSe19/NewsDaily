@@ -17,7 +17,10 @@ databaseChangeLog:
                   name: posted_at
                   type: TIMESTAMP
               - column:
-                  name: status
+                  name: is_approved
+                  type: BOOLEAN
+              - column:
+                  name: is_disabled
                   type: BOOLEAN
               - column:
                   name: fk_user_id

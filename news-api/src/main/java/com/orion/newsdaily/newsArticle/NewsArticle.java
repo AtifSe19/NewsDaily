@@ -31,7 +31,11 @@ public class NewsArticle {
     @Column(name = "posted_at")
     private LocalDateTime postedAt;
     @NonNull
-    private Boolean status;
+    @Column(name = "is_approved")
+    private Boolean isApproved;
+    @NonNull
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
     @NonNull
     @Column(name = "is_sponsored")
     private Boolean isSponsored;
