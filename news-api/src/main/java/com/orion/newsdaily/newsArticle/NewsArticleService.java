@@ -5,6 +5,7 @@ import com.orion.newsdaily.user.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,7 @@ public class NewsArticleService {
         return previous;
     }
 
+    @Transactional
     public void disableNews(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
 

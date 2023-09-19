@@ -45,7 +45,7 @@ public class CommentController {
 
     //to approve a comment by updating status
     @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateStatus(@PathVariable("id") long id,@RequestBody Comment comment) {
+    public ResponseEntity<Comment> updateStatus(@PathVariable("id") long id, @RequestBody Comment comment) {
 
         Comment up = commentService.update(comment, id);
         if (up==null) {
