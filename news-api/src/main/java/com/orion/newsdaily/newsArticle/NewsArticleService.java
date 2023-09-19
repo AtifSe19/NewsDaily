@@ -31,7 +31,7 @@ public class NewsArticleService {
     @PersistenceContext
     private EntityManager entityManager;
 
-
+    @Transactional
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
         String username=authentication.getName();
         User user=userService.findByUserName(username);

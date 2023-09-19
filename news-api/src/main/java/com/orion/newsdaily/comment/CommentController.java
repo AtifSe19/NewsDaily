@@ -73,7 +73,7 @@ public class CommentController {
 
 
     @PreAuthorize("hasAuthority('EDITOR')")
-    @PutMapping("/status/{id}")
+    @PutMapping("/approve/{id}")
     public ResponseEntity<Comment> toggleApprovedStatus(@PathVariable("id") long id) {
 
         Comment updated = commentService.toggleApprovedStatus(id);
