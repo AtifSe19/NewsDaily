@@ -23,7 +23,6 @@ public class NewsArticleController {
 
     @Autowired
     private final NewsArticleService newsArticleService;
-
     @Autowired
     private UserService userService;
     private final Logger logger = LoggerFactory.getLogger(getClass());

@@ -13,4 +13,10 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
     List<NewsArticle> findPendingNews();
     @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_sponsored = false", nativeQuery = true)
     List<NewsArticle> findAllNews();
+
+    @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_sponsored = false", nativeQuery = true)
+    List<NewsArticle> findAllNotSponsored();
+
+    @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_sponsored = true", nativeQuery = true)
+    List<NewsArticle> findAllSponsored();
 }

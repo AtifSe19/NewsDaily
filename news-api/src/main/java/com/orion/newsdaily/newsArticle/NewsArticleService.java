@@ -102,22 +102,10 @@ public class NewsArticleService {
     }
 
     public List<NewsArticle> findAllNotSponsored() {
-        TypedQuery<NewsArticle> query = entityManager.createQuery(
-                "SELECT n FROM NewsArticle n " +
-                        "WHERE n.isSponsored = false " +
-                        "AND n.isApproved = true " +
-                        "AND n.isDisabled = false " +
-                        "ORDER BY n.postedAt DESC", NewsArticle.class);
-        return query.getResultList();
+        return newsArticleRepo.findAllNotSponsored();
     }
 
     public List<NewsArticle> findAllSponsored() {
-        TypedQuery<NewsArticle> query = entityManager.createQuery(
-                "SELECT n FROM NewsArticle n " +
-                        "WHERE n.isSponsored = true " +
-                        "AND n.isApproved = true " +
-                        "AND n.isDisabled = false " +
-                        "ORDER BY n.postedAt DESC", NewsArticle.class);
-        return query.getResultList();
+        return newsArticleRepo.findAllSponsored();
     }
 }
