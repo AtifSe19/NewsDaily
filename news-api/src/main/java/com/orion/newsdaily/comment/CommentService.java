@@ -84,11 +84,34 @@ public class CommentService {
         return commentRepo.findById(id).orElse(null);
     }
 
-    public void delete(long id) {
-        Optional<Comment> comment = commentRepo.findById(id);
+    public Comment toggleApprovedStatus(long id) {
+        Optional<Comment> existingCommentOptional=commentRepo.findById(id);
 
+        if (existingCommentOptional.isEmpty()) {
+            return null;
+        }
+
+        Comment commentToUpdate=existingCommentOptional.get();
+        if(commentToUpdate.getIsApproved().equals(Boolean.FALSE)){
+            commentToUpdate.setIsApproved(true);
+        } else if (commentToUpdate.getIsApproved().equals(Boolean.TRUE)) {
+            commentToUpdate.setIsApproved(false);
+
+        }
+
+        commentRepo.save(commentToUpdate);
+        return commentToUpdate;
+    }
+
+    @Transactional
+    public void disableCommentToggle(long id) {
+        Optional<Comment> comment = commentRepo.findById(id);
         if (comment.isPresent()) {
-            commentRepo.deleteById(id);
+            if(comment.get().getIsDisabled().equals(Boolean.FALSE)){
+                commentRepo.disableComment(id);
+            } else if (comment.get().getIsDisabled().equals(Boolean.TRUE)) {
+                commentRepo.enableComment(id);
+            }
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found");
