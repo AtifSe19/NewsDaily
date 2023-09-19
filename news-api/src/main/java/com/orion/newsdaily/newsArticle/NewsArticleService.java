@@ -100,4 +100,24 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
+
+    public List<NewsArticle> findAllNotSponsored() {
+        TypedQuery<NewsArticle> query = entityManager.createQuery(
+                "SELECT n FROM NewsArticle n " +
+                        "WHERE n.isSponsored = false " +
+                        "AND n.isApproved = true " +
+                        "AND n.isDisabled = false " +
+                        "ORDER BY n.postedAt DESC", NewsArticle.class);
+        return query.getResultList();
+    }
+
+    public List<NewsArticle> findAllSponsored() {
+        TypedQuery<NewsArticle> query = entityManager.createQuery(
+                "SELECT n FROM NewsArticle n " +
+                        "WHERE n.isSponsored = true " +
+                        "AND n.isApproved = true " +
+                        "AND n.isDisabled = false " +
+                        "ORDER BY n.postedAt DESC", NewsArticle.class);
+        return query.getResultList();
+    }
 }

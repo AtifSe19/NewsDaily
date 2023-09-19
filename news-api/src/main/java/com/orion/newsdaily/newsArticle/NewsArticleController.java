@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -45,8 +47,14 @@ public class NewsArticleController {
         logger.debug("In news article find all:");
 
         List<NewsArticle> newsArticles = newsArticleService.findAll();
-        return ResponseEntity.ok(newsArticles);
+        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
+        List<NewsArticle> ads = newsArticleService.findAllSponsored();
 
+        List<NewsArticle> combinedNews = new ArrayList<>(news);
+        combinedNews.addAll(ads);
+        Collections.shuffle(combinedNews);
+
+        return ResponseEntity.ok(combinedNews);
     }
 
     @PreAuthorize("hasAuthority('EDITOR')")
