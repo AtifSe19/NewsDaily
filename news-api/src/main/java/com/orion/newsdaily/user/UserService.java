@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static jakarta.transaction.Status.STATUS_ACTIVE;
-
 @Service
 public class UserService implements UserDetailsService {
 
@@ -122,6 +120,9 @@ public class UserService implements UserDetailsService {
         return existingAccount; // Return the updated news item
     }
 
+    public User findByUserName(String username){
+        return userRepo.findByUsername(username);
+    }
     public boolean delete(Long id)
     {
         Optional<User> user = userRepo.findById(id);

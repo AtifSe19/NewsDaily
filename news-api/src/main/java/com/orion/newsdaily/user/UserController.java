@@ -28,18 +28,24 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.of(userService.findAll()));
     }
 
-    @PreAuthorize("permitAll()")
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findById(@PathVariable("id") Long id)
+    @GetMapping("/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable("username") String username)
     {
-        Optional<User> acc = userService.findById(id);
-
-        if(acc == null)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(acc);
+        return ResponseEntity.ok(userService.findByUserName(username));
     }
+
+//    @PreAuthorize("permitAll()")
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Optional<User>> findById(@PathVariable("id") Long id)
+//    {
+//        Optional<User> acc = userService.findById(id);
+//
+//        if(acc == null)
+//        {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(acc);
+//    }
 
 //    @PreAuthorize("permitAll()")
     @GetMapping("/search")

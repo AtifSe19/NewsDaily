@@ -13,4 +13,5 @@ public interface UserRepo extends JpaRepository<User, Long> {
     Page<User> findByUsernameLikeOrderByIdDesc(Pageable pageable, String name);
 
     User findByUsername(String username);
+
 }

@@ -84,12 +84,10 @@ public class WebSecurityConfiguration {
         return web -> web.ignoring().requestMatchers(
                 new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
                 new AntPathRequestMatcher("/h2-console/**", "POST"),
-                new AntPathRequestMatcher("/api/v1/news/**", "GET"),
-                new AntPathRequestMatcher("/api/v1/news/**", "POST"),
                 new AntPathRequestMatcher("/actuator/**", "GET"),
-                new AntPathRequestMatcher("/actuator/**", "POST"),
-                new AntPathRequestMatcher("/api/**", "POST"),
-                new AntPathRequestMatcher("/api/**", "GET")
+                new AntPathRequestMatcher("/actuator/**", "POST")
+//                new AntPathRequestMatcher("/api/**", "POST"),
+//                new AntPathRequestMatcher("/api/**", "GET")
 
         );
 
@@ -168,7 +166,7 @@ public class WebSecurityConfiguration {
     private OAuth2AuthenticatedPrincipal introspectorToken(String token) {
         try {
             Jwt jwt = jwtDecoder.decode(token);
-            UserDetails userDetails = userService.loadUserByUsername(jwt.getId());
+            UserDetails userDetails = userService.loadUserByUsername(jwt.getId(), jwt.getSubject());
             return new DefaultOAuth2User(userDetails.getAuthorities(), Map.of("sub", userDetails.getUsername()), "sub");
         } catch (Exception e) {
             throw new CredentialsExpiredException(e.getMessage(), e);
