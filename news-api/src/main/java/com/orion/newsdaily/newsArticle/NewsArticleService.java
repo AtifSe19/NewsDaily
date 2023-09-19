@@ -118,4 +118,24 @@ public class NewsArticleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
     }
+
+    public List<NewsArticle> findAllNotSponsored() {
+        TypedQuery<NewsArticle> query = entityManager.createQuery(
+                "SELECT n FROM NewsArticle n " +
+                        "WHERE n.isSponsored = false " +
+                        "AND n.isApproved = true " +
+                        "AND n.isDisabled = false " +
+                        "ORDER BY n.postedAt DESC", NewsArticle.class);
+        return query.getResultList();
+    }
+
+    public List<NewsArticle> findAllSponsored() {
+        TypedQuery<NewsArticle> query = entityManager.createQuery(
+                "SELECT n FROM NewsArticle n " +
+                        "WHERE n.isSponsored = true " +
+                        "AND n.isApproved = true " +
+                        "AND n.isDisabled = false " +
+                        "ORDER BY n.postedAt DESC", NewsArticle.class);
+        return query.getResultList();
+    }
 }
