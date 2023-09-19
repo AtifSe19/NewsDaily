@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
 
@@ -21,31 +21,25 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("permitAll()")
+//    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<ApiResponse<List<User>>> findAll()
     {
         return ResponseEntity.ok(ApiResponse.of(userService.findAll()));
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<User> findByUsername(@PathVariable("username") String username)
-    {
-        return ResponseEntity.ok(userService.findByUserName(username));
-    }
-
 //    @PreAuthorize("permitAll()")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Optional<User>> findById(@PathVariable("id") Long id)
-//    {
-//        Optional<User> acc = userService.findById(id);
-//
-//        if(acc == null)
-//        {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(acc);
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id)
+    {
+        Optional<User> acc = userService.findById(id);
+
+        if(acc == null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ApiResponse.of(acc));
+    }
 
 //    @PreAuthorize("permitAll()")
     @GetMapping("/search")

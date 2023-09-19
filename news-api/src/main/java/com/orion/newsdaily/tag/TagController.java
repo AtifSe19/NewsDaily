@@ -21,25 +21,25 @@ public class TagController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<Tag>>> getAllTags() {
         List<Tag> tags = tagService.getAllTags();
-        return new ResponseEntity<>(ApiResponse.of(tags), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.of(tags));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Tag>> getTagById(@PathVariable long id) {
         Tag tag = tagService.getTagById(id);
-        return new ResponseEntity<>(ApiResponse.of(tag), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.of(tag));
     }
 
     @PostMapping
     public ResponseEntity<ApiResponse<Tag>> createTag(@RequestBody Tag tag) {
         Tag createdTag = tagService.createTag(tag);
-        return new ResponseEntity<>(ApiResponse.of(createdTag), HttpStatus.CREATED);
+        return ResponseEntity.ok(ApiResponse.of(createdTag));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<Tag>> updateTag(@PathVariable long id, @RequestBody Tag tag) {
         Tag updatedTag = tagService.updateTag(id, tag);
-        return new ResponseEntity<>(ApiResponse.of(updatedTag), HttpStatus.OK);
+        return ResponseEntity.ok(ApiResponse.of(updatedTag));
     }
 
     @DeleteMapping("/{id}")
