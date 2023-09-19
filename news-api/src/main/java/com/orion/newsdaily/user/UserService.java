@@ -40,17 +40,17 @@ public class UserService implements UserDetailsService {
         this.userRepo = userRepo;
     }
 
-    public UserDetails loadUserByUsername(String jti, String userName) throws UsernameNotFoundException {
-        return loadUserByUsername(userName);
+    public UserDetails loadUserByUsername(String jti, String username) throws UsernameNotFoundException {
+        return loadUserByUsername(username);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepo.findByUserName(userName);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("Invalid user: " + userName);
+            throw new UsernameNotFoundException("Invalid user: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), true,
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
                 true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole()));
     }
 
@@ -82,7 +82,7 @@ public class UserService implements UserDetailsService {
         if (title.isEmpty() || title.isBlank()) {
             return  userRepo.findByOrderByIdDesc(pageable).getContent();
         }
-        return userRepo.findByUserNameLikeOrderByIdDesc(pageable, title).getContent();
+        return userRepo.findByUsernameLikeOrderByIdDesc(pageable, title).getContent();
     }
 
 
@@ -111,7 +111,7 @@ public class UserService implements UserDetailsService {
         User existingAccount = existingAccountOptional.get();
 
         // Update the existing news item with the new data from newsToUpdate
-        existingAccount.setUserName(updatedAccount.getUserName());
+        existingAccount.setUsername(updatedAccount.getUsername());
         existingAccount.setPassword(updatedAccount.getPassword());
         existingAccount.setEmail(updatedAccount.getEmail());
         existingAccount.setRole(updatedAccount.getRole());

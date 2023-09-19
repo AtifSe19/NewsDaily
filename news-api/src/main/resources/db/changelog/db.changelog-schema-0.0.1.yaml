@@ -11,7 +11,7 @@ databaseChangeLog:
                   type: BIGINT
                   autoIncrement: true
               - column:
-                  name: userName
+                  name: username
                   type: VARCHAR(255)
               - column:
                   name: password
@@ -31,7 +31,7 @@ databaseChangeLog:
 
         - addUniqueConstraint:
             tableName: users
-            columnNames: userName
+            columnNames: username
         - addUniqueConstraint:
             tableName: users
             columnNames: email

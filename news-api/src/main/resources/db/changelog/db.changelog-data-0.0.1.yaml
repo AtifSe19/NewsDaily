@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.1
+      author: ORION
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'admin'
+              - column:
+                  name: password
+                  value: 'admin'
+              - column:
+                  name: email
+                  value: admin@newsdaily.com
+              - column:
+                  name: role
+                  value: 'ADMIN'
+              - column:
+                  name: is_logged_in
+                  value: true
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'editor'
+              - column:
+                  name: password
+                  value: 'editor'
+              - column:
+                  name: email
+                  value: editor@newsdaily.com
+              - column:
+                  name: role
+                  value: 'EDITOR'
+              - column:
+                  name: is_logged_in
+                  value: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'reporter'
+              - column:
+                  name: password
+                  value: 'reporter'
+              - column:
+                  name: email
+                  value: reporter@newsdaily.com
+              - column:
+                  name: role
+                  value: 'REPORTER'
+              - column:
+                  name: is_logged_in
+                  value: false
