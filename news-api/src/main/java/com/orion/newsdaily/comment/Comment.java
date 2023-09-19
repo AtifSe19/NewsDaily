@@ -26,7 +26,11 @@ public class Comment {
     @NonNull
     private LocalDateTime postedAt;
     @NonNull
-    private Boolean status;
+    @Column(name = "is_approved")
+    private Boolean isApproved;
+    @NonNull
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)

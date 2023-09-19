@@ -13,8 +13,11 @@ databaseChangeLog:
                   name: posted_at
                   value: '2023-09-19 14:45:00'
               - column:
-                  name: status
+                  name: is_approved
                   value: true
+              - column:
+                  name: is_disabled
+                  value: false
               - column:
                   name: fk_user_id
                   value: 4
@@ -31,8 +34,11 @@ databaseChangeLog:
                   name: posted_at
                   value: '2023-09-19 15:45:00'
               - column:
-                  name: status
+                  name: is_approved
                   value: true
+              - column:
+                  name: is_disabled
+                  value: false
               - column:
                   name: fk_user_id
                   value: 4
@@ -49,8 +55,11 @@ databaseChangeLog:
                   name: posted_at
                   value: '2023-09-19 16:45:00'
               - column:
-                  name: status
+                  name: is_approved
                   value: true
+              - column:
+                  name: is_disabled
+                  value: false
               - column:
                   name: fk_user_id
                   value: 4
@@ -67,8 +76,11 @@ databaseChangeLog:
                   name: posted_at
                   value: '2023-09-19 17:45:00'
               - column:
-                  name: status
+                  name: is_approved
                   value: true
+              - column:
+                  name: is_disabled
+                  value: false
               - column:
                   name: fk_user_id
                   value: 5
