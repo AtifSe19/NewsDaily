@@ -66,7 +66,7 @@ public class NewsArticleService {
     public NewsArticle findById(Long id) {
         return newsArticleRepo.findById(id).orElse(null);
     }
-    public NewsArticle update(long id) {
+    public NewsArticle toggleApprovedStatus(long id) {
         Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
 
         if (existingNewsOptional.isEmpty()) {
@@ -74,29 +74,45 @@ public class NewsArticleService {
         }
 
         NewsArticle newsArticleToUpdate=existingNewsOptional.get();
-        newsArticleToUpdate.setIsApproved(true);
+        if(newsArticleToUpdate.getIsApproved().equals(Boolean.FALSE)){
+            newsArticleToUpdate.setIsApproved(true);
+        } else if (newsArticleToUpdate.getIsApproved().equals(Boolean.TRUE)) {
+            newsArticleToUpdate.setIsApproved(false);
+
+        }
+
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
-    public NewsArticle sponsored(NewsArticle newsToUpdate, long id) {
-
-        Optional<NewsArticle> existingNewsOptional = newsArticleRepo.findById(id);
-
-        if (existingNewsOptional.isEmpty()) {
-            return null;
-        }
-        NewsArticle previous = existingNewsOptional.get();
-        previous.setIsSponsored(true);
-        newsArticleRepo.save(previous);
-        return previous;
-    }
-
     @Transactional
-    public void disableNews(long id) {
+    public void sponsorNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
 
         if (newsArticle.isPresent()) {
+            if(newsArticle.get().getIsSponsored().equals(Boolean.FALSE)){
+                newsArticleRepo.sponsored(id);
+            } else if (newsArticle.get().getIsSponsored().equals(Boolean.TRUE)) {
+                newsArticleRepo.notsponsored(id);
+
+            }
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
+        }
+    }
+
+    @Transactional
+    public void disableNewsToggle(long id) {
+        Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
+
+        if (newsArticle.isPresent()) {
+            if(newsArticle.get().getIsDisabled().equals(Boolean.FALSE)){
             newsArticleRepo.disableNews(id);
+            } else if (newsArticle.get().getIsDisabled().equals(Boolean.TRUE)) {
+                newsArticleRepo.enableNews(id);
+
+            }
+
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");

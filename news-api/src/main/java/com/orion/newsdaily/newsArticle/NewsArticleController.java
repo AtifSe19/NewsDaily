@@ -63,10 +63,11 @@ public class NewsArticleController {
 
     //Give id of news which editor wants to approve
     @PreAuthorize("hasAuthority('EDITOR')")
-    @PutMapping("/{id}")
-    public ResponseEntity<NewsArticle> updatePendingStatus(@PathVariable("id") long id) {
+    @PutMapping("/status/{id}")
+    public ResponseEntity<NewsArticle> toggleApprovedStatus(@PathVariable("id") long id) {
 
-        NewsArticle updated = newsArticleService.update(id);
+        NewsArticle updated = newsArticleService.toggleApprovedStatus(id);
+
         if (updated==null) {
             return ResponseEntity.notFound().build();
         }
@@ -79,7 +80,7 @@ public class NewsArticleController {
         if (newsArticle==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.togglesponsored(id);
+        newsArticleService.sponsorNewsToggle(id);
         return ResponseEntity.ok().build();
     }
 
