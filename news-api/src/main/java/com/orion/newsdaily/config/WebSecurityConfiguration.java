@@ -85,7 +85,12 @@ public class WebSecurityConfiguration {
                 new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
                 new AntPathRequestMatcher("/h2-console/**", "POST"),
                 new AntPathRequestMatcher("/actuator/**", "GET"),
-                new AntPathRequestMatcher("/actuator/**", "POST"));
+                new AntPathRequestMatcher("/actuator/**", "POST"),
+                new AntPathRequestMatcher("/api/**", "POST"),
+                new AntPathRequestMatcher("/api/**", "GET")
+
+        );
+
     }
 
 
@@ -94,7 +99,6 @@ public class WebSecurityConfiguration {
 
 //        http.authorizeRequests().requestMatchers("GET", Arrays.toString(ignoredGet)).permitAll();
 //        http.authorizeRequests().requestMatchers(Arrays.toString(ignored)).permitAll();
-
 
         http.formLogin(config -> config.successHandler(authenticationSuccessHandler()));
 

@@ -5,10 +5,7 @@ import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.tag.Tag;
 import com.orion.newsdaily.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
+@Getter
+@Setter
 public class NewsArticle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

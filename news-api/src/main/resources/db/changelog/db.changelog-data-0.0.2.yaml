@@ -45,3 +45,45 @@ databaseChangeLog:
               - column:
                   name: fk_user_id
                   value: 3
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sample Article 3'
+              - column:
+                  name: description
+                  value: 'This is a sample article description 3.'
+              - column:
+                  name: posted_at
+                  value: '2019-10-04 10:00:00'
+              - column:
+                  name: status
+                  value: true
+              - column:
+                  name: is_sponsored
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 4
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sample Article 4'
+              - column:
+                  name: description
+                  value: 'This is a sample article description 4.'
+              - column:
+                  name: posted_at
+                  value: '2019-10-04 11:00:00'
+              - column:
+                  name: status
+                  value: true
+              - column:
+                  name: is_sponsored
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 4

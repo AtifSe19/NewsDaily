@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: 'admin'
               - column:
                   name: password
-                  value: 'admin'
+                  value: '{noop}admin'
               - column:
                   name: email
                   value: admin@newsdaily.com
@@ -29,7 +29,7 @@ databaseChangeLog:
                   value: 'editor'
               - column:
                   name: password
-                  value: 'editor'
+                  value: '{noop}editor'
               - column:
                   name: email
                   value: editor@newsdaily.com
@@ -47,7 +47,7 @@ databaseChangeLog:
                   value: 'reporter'
               - column:
                   name: password
-                  value: 'reporter'
+                  value: '{noop}reporter'
               - column:
                   name: email
                   value: reporter@newsdaily.com
@@ -65,7 +65,7 @@ databaseChangeLog:
                   value: 'user'
               - column:
                   name: password
-                  value: 'user'
+                  value: '{noop}user'
               - column:
                   name: email
                   value: user@user.com
@@ -83,7 +83,7 @@ databaseChangeLog:
                   value: 'user2'
               - column:
                   name: password
-                  value: 'user2'
+                  value: '{noop}user2'
               - column:
                   name: email
                   value: user2@user.com
