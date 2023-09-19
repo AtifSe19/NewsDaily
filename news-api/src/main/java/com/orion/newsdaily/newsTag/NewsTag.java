@@ -1,7 +1,5 @@
 package com.orion.newsdaily.newsTag;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.orion.newsdaily.newsArticle.NewsArticle;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

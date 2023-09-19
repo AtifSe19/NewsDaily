@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -21,13 +23,9 @@ public class NewsArticleController {
 
     @Autowired
     private final NewsArticleService newsArticleService;
-
     @Autowired
     private UserService userService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-    //-------------REPORTER
 
     @PreAuthorize("hasAuthority('REPORTER')")
     @PostMapping
@@ -48,53 +46,49 @@ public class NewsArticleController {
         logger.debug("In news article find all:");
 
         List<NewsArticle> newsArticles = newsArticleService.findAll();
-        return ResponseEntity.ok(newsArticles);
+        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
+        List<NewsArticle> ads = newsArticleService.findAllSponsored();
 
+        List<NewsArticle> combinedNews = new ArrayList<>(news);
+        combinedNews.addAll(ads);
+        Collections.shuffle(combinedNews);
+
+        return ResponseEntity.ok(combinedNews);
     }
-
-    //-----------EDITOR
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @GetMapping("/pending")
     public ResponseEntity<List<NewsArticle>> findPendingNews() {
-        return  ResponseEntity.ok(newsArticleService.findPendingNews());
+        return ResponseEntity.ok(newsArticleService.findPendingNews());
     }
 
-
-    //Give id of news which editor wants to approve
     @PreAuthorize("hasAuthority('EDITOR')")
-    @PutMapping("/status/{id}")
-    public ResponseEntity<NewsArticle> toggleApprovedStatus(@PathVariable("id") long id) {
-
-        NewsArticle updated = newsArticleService.toggleApprovedStatus(id);
-
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<NewsArticle> approveNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.approveNewsToggle(id);
         if (updated==null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
     }
 
-    @PutMapping("/sponser/{id}")
-    public ResponseEntity<NewsArticle> sponsored(@PathVariable("id") long id) {
-        NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle==null) {
+    @PutMapping("/sponsor/{id}")
+    public ResponseEntity<NewsArticle> sponsorNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.sponsorNewsToggle(id);
+        if (updated==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.sponsorNewsToggle(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updated);
     }
-
-    //---------ADMIN-----EDITOR
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/disable/{id}")
-    public ResponseEntity<Void> disableNewsToggle(@PathVariable("id") long id) {
-        NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle==null) {
+    public ResponseEntity<NewsArticle> disableNewsToggle(@PathVariable("id") long id) {
+        NewsArticle updated = newsArticleService.disableNewsToggle(id);
+        if (updated==null) {
             return ResponseEntity.notFound().build();
         }
-        newsArticleService.disableNewsToggle(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(updated);
     }
 
 }

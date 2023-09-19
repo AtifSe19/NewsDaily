@@ -1,5 +1,6 @@
 package com.orion.newsdaily.comment;
 
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,21 +42,9 @@ public class CommentController {
         return  ResponseEntity.ok(commentService.NewsSpecificComments(id));
     }
 
-    //-------------------EDITOR
-
-    //to approve a comment by updating status
-    @PutMapping("/{id}")
-    public ResponseEntity<Comment> updateStatus(@PathVariable("id") long id, @RequestBody Comment comment) {
-
-        Comment up = commentService.update(comment, id);
-        if (up==null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(up);
-    }
-
     //to show editor all pending comments
     @GetMapping("/pending")
+    @PreAuthorize("hasAuthority('EDITOR')")
     public ResponseEntity<List<Comment>> findPendingComments() {
         return  ResponseEntity.ok(commentService.findPendingComments());
     }
@@ -64,23 +53,30 @@ public class CommentController {
 
     //to show admin all the comments against news id and user id
     @GetMapping
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<Comment>> findAll() {
         List<Comment> comments = commentService.findAll();
         return ResponseEntity.ok(comments);
 
     }
 
-    //for admin to delete a comment
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
-        Comment comment = commentService.findById(id);
-        if (comment==null) {
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/approve/{id}")
+    public ResponseEntity<Comment> approveCommentToggle(@PathVariable("id") long id) {
+        Comment updated = commentService.approveCommentToggle(id);
+        if (updated==null) {
             return ResponseEntity.notFound().build();
         }
-        commentService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(updated);
     }
 
-
-
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<Comment> disableCommentToggle(@PathVariable("id") long id) {
+        Comment updated = commentService.disableCommentToggle(id);
+        if (updated==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
 }

@@ -1,6 +1,7 @@
 package com.orion.newsdaily.comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,6 @@ public interface CommentRepo extends JpaRepository <Comment, Long> {
     @Query(value = "SELECT * FROM comments WHERE fk_news_article_id = ?1 AND status = 'true'", nativeQuery = true)
     List<Comment> NewsSpecificComments(Long id);
 
-    @Query(value = "SELECT * FROM comments WHERE status = 'false'", nativeQuery = true)
+    @Query(value = "SELECT * FROM comments WHERE is_approved = false", nativeQuery = true)
     List<Comment> findPendingComments();
 }

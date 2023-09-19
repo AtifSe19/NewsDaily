@@ -26,12 +26,12 @@ public class NewsArticleService {
     @Autowired
     private final NewsArticleRepo newsArticleRepo;
     @Autowired
-    private UserService userService;
+    private final UserService userService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @PersistenceContext
     private EntityManager entityManager;
 
-
+    @Transactional
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
         String username=authentication.getName();
         User user=userService.findByUserName(username);
@@ -45,34 +45,20 @@ public class NewsArticleService {
         return newsArticleRepo.save(newsArticle);
     }
     public List<NewsArticle> findAll() {
-//        Find only those news that are approved and not sponsored, and not disabled
-//        return newsArticleRepo.findAll();
-
-        TypedQuery<NewsArticle> query = entityManager.createQuery(
-                "SELECT n FROM NewsArticle n " +
-                        "WHERE n.isSponsored = false " +
-                        "AND n.isApproved = true " +
-                        "AND n.isDisabled = false " +
-                        "ORDER BY n.postedAt DESC", NewsArticle.class);
-        return query.getResultList();
+        return newsArticleRepo.findAllNews();
     }
     public List<NewsArticle> findPendingNews()
     {
-        TypedQuery<NewsArticle> query = entityManager.createQuery(
-                "SELECT n FROM NewsArticle n " +
-                        "WHERE n.isApproved = false ", NewsArticle.class);
-        return query.getResultList();
+        return newsArticleRepo.findPendingNews();
     }
     public NewsArticle findById(Long id) {
         return newsArticleRepo.findById(id).orElse(null);
     }
-    public NewsArticle toggleApprovedStatus(long id) {
+    public NewsArticle approveNewsToggle(long id) {
         Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
-
         if (existingNewsOptional.isEmpty()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
-
         NewsArticle newsArticleToUpdate=existingNewsOptional.get();
         if(newsArticleToUpdate.getIsApproved().equals(Boolean.FALSE)){
             newsArticleToUpdate.setIsApproved(true);
@@ -80,42 +66,46 @@ public class NewsArticleService {
             newsArticleToUpdate.setIsApproved(false);
 
         }
-
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
     @Transactional
-    public void sponsorNewsToggle(long id) {
+    public NewsArticle sponsorNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
-
-        if (newsArticle.isPresent()) {
-            if(newsArticle.get().getIsSponsored().equals(Boolean.FALSE)){
-                newsArticleRepo.sponsored(id);
-            } else if (newsArticle.get().getIsSponsored().equals(Boolean.TRUE)) {
-                newsArticleRepo.notsponsored(id);
-
-            }
-        }
-        else {
+        if (newsArticle.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
+        NewsArticle newsArticleToUpdate = newsArticle.get();
+        if(newsArticleToUpdate.getIsSponsored().equals(Boolean.FALSE)){
+            newsArticleToUpdate.setIsSponsored(true);
+        } else if (newsArticleToUpdate.getIsSponsored().equals(Boolean.TRUE)) {
+            newsArticleToUpdate.setIsSponsored(false);
+        }
+        newsArticleRepo.save(newsArticleToUpdate);
+        return newsArticleToUpdate;
     }
 
     @Transactional
-    public void disableNewsToggle(long id) {
+    public NewsArticle disableNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
-
-        if (newsArticle.isPresent()) {
-            if(newsArticle.get().getIsDisabled().equals(Boolean.FALSE)){
-            newsArticleRepo.disableNews(id);
-            } else if (newsArticle.get().getIsDisabled().equals(Boolean.TRUE)) {
-                newsArticleRepo.enableNews(id);
-
-            }
-
-        }
-        else {
+        if (newsArticle.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
+        NewsArticle newsArticleToUpdate = newsArticle.get();
+        if(newsArticleToUpdate.getIsDisabled().equals(Boolean.FALSE)){
+            newsArticleToUpdate.setIsDisabled(true);
+        } else if (newsArticleToUpdate.getIsDisabled().equals(Boolean.TRUE)) {
+            newsArticleToUpdate.setIsDisabled(false);
+        }
+        newsArticleRepo.save(newsArticleToUpdate);
+        return newsArticleToUpdate;
+    }
+
+    public List<NewsArticle> findAllNotSponsored() {
+        return newsArticleRepo.findAllNotSponsored();
+    }
+
+    public List<NewsArticle> findAllSponsored() {
+        return newsArticleRepo.findAllSponsored();
     }
 }
