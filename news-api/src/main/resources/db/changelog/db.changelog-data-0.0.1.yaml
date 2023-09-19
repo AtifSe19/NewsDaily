@@ -57,3 +57,40 @@ databaseChangeLog:
               - column:
                   name: is_logged_in
                   value: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'user'
+              - column:
+                  name: password
+                  value: 'user'
+              - column:
+                  name: email
+                  value: user@user.com
+              - column:
+                  name: role
+                  value: 'USER'
+              - column:
+                  name: is_logged_in
+                  value: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'user2'
+              - column:
+                  name: password
+                  value: 'user2'
+              - column:
+                  name: email
+                  value: user2@user.com
+              - column:
+                  name: role
+                  value: 'USER'
+              - column:
+                  name: is_logged_in
+                  value: false
+

@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.4
+      author: ORION
+      changes:
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: 'Tag1'
+        - insert:
+            tableName: tags
+            columns:
+              - column:
+                  name: name
+                  value: 'Tag2'

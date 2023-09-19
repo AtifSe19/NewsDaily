@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.6
+      author: ORION
+      changes:
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 1
+              - column:
+                  name: tag_id
+                  value: 1
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 1
+              - column:
+                  name: tag_id
+                  value: 2
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 2
+              - column:
+                  name: tag_id
+                  value: 2

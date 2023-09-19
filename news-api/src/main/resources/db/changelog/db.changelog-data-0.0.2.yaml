@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.2
+      author: ORION
+      changes:
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sample Article 1'
+              - column:
+                  name: description
+                  value: 'This is a sample article description 1.'
+              - column:
+                  name: posted_at
+                  value: '2023-09-19 10:00:00'
+              - column:
+                  name: status
+                  value: true
+              - column:
+                  name: is_sponsored
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 3
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sample Article 2'
+              - column:
+                  name: description
+                  value: 'This is a sample article description 2.'
+              - column:
+                  name: posted_at
+                  value: '2023-09-20 14:30:00'
+              - column:
+                  name: status
+                  value: false
+              - column:
+                  name: is_sponsored
+                  value: true
+              - column:
+                  name: fk_user_id
+                  value: 3

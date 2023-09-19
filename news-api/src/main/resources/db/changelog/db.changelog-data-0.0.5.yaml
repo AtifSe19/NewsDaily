@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: data-0.0.5
+      author: ORION
+      changes:
+        - insert:
+            tableName: audit_trails
+            columns:
+              - column:
+                  name: action
+                  value: 'Login'
+              - column:
+                  name: created_at
+                  value: '2023-09-19 15:30:00'
+              - column:
+                  name: fk_user_id
+                  value: 4
+        - insert:
+            tableName: audit_trails
+            columns:
+              - column:
+                  name: action
+                  value: 'Logout'
+              - column:
+                  name: created_at
+                  value: '2023-09-20 10:15:00'
+              - column:
+                  name: fk_user_id
+                  value: 5
