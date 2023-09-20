@@ -33,6 +33,7 @@ public class CommentService {
         comment.setPostedAt(LocalDateTime.now());
         comment.setIsApproved(false);
         comment.setIsDisabled(false);
+
         comment.setUser(user);
         comment.setNewsArticle(newsArticle);
 
