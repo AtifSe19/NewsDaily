@@ -26,9 +26,9 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping
-    public ResponseEntity<ApiResponse<List<User>>> findAll()
+    public ResponseEntity<List<User>> findAll()
     {
-        return ResponseEntity.ok(ApiResponse.of(userService.findAll()));
+        return ResponseEntity.ok((userService.findAll()));
     }
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id)

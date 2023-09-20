@@ -22,10 +22,7 @@ public class NewsTagController {
 
     @GetMapping("/{newsid}")
     public ResponseEntity<List<Long>> findAll(@PathVariable("newsid") long newsId) {
-//
         List<Long> newsTags = newsTagService.findTagsByNewsArticleId(newsId);
-
-//
         return ResponseEntity.ok(newsTags);
     }
 }
