@@ -91,11 +91,11 @@ public class WebSecurityConfiguration {
         return web -> web.ignoring().requestMatchers(
                 new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
                 new AntPathRequestMatcher("/h2-console/**", "POST"),
-                new AntPathRequestMatcher("/api/v1/news/**", "GET"),
-                new AntPathRequestMatcher("/api/v1/tags/**", "GET"),
-                new AntPathRequestMatcher("/api/v1/tags/**", "POST"),
-                new AntPathRequestMatcher("/api/v1/tags/**", "PUT"),
-                new AntPathRequestMatcher("/api/v1/tags/**", "DELETE"),
+//                new AntPathRequestMatcher("/api/v1/news/**", "GET"),
+//                new AntPathRequestMatcher("/api/v1/tags/**", "GET"),
+//                new AntPathRequestMatcher("/api/v1/tags/**", "POST"),
+//                new AntPathRequestMatcher("/api/v1/tags/**", "PUT"),
+//                new AntPathRequestMatcher("/api/v1/tags/**", "DELETE"),
                 new AntPathRequestMatcher("/actuator/**", "GET"),
                 new AntPathRequestMatcher("/actuator/**", "POST")
 

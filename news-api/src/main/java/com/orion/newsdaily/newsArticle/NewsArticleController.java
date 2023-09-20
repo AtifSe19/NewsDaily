@@ -40,11 +40,11 @@ public class NewsArticleController {
     //---------USER & ADMIN
 
     //Get all news that are approved and every user can see!
-//    @GetMapping
-//    public ResponseEntity<List<NewsArticle>> findAll() {
+    @GetMapping
+    public ResponseEntity<List<NewsArticle>> findAll() {
 //        logger.debug("In news article find all:");
 //
-//        List<NewsArticle> newsArticles = newsArticleService.findAll();
+        List<NewsArticle> newsArticles = newsArticleService.findAll();
 //        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
 //        List<NewsArticle> ads = newsArticleService.findAllSponsored();
 //
@@ -52,8 +52,8 @@ public class NewsArticleController {
 //        combinedNews.addAll(ads);
 //        Collections.shuffle(combinedNews);
 //
-//        return ResponseEntity.ok(combinedNews);
-//    }
+        return ResponseEntity.ok(newsArticles);
+    }
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @GetMapping("/pending")

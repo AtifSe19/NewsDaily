@@ -21,10 +21,17 @@ public class AuditTrail {
     private Long id;
 
     @NonNull
-    private String action;
-    @NonNull
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+
+    @NonNull
+    @Column(name = "news_id")
+    private Long newsId;
+
+    @NonNull
+    @Column(name = "ip_address")
+    private String ipAddress;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)

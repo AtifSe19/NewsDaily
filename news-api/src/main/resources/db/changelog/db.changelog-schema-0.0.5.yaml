@@ -11,11 +11,14 @@ databaseChangeLog:
                   type: BIGINT
                   autoIncrement: true
               - column:
-                  name: action
-                  type: VARCHAR(255)
+                  name: news_id
+                  type: BIGINT
               - column:
                   name: created_at
                   type: TIMESTAMP
+              - column:
+                  name: ip_address
+                  type: VARCHAR(25)
               - column:
                   name: fk_user_id
                   type: BIGINT
