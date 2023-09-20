@@ -119,7 +119,6 @@ public class WebSecurityConfiguration {
                         .successHandler(customAuthenticationSuccessHandler())
                 );
 
-
         http.formLogin(config -> config.successHandler(authenticationSuccessHandler()));
 
         http.exceptionHandling(config -> config.defaultAuthenticationEntryPointFor(authenticationEntryPoint(),
@@ -130,37 +129,18 @@ public class WebSecurityConfiguration {
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
-
-
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.oauth2ResourceServer(config -> config.opaqueToken(withDefaults()));
         http.logout(config -> config.addLogoutHandler(new CookieClearingLogoutHandler(sessionId)));
         return http.build();
     }
-    private AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, ex) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
-    }
+
 
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
     }
 
-//    public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-//
-//        @Override
-//        public void onAuthenticationSuccess(
-//                HttpServletRequest request,
-//                HttpServletResponse response,
-//                Authentication authentication) throws IOException, ServletException {
-//
-//            // Your custom logic here, e.g., adding cookies
-//            response.addCookie(createSessionCookie(encode(authentication)));
-//
-//            // Continue with the default behavior of saving and redirecting to the original request
-//            super.onAuthenticationSuccess(request, response, authentication);
-//        }
-//    }
 
     public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
@@ -181,6 +161,10 @@ public class WebSecurityConfiguration {
             // Continue with the default behavior of saving and redirecting to the original request
             super.onAuthenticationSuccess(request, response, authentication);
         }
+    }
+
+    private AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, ex) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
     }
 
     private AuthenticationSuccessHandler authenticationSuccessHandler() {
