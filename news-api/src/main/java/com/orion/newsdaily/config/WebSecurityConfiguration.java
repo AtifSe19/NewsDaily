@@ -41,6 +41,8 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @EnableMethodSecurity
 @Configuration
 public class WebSecurityConfiguration {
@@ -93,7 +95,6 @@ public class WebSecurityConfiguration {
                 new AntPathRequestMatcher("/actuator/**", "POST")
 
         );
-
     }
 
 
@@ -108,6 +109,12 @@ public class WebSecurityConfiguration {
 //            config.anyRequest().authenticated();
 //        }).oauth2Login(Customizer.withDefaults());
 
+        http.oauth2Login(withDefaults())
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .successHandler(authenticationSuccessHandler())
+                );
+
+
         http.formLogin(config -> config.successHandler(authenticationSuccessHandler()));
 
         http.exceptionHandling(config -> config.defaultAuthenticationEntryPointFor(authenticationEntryPoint(),
@@ -118,8 +125,10 @@ public class WebSecurityConfiguration {
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
+
+
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.oauth2ResourceServer(config -> config.opaqueToken(Customizer.withDefaults()));
+        http.oauth2ResourceServer(config -> config.opaqueToken(withDefaults()));
         http.logout(config -> config.addLogoutHandler(new CookieClearingLogoutHandler(sessionId)));
         return http.build();
     }
