@@ -4,23 +4,23 @@ import './DeleteUser.css';
 import {toast} from 'react-toastify';
 
 const DeleteUser = (user) => {
-  const [username, setUsername] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleChange = (e) => {
-    setUsername(e.target.value);
+    setUserId(e.target.value);
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/v1/users/${username}`);
+      const response = await axios.delete(`/api/v1/users/${userId}`);
 
       if (response.status === 200) {
-        toast.success(`${user.target} with @_${username} deleted successfully`);
+        toast.success(`${user.target} with id: ${userId} deleted successfully!`);
       } else {
         toast.error('Something went wrong');
       }
     } catch (error) {
-      toast.error(`${user.target} with username @_${username} does not exist!`);
+      toast.error(`${user.target} with id: ${userId} does not exist!`);
     }
   };
 
@@ -36,8 +36,8 @@ const DeleteUser = (user) => {
 
           <form onSubmit={handleDelete}>
             <div className="mb-3">
-              <label htmlFor="username" className="form-label">{user.target}'s Username</label>
-              <input type="text" className="form-control" id="username" value={username}
+              <label htmlFor="username" className="form-label">{user.target}'s Id</label>
+              <input type="text" className="form-control" id="username" value={userId}
                 onChange={handleChange} />
             </div>
             <button id='delBtn' type="submit" className="btn btn-danger">Delete</button>

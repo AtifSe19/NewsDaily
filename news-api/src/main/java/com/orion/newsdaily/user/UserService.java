@@ -4,12 +4,15 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,44 +85,47 @@ public class UserService implements UserDetailsService {
         return userRepo.findByUsernameLikeOrderByIdDesc(pageable, title).getContent();
     }
 
-
-
-    @Transactional
-    public User create(User accToInsert) {
-        Long accId = accToInsert.getId();
-        if(accId != null && userRepo.existsById(accId)) {
-            return null;
-        }
-        return userRepo.save(accToInsert);
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
     @Transactional
-    public User update(User updatedAccount, Long id) {
+    public User create(User user) {
+        Long userId = user.getId();
+        if(userId != null && userRepo.existsById(userId)) {
+            return null;
+        }
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        return userRepo.save(user);
+    }
+
+    @Transactional
+    public User update(User updatedUser, Long id) {
 
         // Check if the account item with the given id exists in the repository
-        Optional<User> existingAccountOptional = userRepo.findById(id);
+        Optional<User> existingUserOptional = userRepo.findById(id);
 
         logger.debug("check this.");
 
-        if (existingAccountOptional.isEmpty()) {
+        if (existingUserOptional.isEmpty()) {
             logger.trace("There is nothing to update with id = {}",id);
             return null; // Return null or throw an exception to handle the case where the account item doesn't exist
         }
 
         // Get the existing news item from the Optional
-        User existingAccount = existingAccountOptional.get();
+        User existingUser = existingUserOptional.get();
 
-        // Update the existing news item with the new data from newsToUpdate
-        existingAccount.setUsername(updatedAccount.getUsername());
-        existingAccount.setPassword(updatedAccount.getPassword());
-        existingAccount.setEmail(updatedAccount.getEmail());
-        existingAccount.setRole(updatedAccount.getRole());
-        existingAccount.setLoggedIn(updatedAccount.isLoggedIn());
+        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setPassword(passwordEncoder().encode(updatedUser.getPassword()));
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setRole(existingUser.getRole());
+        existingUser.setLoggedIn(updatedUser.isLoggedIn());
 
         // Save the updated news item back to the repository
-        userRepo.save(existingAccount);
+        userRepo.save(existingUser);
 
-        return existingAccount; // Return the updated news item
+        return existingUser; // Return the updated news item
     }
 
     public User findByUserName(String username){

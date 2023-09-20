@@ -8,7 +8,7 @@ const AddUser = (user) => {
     username: '',
     password: '',
     email: '',
-    role: user.role,
+    role: user.target,
   });
 
 

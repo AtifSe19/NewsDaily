@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: 'admin'
               - column:
                   name: password
-                  value: '{noop}admin'
+                  value: '$2a$12$DXGXMWkVE0AjInnQ1SYP/usqoiGqlsiaAadotpDU.WKpHSHcMTYCe'
               - column:
                   name: email
                   value: admin@newsdaily.com
@@ -29,7 +29,7 @@ databaseChangeLog:
                   value: 'editor'
               - column:
                   name: password
-                  value: '{noop}editor'
+                  value: '$2a$12$ezRO58Ly.9U9xtvHq/7.yuMo/G/LVcq3SPabKS7GY8Yu3R8KmOTIy'
               - column:
                   name: email
                   value: editor@newsdaily.com
@@ -47,7 +47,7 @@ databaseChangeLog:
                   value: 'reporter'
               - column:
                   name: password
-                  value: '{noop}reporter'
+                  value: '$2a$12$5qnAZiIQWP0zePsACIsBTelcvd8yKbKIpFok409A9/SijFRNV1PL.'
               - column:
                   name: email
                   value: reporter@newsdaily.com
@@ -65,7 +65,7 @@ databaseChangeLog:
                   value: 'user'
               - column:
                   name: password
-                  value: '{noop}user'
+                  value: '$2a$12$Bb3VylsLGASPWmghz4h8puJAyoYtR22VWBTpRmPyDIm1dza7fCKD.'
               - column:
                   name: email
                   value: user@user.com
@@ -83,7 +83,7 @@ databaseChangeLog:
                   value: 'user2'
               - column:
                   name: password
-                  value: '{noop}user2'
+                  value: '$2a$12$m2grMliAKgt3wWp1PMzRpuIdxavF/x6x.WYT0ULKVX9ReuH9/Nj5O'
               - column:
                   name: email
                   value: user2@user.com

@@ -74,9 +74,9 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
-    public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("id") Long id)
+    public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("userId") Long id)
     {
         userService.delete(id);
         List<User> list = userService.findAll();
