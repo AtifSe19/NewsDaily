@@ -82,4 +82,12 @@ public class UserController {
         List<User> list = userService.findAll();
         return ResponseEntity.ok(ApiResponse.of(list));
     }
+    @GetMapping("/getRole")
+    public String getRole(Authentication auth){
+        return userService.getRoleByUsername(auth.getName());
+    }
+    @GetMapping("/getUsername")
+    public String getUsername(Authentication auth){
+        return auth.getName();
+    }
 }

@@ -135,4 +135,8 @@ public class UserService implements UserDetailsService {
         }
         return false;
     }
+
+    public String getRoleByUsername(String username) {
+        return userRepo.getRoleByUsername(username);
+    }
 }
