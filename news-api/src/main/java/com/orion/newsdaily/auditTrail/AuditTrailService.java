@@ -2,6 +2,8 @@ package com.orion.newsdaily.auditTrail;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orion.newsdaily.newsTag.NewsTagService;
+import com.orion.newsdaily.tag.TagService;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AuditTrailService {
     @Autowired
     private final AuditTrailRepo auditTrailRepo;
+
+    @Autowired
+    private final NewsTagService newsTagService;
+    @Autowired
+    private final TagService tagService;
     @Autowired
     private final UserService userService;
 
@@ -37,6 +46,11 @@ public class AuditTrailService {
         record.setUser(user);
 
         auditTrailRepo.save(record);
+
+    }
+
+    public List<AuditTrail> findAll(){
+        return auditTrailRepo.findAll();
 
     }
 
@@ -70,5 +84,27 @@ public class AuditTrailService {
             e.printStackTrace();
         }
         return "";
+    }
+    public List<String> getTagNamesByTagIds(List<Long> tagNames) {
+        return tagNames.stream()
+                .map(tagId -> tagService.getTagNameById(tagId))
+                .collect(Collectors.toList());
+    }
+    public List<UserPreferenceDTO> getUserPreferences() {
+        List<AuditTrail> auditTrails = auditTrailRepo.findAll();
+
+        //Audit Trail Id
+        // News Id (On which we click)
+        // Tags!
+        return auditTrails.stream()
+                .map(auditTrail -> new UserPreferenceDTO(
+                                        auditTrail.getId(), auditTrail.getNewsId(),
+                        auditTrail.getCreatedAt(),
+                        auditTrail.getIpAddress(),
+                        auditTrail.getUser().getId(),
+                        getTagNamesByTagIds(newsTagService.findTagsByNewsArticleId(auditTrail.getNewsId()))
+                                )
+                )
+                .collect(Collectors.toList());
     }
 }

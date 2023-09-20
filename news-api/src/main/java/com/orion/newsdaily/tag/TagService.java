@@ -29,6 +29,10 @@ public class TagService {
                 .orElseThrow(() -> new EntityNotFoundException("Tag not found with id: " + id));
     }
 
+    public String getTagNameById(long id) {
+        return tagRepository.findTagNameById(id);
+    }
+
     public Tag createTag(TagDTO tagDTO) {
 
         Tag tag = new Tag();
