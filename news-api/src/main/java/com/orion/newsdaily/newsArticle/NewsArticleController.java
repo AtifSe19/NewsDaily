@@ -40,20 +40,20 @@ public class NewsArticleController {
     //---------USER & ADMIN
 
     //Get all news that are approved and every user can see!
-    @GetMapping
-    public ResponseEntity<List<NewsArticle>> findAll() {
-        logger.debug("In news article find all:");
-
-        List<NewsArticle> newsArticles = newsArticleService.findAll();
-        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
-        List<NewsArticle> ads = newsArticleService.findAllSponsored();
-
-        List<NewsArticle> combinedNews = new ArrayList<>(news);
-        combinedNews.addAll(ads);
-        Collections.shuffle(combinedNews);
-
-        return ResponseEntity.ok(combinedNews);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<NewsArticle>> findAll() {
+//        logger.debug("In news article find all:");
+//
+//        List<NewsArticle> newsArticles = newsArticleService.findAll();
+//        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
+//        List<NewsArticle> ads = newsArticleService.findAllSponsored();
+//
+//        List<NewsArticle> combinedNews = new ArrayList<>(news);
+//        combinedNews.addAll(ads);
+//        Collections.shuffle(combinedNews);
+//
+//        return ResponseEntity.ok(combinedNews);
+//    }
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @GetMapping("/pending")
@@ -65,15 +65,6 @@ public class NewsArticleController {
     @PutMapping("/approve/{id}")
     public ResponseEntity<NewsArticle> approveNewsToggle(@PathVariable("id") long id) {
         NewsArticle updated = newsArticleService.approveNewsToggle(id);
-        if (updated==null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updated);
-    }
-
-    @PutMapping("/sponsor/{id}")
-    public ResponseEntity<NewsArticle> sponsorNewsToggle(@PathVariable("id") long id) {
-        NewsArticle updated = newsArticleService.sponsorNewsToggle(id);
         if (updated==null) {
             return ResponseEntity.notFound().build();
         }
