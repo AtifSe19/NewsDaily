@@ -3,7 +3,9 @@ package com.orion.newsdaily.config;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.orion.newsdaily.user.UserService;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +27,8 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenResolv
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.CookieClearingLogoutHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -34,6 +38,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.util.WebUtils;
 
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
@@ -111,7 +116,7 @@ public class WebSecurityConfiguration {
 
         http.oauth2Login(withDefaults())
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .successHandler(authenticationSuccessHandler())
+                        .successHandler(customAuthenticationSuccessHandler())
                 );
 
 
@@ -134,6 +139,48 @@ public class WebSecurityConfiguration {
     }
     private AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, ex) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not Authorized");
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
+//    public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+//
+//        @Override
+//        public void onAuthenticationSuccess(
+//                HttpServletRequest request,
+//                HttpServletResponse response,
+//                Authentication authentication) throws IOException, ServletException {
+//
+//            // Your custom logic here, e.g., adding cookies
+//            response.addCookie(createSessionCookie(encode(authentication)));
+//
+//            // Continue with the default behavior of saving and redirecting to the original request
+//            super.onAuthenticationSuccess(request, response, authentication);
+//        }
+//    }
+
+    public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+
+        private String targetUrl = "/api/v1/news"; // Change this to your desired target URL
+
+        @Override
+        public void onAuthenticationSuccess(
+                HttpServletRequest request,
+                HttpServletResponse response,
+                Authentication authentication) throws IOException, ServletException {
+
+            // Your custom logic here, e.g., adding cookies
+            response.addCookie(createSessionCookie(encode(authentication)));
+
+            // Set the target URL before invoking the default behavior
+            setDefaultTargetUrl(targetUrl);
+
+            // Continue with the default behavior of saving and redirecting to the original request
+            super.onAuthenticationSuccess(request, response, authentication);
+        }
     }
 
     private AuthenticationSuccessHandler authenticationSuccessHandler() {
