@@ -62,9 +62,6 @@ public class NewsArticleController {
         return ResponseEntity.ok(newsArticleService.findPendingNews());
     }
 
-
-
-
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/approve/{id}")
     public ResponseEntity<NewsArticle> approveNewsToggle(@PathVariable("id") long id) {
