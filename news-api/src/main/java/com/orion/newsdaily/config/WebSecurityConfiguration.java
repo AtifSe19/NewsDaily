@@ -18,8 +18,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -39,6 +42,7 @@ import org.springframework.web.util.WebUtils;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Arrays;
@@ -114,6 +118,14 @@ public class WebSecurityConfiguration {
 //            config.anyRequest().authenticated();
 //        }).oauth2Login(Customizer.withDefaults());
 
+//        http.oauth2Login(withDefaults())
+//                .oauth2Login(oauth2Login -> oauth2Login
+//                        .successHandler(customAuthenticationSuccessHandler())
+//                        .userInfoEndpoint(userInfo -> userInfo
+//                                .scope("email") // Request the 'email' scope
+//                                .userAuthoritiesAttributeName("email") // Map 'email' to authorities
+//                        )
+//                );
         http.oauth2Login(withDefaults())
                 .oauth2Login(oauth2Login -> oauth2Login
                         .successHandler(customAuthenticationSuccessHandler())
@@ -151,6 +163,25 @@ public class WebSecurityConfiguration {
                 HttpServletRequest request,
                 HttpServletResponse response,
                 Authentication authentication) throws IOException, ServletException {
+
+            String email = "";
+            String username = "";
+
+            if (authentication.getPrincipal() instanceof OAuth2User) {
+                OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+
+                // Retrieve OAuth2 token details
+                Map<String, Object> tokenAttributes = oauth2User.getAttributes();
+
+                email = (String) tokenAttributes.get("email");
+                username = (String) tokenAttributes.get("name");
+
+                // Add the 'email' as a query parameter to the target URL
+                targetUrl += "?email=" + URLEncoder.encode(email, "UTF-8")+"&name=" + URLEncoder.encode(username, "UTF-8");
+
+                // Log the token attributes
+                System.out.println("Token Attributes here: " + tokenAttributes);
+            }
 
             // Your custom logic here, e.g., adding cookies
             response.addCookie(createSessionCookie(encode(authentication)));

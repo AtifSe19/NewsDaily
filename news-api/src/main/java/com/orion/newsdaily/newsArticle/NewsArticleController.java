@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/news")
@@ -41,9 +45,17 @@ public class NewsArticleController {
 
     //Get all news that are approved and every user can see!
     @GetMapping
-    public ResponseEntity<List<NewsArticle>> findAll() {
+    public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
+                                          @RequestParam(name = "email", defaultValue = "") String email,
+                                          @RequestParam(name = "name", defaultValue = "") String name)
+    {
 //        logger.debug("In news article find all:");
-//
+
+//        if (principal != null) {
+//            Map<String, Object> tokenAttributes = principal.getAttributes();
+//            email = (String) tokenAttributes.get("email");
+//        }
+
         List<NewsArticle> newsArticles = newsArticleService.findAll();
 //        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
 //        List<NewsArticle> ads = newsArticleService.findAllSponsored();
@@ -51,7 +63,7 @@ public class NewsArticleController {
 //        List<NewsArticle> combinedNews = new ArrayList<>(news);
 //        combinedNews.addAll(ads);
 //        Collections.shuffle(combinedNews);
-//
+
         return ResponseEntity.ok(newsArticles);
     }
 
