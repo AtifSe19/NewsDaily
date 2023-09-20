@@ -37,5 +37,4 @@ public class AuditTrail {
     @JoinColumn(name = "fk_user_id", nullable = false)
     @JsonIgnore
     private User user;
-
 }

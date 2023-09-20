@@ -20,24 +20,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
-
-
     final UserService userService;
-
-
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-//    @PreAuthorize("permitAll()")
     @GetMapping
     public ResponseEntity<ApiResponse<List<User>>> findAll()
     {
         return ResponseEntity.ok(ApiResponse.of(userService.findAll()));
     }
-
-//    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id)
     {
@@ -49,8 +41,6 @@ public class UserController {
         }
         return ResponseEntity.ok(ApiResponse.of(acc));
     }
-
-//    @PreAuthorize("permitAll()")
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<User>>> findAllByName(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -62,22 +52,20 @@ public class UserController {
         }
         return ResponseEntity.ok(ApiResponse.of(news));
     }
-
-//    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<ApiResponse<User>> insert(@RequestBody User accToInsert)
+    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
+    public ResponseEntity<ApiResponse<User>> create(@RequestBody User accToInsert)
     {
-        User createdAcc = userService.insert(accToInsert);
+        User createdAcc = userService.create(accToInsert);
         if(createdAcc != null)
         {
             return ResponseEntity.ok(ApiResponse.of(createdAcc));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
-
-//    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<User>> updates(@RequestBody User updatedAccount, @PathVariable("id") Long id)
+    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
+    public ResponseEntity<ApiResponse<User>> update(@RequestBody User updatedAccount, @PathVariable("id") Long id)
     {
         User updated = userService.update(updatedAccount,id);   //to save on db as well
 
@@ -86,22 +74,12 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-
-//    @PreAuthorize("hasAuthority('ADMIN')")
-
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
     public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("id") Long id)
     {
-        boolean deleted = userService.delete(id);
-        if(deleted)
-        {
-            List<User> list = userService.findAll();
-            return ResponseEntity.ok(ApiResponse.of(list));
-        }
-        else
-        {
-            List<User> list = userService.findAll();
-            return ResponseEntity.ok(ApiResponse.of(list));
-        }
+        userService.delete(id);
+        List<User> list = userService.findAll();
+        return ResponseEntity.ok(ApiResponse.of(list));
     }
 }

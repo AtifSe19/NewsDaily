@@ -85,7 +85,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public User insert(User accToInsert) {
+    public User create(User accToInsert) {
         Long accId = accToInsert.getId();
         if(accId != null && userRepo.existsById(accId)) {
             return null;
