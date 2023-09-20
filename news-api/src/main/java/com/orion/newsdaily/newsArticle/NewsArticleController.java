@@ -45,14 +45,14 @@ public class NewsArticleController {
 //        logger.debug("In news article find all:");
 //
         List<NewsArticle> newsArticles = newsArticleService.findAll();
-//        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
-//        List<NewsArticle> ads = newsArticleService.findAllSponsored();
+        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
+        List<NewsArticle> ads = newsArticleService.findAllSponsored();
+
+        List<NewsArticle> combinedNews = new ArrayList<>(news);
+        combinedNews.addAll(ads);
+        Collections.shuffle(combinedNews);
 //
-//        List<NewsArticle> combinedNews = new ArrayList<>(news);
-//        combinedNews.addAll(ads);
-//        Collections.shuffle(combinedNews);
-//
-        return ResponseEntity.ok(newsArticles);
+        return ResponseEntity.ok(combinedNews);
     }
 
     @PreAuthorize("hasAuthority('EDITOR')")

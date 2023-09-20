@@ -84,11 +84,11 @@ public class NewsArticleService {
         return newsArticleToUpdate;
     }
 
-//    public List<NewsArticle> findAllNotSponsored() {
-//        return newsArticleRepo.findAllNotSponsored();
-//    }
-//
-//    public List<NewsArticle> findAllSponsored() {
-//        return newsArticleRepo.findAllSponsored();
-//    }
+    public List<NewsArticle> findAllNotSponsored() {
+        return newsArticleRepo.findAllNotSponsored();
+    }
+
+    public List<NewsArticle> findAllSponsored() {
+        return newsArticleRepo.findAllSponsored();
+    }
 }
