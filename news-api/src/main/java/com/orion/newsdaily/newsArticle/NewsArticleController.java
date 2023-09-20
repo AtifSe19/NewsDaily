@@ -1,6 +1,5 @@
 package com.orion.newsdaily.newsArticle;
 
-import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
