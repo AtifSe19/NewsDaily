@@ -111,6 +111,7 @@ public class WebSecurityConfiguration {
 
         http.oauth2Login(withDefaults())
                 .oauth2Login(oauth2Login -> oauth2Login
+                        .defaultSuccessURL("/home")
                         .successHandler(authenticationSuccessHandler())
                 );
 
