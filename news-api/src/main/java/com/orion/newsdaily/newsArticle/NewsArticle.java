@@ -36,9 +36,6 @@ public class NewsArticle {
     @NonNull
     @Column(name = "is_disabled")
     private Boolean isDisabled;
-    @NonNull
-    @Column(name = "is_sponsored")
-    private Boolean isSponsored;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)

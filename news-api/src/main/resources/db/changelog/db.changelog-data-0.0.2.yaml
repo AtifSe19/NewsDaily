@@ -22,9 +22,6 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
-                  name: is_sponsored
-                  value: false
-              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -44,9 +41,6 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_disabled
-                  value: true
-              - column:
-                  name: is_sponsored
                   value: true
               - column:
                   name: fk_user_id
@@ -70,9 +64,6 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
-                  name: is_sponsored
-                  value: false
-              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -94,9 +85,6 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
-                  name: is_sponsored
-                  value: false
-              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -116,9 +104,6 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_disabled
-                  value: false
-              - column:
-                  name: is_sponsored
                   value: false
               - column:
                   name: fk_user_id

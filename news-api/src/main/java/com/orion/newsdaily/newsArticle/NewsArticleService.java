@@ -38,7 +38,6 @@ public class NewsArticleService {
 
         newsArticle.setUser(user);
         newsArticle.setPostedAt(LocalDateTime.now());
-        newsArticle.setIsSponsored(false);
         newsArticle.setIsApproved(false);
         newsArticle.setIsDisabled(false);
 
@@ -70,22 +69,6 @@ public class NewsArticleService {
         return newsArticleToUpdate;
     }
     @Transactional
-    public NewsArticle sponsorNewsToggle(long id) {
-        Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
-        if (newsArticle.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
-        }
-        NewsArticle newsArticleToUpdate = newsArticle.get();
-        if(newsArticleToUpdate.getIsSponsored().equals(Boolean.FALSE)){
-            newsArticleToUpdate.setIsSponsored(true);
-        } else if (newsArticleToUpdate.getIsSponsored().equals(Boolean.TRUE)) {
-            newsArticleToUpdate.setIsSponsored(false);
-        }
-        newsArticleRepo.save(newsArticleToUpdate);
-        return newsArticleToUpdate;
-    }
-
-    @Transactional
     public NewsArticle disableNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
         if (newsArticle.isEmpty()) {
@@ -101,11 +84,11 @@ public class NewsArticleService {
         return newsArticleToUpdate;
     }
 
-    public List<NewsArticle> findAllNotSponsored() {
-        return newsArticleRepo.findAllNotSponsored();
-    }
-
-    public List<NewsArticle> findAllSponsored() {
-        return newsArticleRepo.findAllSponsored();
-    }
+//    public List<NewsArticle> findAllNotSponsored() {
+//        return newsArticleRepo.findAllNotSponsored();
+//    }
+//
+//    public List<NewsArticle> findAllSponsored() {
+//        return newsArticleRepo.findAllSponsored();
+//    }
 }
