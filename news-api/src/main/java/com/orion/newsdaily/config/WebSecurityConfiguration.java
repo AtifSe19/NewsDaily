@@ -238,6 +238,7 @@ public class WebSecurityConfiguration {
         return token;
     }
 
+
     @Bean
     public OpaqueTokenIntrospector opaqueTokenIntrospector() {
         return token -> introspectorToken(token);
