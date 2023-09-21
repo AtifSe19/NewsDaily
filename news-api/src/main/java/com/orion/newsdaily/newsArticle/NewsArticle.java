@@ -37,6 +37,10 @@ public class NewsArticle {
     @Column(name = "is_disabled")
     private Boolean isDisabled;
 
+    @NonNull
+    @Column(name = "is_ad")
+    private Boolean isAd;
+
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)
     @JsonIgnore

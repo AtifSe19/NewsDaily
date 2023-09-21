@@ -30,7 +30,7 @@ public class NewsArticleController {
     private UserService userService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @PreAuthorize("hasAuthority('REPORTER')")
+    @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
     @PostMapping
     public ResponseEntity<NewsArticle> create(Authentication authentication, @RequestBody NewsArticle newsArticle) {
 
@@ -43,7 +43,7 @@ public class NewsArticleController {
 
     //---------USER & ADMIN
 
-    //Get all news that are approved and every user can see!
+    //Get all news that are approved and NOT ADS for every user !
     @GetMapping
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
                                           @RequestParam(name = "email", defaultValue = "") String email,
@@ -91,6 +91,12 @@ public class NewsArticleController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping(path = "ads")
+    public ResponseEntity<List<NewsArticle>> findAllAds()
+    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
+        return ResponseEntity.ok(newsArticles);
     }
 
 }

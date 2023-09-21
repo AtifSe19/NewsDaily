@@ -22,6 +22,9 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
+                  name: is_ad
+                  value: false
+              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -38,9 +41,12 @@ databaseChangeLog:
                   value: '2023-09-20 14:30:00'
               - column:
                   name: is_approved
-                  value: false
+                  value: true
               - column:
                   name: is_disabled
+                  value: true
+              - column:
+                  name: is_ad
                   value: true
               - column:
                   name: fk_user_id
@@ -64,6 +70,9 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
+                  name: is_ad
+                  value: true
+              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -85,6 +94,9 @@ databaseChangeLog:
                   name: is_disabled
                   value: false
               - column:
+                  name: is_ad
+                  value: false
+              - column:
                   name: fk_user_id
                   value: 3
         - insert:
@@ -104,6 +116,9 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
                   value: false
               - column:
                   name: fk_user_id
