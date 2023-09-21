@@ -12,12 +12,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/news")
@@ -93,10 +89,10 @@ public class NewsArticleController {
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping(path = "ads")
-    public ResponseEntity<List<NewsArticle>> findAllAds()
-    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
-        return ResponseEntity.ok(newsArticles);
-    }
+//    @GetMapping(path = "ads")
+//    public ResponseEntity<List<NewsArticle>> findAllAds()
+//    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
+//        return ResponseEntity.ok(newsArticles);
+//    }
 
 }

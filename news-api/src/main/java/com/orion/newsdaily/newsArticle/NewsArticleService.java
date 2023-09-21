@@ -35,40 +35,24 @@ public class NewsArticleService {
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
         String username=authentication.getName();
         User user=userService.findByUserName(username);
-        newsArticle.setIsDisabled(false);
 
         newsArticle.setUser(user);
         newsArticle.setPostedAt(LocalDateTime.now());
-        if (user.getRole().equals("EDITOR"))
-        {
-            newsArticle.setIsApproved(true);
-            newsArticle.setIsAd(true);
-        }
-        else{
         newsArticle.setIsApproved(false);
-        newsArticle.setIsAd(false);
-        }
+        newsArticle.setIsDisabled(false);
+
         return newsArticleRepo.save(newsArticle);
     }
-
-
-    //Return all news that are approved, not disabled and not ad for all kind of users to see!
     public List<NewsArticle> findAll() {
         return newsArticleRepo.findAllNews();
     }
-
-    //Return all news that are NOT approved so editor can approve!
     public List<NewsArticle> findPendingNews()
     {
         return newsArticleRepo.findPendingNews();
     }
-
-
     public NewsArticle findById(Long id) {
         return newsArticleRepo.findById(id).orElse(null);
     }
-
-
     public NewsArticle approveNewsToggle(long id) {
         Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
         if (existingNewsOptional.isEmpty()) {
@@ -93,7 +77,6 @@ public class NewsArticleService {
         NewsArticle newsArticleToUpdate = newsArticle.get();
         if(newsArticleToUpdate.getIsDisabled().equals(Boolean.FALSE)){
             newsArticleToUpdate.setIsDisabled(true);
-            newsArticleToUpdate.setIsAd(false);
         } else if (newsArticleToUpdate.getIsDisabled().equals(Boolean.TRUE)) {
             newsArticleToUpdate.setIsDisabled(false);
         }
@@ -101,11 +84,11 @@ public class NewsArticleService {
         return newsArticleToUpdate;
     }
 
-    public List<NewsArticle> findAllNotAd() {
-        return newsArticleRepo.findAllNotAd();
-    }
-
-    public List<NewsArticle> findAllAds() {
-        return newsArticleRepo.findAllAds();
-    }
+//    public List<NewsArticle> findAllNotSponsored() {
+//        return newsArticleRepo.findAllNotSponsored();
+//    }
+//
+//    public List<NewsArticle> findAllSponsored() {
+//        return newsArticleRepo.findAllSponsored();
+//    }
 }
