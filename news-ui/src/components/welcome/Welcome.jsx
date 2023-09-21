@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { toast } from 'react-toastify';
 
-const Home = (user) => {
+const Welcome = (user) => {
   const [username, setUsername] = useState(null);
 
   const handleWelcome = () => {
@@ -13,7 +13,7 @@ const Home = (user) => {
       });
   };
 
-//   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const usernameResponse = await axios.get(`/api/v1/users/getUsername`);
@@ -30,7 +30,7 @@ const Home = (user) => {
     };
 
     fetchData();
-//   }, []);
+  }, []);
   return (
     <div className="container mt-5">
       <div className="row">
@@ -44,4 +44,4 @@ const Home = (user) => {
   );
 };
 
-export default Home;
+export default Welcome;

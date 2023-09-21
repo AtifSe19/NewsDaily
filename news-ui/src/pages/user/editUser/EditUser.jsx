@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import {toast} from 'react-toastify'
-import './UpdateUser.css';
+import './EditUser.css';
+import { useParams } from 'react-router-dom';
 
-const UpdateUser = (user) => {
+const EditUser = (user) => {
+  const {userId} = useParams();
   const [username, setUsername] = useState('');
   const [User, setUser] = useState({
     username: '',
@@ -15,31 +17,21 @@ const UpdateUser = (user) => {
     setUsername(e.target.value);
   };
 
-  const handleSearch = async () => {
-    try {
-      // Send a request to search for the account holder by username
-      const response = await axios.get(`/api/v1/users/search/${username}`);
+  const fetchUser = async () => {
+    const result = await axios.get(`/api/v1/users/${userId}`);
+    setUser(result.data.content);
+    };
 
-      if (response.status === 200) {
-        setUser(response.data.content);
-        toast.success(`${user.target}: @_${username} information retrieved successfully!`)
-      } else {
-        toast.error(`${user.target}: @_${username} does not exist!`);
-        setUser({
-          username: '',
-          password: '',
-          email: '',
-        });
-      }
-    } catch (error) {
-      toast.error(`${user.target}: @_${username} does not exist!`);
-    }
-  };
+
+  useEffect(() => {
+    fetchUser();
+    }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/api/v1/users/${username}`, User);
+      const response = await axios.put(`/api/v1/users/${userId}`, User);
       if (response.status === 200) {
         toast.success(`${user.target}: @_${username} updated successfully!`)
       } else {
@@ -60,16 +52,16 @@ const UpdateUser = (user) => {
       <div className="row">
         <div className="col-md-7 mx-auto">
           <div className="mb-3">
-            <label htmlFor="searchUsername" className="form-label">Search by Username</label>
+            <label htmlFor="userId" className="form-label">User Id</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
-              id="searchUsername"
-              name="searchUsername"
-              value={username}
+              id="userId"
+              name="userId"
+              value={userId}
               onChange={handleChange}
+              readOnly
             />
-            <button className="btn btn-primary mt-2" onClick={handleSearch}>Search</button>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
@@ -97,7 +89,7 @@ const UpdateUser = (user) => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Username</label>
+              <label htmlFor="password" className="form-label">Password</label>
               <input
                 type="password"
                 className="form-control"
@@ -106,6 +98,7 @@ const UpdateUser = (user) => {
                 value={User.password}
                 onChange={(e) => setUser({ ...User, password: e.target.value })}
                 required
+                readOnly
               />
             </div>
             <button type="submit" className="btn btn-primary btns">Update</button>
@@ -116,4 +109,4 @@ const UpdateUser = (user) => {
   );
 };
 
-export default UpdateUser;
+export default EditUser;

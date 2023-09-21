@@ -1,0 +1,13 @@
+.sideMenu{
+    display: flex;
+    justify-content: start;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: #253053;
+    padding: 20px 0;
+    transition: 0.5s;
+    z-index: 100;
+}

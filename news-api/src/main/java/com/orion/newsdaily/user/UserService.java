@@ -117,7 +117,8 @@ public class UserService implements UserDetailsService {
         User existingUser = existingUserOptional.get();
 
         existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setPassword(passwordEncoder().encode(updatedUser.getPassword()));
+        existingUser.setPassword(updatedUser.getPassword());
+//        existingUser.setPassword(passwordEncoder().encode(updatedUser.getPassword()));
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setRole(existingUser.getRole());
         existingUser.setLoggedIn(updatedUser.isLoggedIn());
