@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AiTwotoneDelete, AiTwotoneCheckSquare } from 'react-icons/ai';
+import { AiTwotoneDelete } from 'react-icons/ai';
 import {HiCheck} from 'react-icons/hi'
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import axios from "axios";

@@ -96,16 +96,6 @@ public class NewsArticleController {
         }
         return ResponseEntity.ok(updated);
     }
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('EDITOR')")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
-        NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle==null) {
-            return ResponseEntity.notFound().build();
-        }
-        newsArticleService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 //    @GetMapping(path = "ads")
 //    public ResponseEntity<List<NewsArticle>> findAllAds()
 //    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
