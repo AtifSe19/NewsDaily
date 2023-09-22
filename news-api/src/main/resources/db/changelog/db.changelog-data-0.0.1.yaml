@@ -129,4 +129,22 @@ databaseChangeLog:
               - column:
                   name: is_logged_in
                   value: false
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: 'reporterxyz'
+              - column:
+                  name: password
+                  value: '$2a$12$5qnAZiIQWP0zePsACIsBTelcvd8yKbKIpFok409A9/SijFRNV1PL.'
+              - column:
+                  name: email
+                  value: reporterxyz@newsdaily.com
+              - column:
+                  name: role
+                  value: 'REPORTER'
+              - column:
+                  name: is_logged_in
+                  value: false
 
