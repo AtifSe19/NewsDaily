@@ -104,4 +104,11 @@ public class NewsArticleController {
         return ResponseEntity.ok(newsArticle);
     }
 
+    @GetMapping("/report/{id}")
+    public ResponseEntity<String> getUsernameByNewsId(@PathVariable Long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
+        String username = newsArticle.getUser().getUsername();
+        return ResponseEntity.ok(username);
+    }
+
 }

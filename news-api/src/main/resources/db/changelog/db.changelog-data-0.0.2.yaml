@@ -26,7 +26,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 8
         - insert:
             tableName: news_articles
             columns:
@@ -50,7 +50,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 8
         - insert:
             tableName: news_articles
             columns:
@@ -74,7 +74,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 8
         - insert:
             tableName: news_articles
             columns:
@@ -122,4 +122,4 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 8
