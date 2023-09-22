@@ -83,6 +83,16 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
+    public void delete(long id) {
+        Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
+
+        if (newsArticle.isPresent()) {
+            newsArticleRepo.deleteById(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
 
 //    public List<NewsArticle> findAllNotSponsored() {
 //        return newsArticleRepo.findAllNotSponsored();

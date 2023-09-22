@@ -79,4 +79,14 @@ public class CommentController {
         }
         return ResponseEntity.ok(updated);
     }
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
+        Comment comment = commentService.findById(id);
+        if (comment==null) {
+            return ResponseEntity.notFound().build();
+        }
+        commentService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

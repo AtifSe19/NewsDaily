@@ -103,4 +103,14 @@ public class CommentService {
         commentRepo.save(commentToUpdate);
         return commentToUpdate;
     }
+    public void delete(long id) {
+        Optional<Comment> comment = commentRepo.findById(id);
+
+        if (comment.isPresent()) {
+            newsArticleRepo.deleteById(id);
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
 }

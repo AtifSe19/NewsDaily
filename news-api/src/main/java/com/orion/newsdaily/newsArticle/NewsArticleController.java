@@ -1,5 +1,7 @@
 package com.orion.newsdaily.newsArticle;
 
+import com.orion.newsdaily.newsTag.NewsTag;
+import com.orion.newsdaily.newsTag.NewsTagService;
 import com.orion.newsdaily.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,14 +26,20 @@ public class NewsArticleController {
     private final NewsArticleService newsArticleService;
     @Autowired
     private UserService userService;
+    private NewsTagService newsTagService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
     @PostMapping
-    public ResponseEntity<NewsArticle> create(Authentication authentication, @RequestBody NewsArticle newsArticle) {
+    public ResponseEntity<NewsArticle> create(
+            Authentication authentication,
+            @RequestBody NewsArticle newsArticle,
+            @RequestParam(name = "tags") List<Integer> selectedTags
+    ) {
 
         NewsArticle created = newsArticleService.create(newsArticle,authentication);
         if (created != null) {
+            //newsTagService.
             return ResponseEntity.ok(created);
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -88,7 +96,16 @@ public class NewsArticleController {
         }
         return ResponseEntity.ok(updated);
     }
-
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
+        if (newsArticle==null) {
+            return ResponseEntity.notFound().build();
+        }
+        newsArticleService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 //    @GetMapping(path = "ads")
 //    public ResponseEntity<List<NewsArticle>> findAllAds()
 //    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
