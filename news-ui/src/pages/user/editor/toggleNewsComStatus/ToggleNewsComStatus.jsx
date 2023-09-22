@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { AiTwotoneDelete } from 'react-icons/ai';
-import {HiCheck} from 'react-icons/hi'
+import { BsCheck2Circle } from 'react-icons/bs';
+import {RiDeleteBin6Line} from 'react-icons/ri'
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
@@ -132,11 +132,11 @@ const ToggleNewsComStatus = () => {
                                                     <td>
                                                         <button className='btn' onClick={() => approveNewsCom(newsCom.id)}>
                                                             {/* Approve */}
-                                                            <h4><HiCheck /></h4>
+                                                            <h4><BsCheck2Circle /></h4>
                                                         </button>
                                                         <button className='btn' onClick={() => deleteNewsCom(newsCom.id)}>
                                                             {/* Reject */}
-                                                            <h4><AiTwotoneDelete /></h4>
+                                                            <h4><RiDeleteBin6Line /></h4>
                                                         </button>
                                                     </td>
                                                 </tr>
