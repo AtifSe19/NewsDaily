@@ -9,6 +9,7 @@ import Welcome from '../../../components/welcome/Welcome'
 import AddUser from '../addUser/AddUser'
 import EditUser from '../editUser/EditUser'
 import SearchUser from '../searchUser/SearchUser'
+import AddNews from '../../../pages/reporter/home/AddNews'
 import ToggleNewsComStatus from '../editor/toggleNewsComStatus/ToggleNewsComStatus'
 
 const UserDashboard = () => {
@@ -48,6 +49,7 @@ const UserDashboard = () => {
         <Route path="/addUser" element={<AddUser role={role} target={targetUser} />} />
         <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
         <Route path="/searchUser" element={<SearchUser target = {targetUser} />} />
+        <Route path="/AddNews" element={<AddNews target = {targetUser} />} />
         <Route path="/newscom/:sectionType" element={<ToggleNewsComStatus />} />
       </Routes>
     </div>

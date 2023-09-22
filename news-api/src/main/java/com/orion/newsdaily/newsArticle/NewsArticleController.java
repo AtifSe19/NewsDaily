@@ -14,7 +14,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -29,17 +32,23 @@ public class NewsArticleController {
     private NewsTagService newsTagService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
+
     @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
     @PostMapping
     public ResponseEntity<NewsArticle> create(
             Authentication authentication,
             @RequestBody NewsArticle newsArticle,
-            @RequestParam(name = "tags") List<Integer> selectedTags
+            @RequestParam(name = "tags") String tagsParam
     ) {
-
-        NewsArticle created = newsArticleService.create(newsArticle,authentication);
-        if (created != null) {
-            //newsTagService.
+        //System.out.print(tagsParam+"hello");
+        NewsArticle created = newsArticleService.create(newsArticle, authentication);
+        System.out.print(tagsParam+"hello");
+        System.out.print(created.getId()+"heheheheh");
+        //code till here execuring
+        List<NewsTag> created2 = newsTagService.addTag(created.getId(), tagsParam);
+        System.out.print("vargaye");
+        //this not executing
+        if (created != null ) {
             return ResponseEntity.ok(created);
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -53,21 +62,8 @@ public class NewsArticleController {
                                           @RequestParam(name = "email", defaultValue = "") String email,
                                           @RequestParam(name = "name", defaultValue = "") String name)
     {
-//        logger.debug("In news article find all:");
-
-//        if (principal != null) {
-//            Map<String, Object> tokenAttributes = principal.getAttributes();
-//            email = (String) tokenAttributes.get("email");
-//        }
 
         List<NewsArticle> newsArticles = newsArticleService.findAll();
-//        List<NewsArticle> news = newsArticleService.findAllNotSponsored();
-//        List<NewsArticle> ads = newsArticleService.findAllSponsored();
-//
-//        List<NewsArticle> combinedNews = new ArrayList<>(news);
-//        combinedNews.addAll(ads);
-//        Collections.shuffle(combinedNews);
-
         return ResponseEntity.ok(newsArticles);
     }
 
@@ -96,11 +92,6 @@ public class NewsArticleController {
         }
         return ResponseEntity.ok(updated);
     }
-//    @GetMapping(path = "ads")
-//    public ResponseEntity<List<NewsArticle>> findAllAds()
-//    {       List<NewsArticle> newsArticles = newsArticleService.findAllAds();
-//        return ResponseEntity.ok(newsArticles);
-//    }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('EDITOR')")

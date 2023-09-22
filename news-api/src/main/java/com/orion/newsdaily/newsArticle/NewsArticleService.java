@@ -40,7 +40,6 @@ public class NewsArticleService {
         newsArticle.setPostedAt(LocalDateTime.now());
         newsArticle.setIsApproved(false);
         newsArticle.setIsDisabled(false);
-
         return newsArticleRepo.save(newsArticle);
     }
     public List<NewsArticle> findAll() {

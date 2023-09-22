@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/newstag")
+@RequestMapping("api/v1/newsTag")
 @RequiredArgsConstructor
 public class NewsTagController {
 
@@ -25,4 +25,5 @@ public class NewsTagController {
         List<Long> newsTags = newsTagService.findTagsByNewsArticleId(newsId);
         return ResponseEntity.ok(newsTags);
     }
+
 }
