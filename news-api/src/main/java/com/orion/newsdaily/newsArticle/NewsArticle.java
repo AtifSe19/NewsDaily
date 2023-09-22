@@ -26,7 +26,7 @@ public class NewsArticle {
     private String title;
 
     @NonNull
-    private String description;
+    private String content;
     @NonNull
     @Column(name = "posted_at")
     private LocalDateTime postedAt;

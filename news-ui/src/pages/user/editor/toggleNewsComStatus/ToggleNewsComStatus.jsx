@@ -1,66 +1,64 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { AiTwotoneDelete, AiTwotoneCheckSquare } from 'react-icons/ai';
+import {HiCheck} from 'react-icons/hi'
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
-import './SearchUser.css';
 import axios from "axios";
-import { AiTwotoneDelete, AiTwotoneEdit } from 'react-icons/ai';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const SearchUser = () => {
-    const [newscom, setNews] = useState([]);
+import './ToggleNewsComStatus.css'
+
+
+const ToggleNewsComStatus = () => {
+    const { sectionType } = useParams();
+    const [newsCom, setNewsCom] = useState([]);
     const [perPage, setPerPage] = useState(10);
     const [size, setSize] = useState(perPage);
     const [current, setCurrent] = useState(1);
 
-    useEffect(() => {
-        loadUsers();
-    }, [current, size]);
-
-    const loadNews = async () => {
+    const loadNewsCom = async () => {
         try {
-            const response = await axios.get('/api/v1/newscom/pending');
+            const response = await axios.get(`/api/v1/${sectionType}/pending`);
             if (Array.isArray(response.data)) {
-                setNews(response.data);
+                setNewsCom(response.data);
             } else {
                 console.error('API response is not an array:', response.data);
             }
         } catch (error) {
-            console.error('Error loading newscom articles:', error);
+            console.error('Error loading news articles:', error);
         }
     };
+
+
+    useEffect(() => {
+        loadNewsCom();
+    }, [current, size, sectionType]);
+
 
     const PerPageChange = (value) => {
         setSize(value);
         setCurrent(1);
     };
 
-    const discardNews = async (id) => {
+    const deleteNewsCom = async (id) => {
         try {
-            await axios.delete(`/api/v1/newscom/${id}`);
-            loadUsers();
-            toast.success('Discarded successfully!');
+            await axios.delete(`/api/v1/${sectionType}/${id}`);
+            loadNewsCom();
+            toast.success(`${sectionType} discarded successfully!`);
         } catch (error) {
             console.error('Error discarding:', error);
             toast.error('Error discarding');
         }
     };
-
-    const approveNews = async (id) => {
+    const approveNewsCom = async (id) => {
         try {
-            await axios.put(`/api/v1/newscom/approveNewsToggle/${id}`);
-            loadNews();
-            toast.success('Approved successfully!');
+            await axios.put(`/api/v1/${sectionType}/approve/${id}`);
+            loadNewsCom();
+            toast.success(`${sectionType} approved successfully!`);
         } catch (error) {
             console.error('Error approving:', error);
             toast.error('Error approving');
         }
-    };
-
-    const getData = () => {
-        const filteredNews = newscom.filter((newscom) => newscom.isApproved === false);
-        return filteredNews.slice((current - 1) * size, current * size);
     };
 
     const PaginationChange = (page, pageSize) => {
@@ -100,7 +98,7 @@ const SearchUser = () => {
                                             `Showing ${range[0]}-${range[1]} of ${total}`
                                         }
                                         onChange={PaginationChange}
-                                        total={getData().length} // Use the filtered data length as total count
+                                        total={newsCom.length} 
                                         current={current}
                                         pageSize={size}
                                         showSizeChanger={false}
@@ -109,31 +107,35 @@ const SearchUser = () => {
                                     />
                                 </div>
                                 <div className="table-responsive">
-                                    <table className="table table-text-small mb-0">
+                                    <table className="table table-text-small mb-0 text-center">
                                         <thead className="thead-primary table-sorting">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Title</th>
-                                                <th>Content</th>
+                                                {sectionType && sectionType === 'news' && (
+                                                    <th>title</th>
+                                                )}
+                                                <th>content</th>
                                                 <th>postedAt</th>
-                                                <th>isApproved</th>
-                                                <th>isDisabled</th>
+                                                <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {getData().map((newscom) => (
-                                                <tr key={newscom.id}>
-                                                    <td>{newscom.id}</td>
-                                                    <td>{newscom.Title}</td>
-                                                    <td>{newscom.password}</td>
-                                                    <td>{newscom.email}</td>
+                                            {newsCom.map((newsCom) => (
+                                                <tr key={newsCom.id}>
+                                                    <td>{newsCom.id}</td>
+                                                    {sectionType && sectionType === 'news' && (
+                                                        <td>newsCom.title</td>
+                                                    )}
+                                                    <td>{newsCom.content}</td>
+                                                    <td>{newsCom.postedAt}</td>
                                                     <td>
-                                                        <Link to={`/editUser/${user.id}`}>
-                                                            <button className='btn' >
-                                                                <h4><AiTwotoneEdit /></h4>
-                                                            </button>
-                                                        </Link>
-                                                        <button className='btn' onClick={() => deleteUser(user.id)}>
+                                                        <button className='btn' onClick={() => approveNewsCom(newsCom.id)}>
+                                                            {/* Approve */}
+                                                            <h4><HiCheck /></h4>
+                                                        </button>
+                                                        <button className='btn' onClick={() => deleteNewsCom(newsCom.id)}>
+                                                            {/* Reject */}
                                                             <h4><AiTwotoneDelete /></h4>
                                                         </button>
                                                     </td>
@@ -149,7 +151,7 @@ const SearchUser = () => {
                                             `Showing ${range[0]}-${range[1]} of ${total}`
                                         }
                                         onChange={PaginationChange}
-                                        total={getData().length} // Use the filtered data length as total count
+                                        total={newsCom.length}
                                         current={current}
                                         pageSize={size}
                                         showSizeChanger={false}
@@ -165,6 +167,6 @@ const SearchUser = () => {
             <ToastContainer />
         </>
     );
-};
+}
 
-export default SearchUser;
+export default ToggleNewsComStatus

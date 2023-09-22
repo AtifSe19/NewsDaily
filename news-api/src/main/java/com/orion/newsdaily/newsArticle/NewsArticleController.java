@@ -112,4 +112,15 @@ public class NewsArticleController {
 //        return ResponseEntity.ok(newsArticles);
 //    }
 
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
+        if (newsArticle == null) {
+            return ResponseEntity.notFound().build();
+        }
+        newsArticleService.delete(newsArticle);
+        return ResponseEntity.ok(newsArticle);
+    }
+
 }

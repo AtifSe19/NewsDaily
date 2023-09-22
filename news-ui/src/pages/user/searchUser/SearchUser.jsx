@@ -99,7 +99,7 @@ const SearchUser = (passedUser) => {
                                     />
                                 </div>
                                 <div className="table-responsive">
-                                    <table className="table table-text-small mb-0">
+                                    <table className="table table-text-small mb-0 text-center">
                                         <thead className="thead-primary table-sorting">
                                             <tr>
                                                 <th>User Id</th>

@@ -94,11 +94,7 @@ public class NewsArticleService {
         }
     }
 
-//    public List<NewsArticle> findAllNotSponsored() {
-//        return newsArticleRepo.findAllNotSponsored();
-//    }
-//
-//    public List<NewsArticle> findAllSponsored() {
-//        return newsArticleRepo.findAllSponsored();
-//    }
+    public void delete(NewsArticle newsArticle) {
+        newsArticleRepo.delete(newsArticle);
+    }
 }

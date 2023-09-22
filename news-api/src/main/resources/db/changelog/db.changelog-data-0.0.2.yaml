@@ -10,14 +10,14 @@ databaseChangeLog:
                   name: title
                   value: 'Sample Article 1'
               - column:
-                  name: description
-                  value: 'This is a sample article description 1.'
+                  name: content
+                  value: 'This is a sample article content 1.'
               - column:
                   name: posted_at
                   value: '2023-09-19 10:00:00'
               - column:
                   name: is_approved
-                  value: true
+                  value: false
               - column:
                   name: is_disabled
                   value: false
@@ -34,8 +34,8 @@ databaseChangeLog:
                   name: title
                   value: 'Sample Article 2'
               - column:
-                  name: description
-                  value: 'This is a sample article description 2.'
+                  name: content
+                  value: 'This is a sample article content 2.'
               - column:
                   name: posted_at
                   value: '2023-09-20 14:30:00'
@@ -58,8 +58,8 @@ databaseChangeLog:
                   name: title
                   value: 'Sample Article 3'
               - column:
-                  name: description
-                  value: 'This is a sample article description 3.'
+                  name: content
+                  value: 'This is a sample article content 3.'
               - column:
                   name: posted_at
                   value: '2019-10-04 10:00:00'
@@ -71,7 +71,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_ad
-                  value: true
+                  value: false
               - column:
                   name: fk_user_id
                   value: 3
@@ -82,14 +82,14 @@ databaseChangeLog:
                   name: title
                   value: 'Sample Article 4'
               - column:
-                  name: description
-                  value: 'This is a sample article description 4.'
+                  name: content
+                  value: 'This is a sample article content 4.'
               - column:
                   name: posted_at
                   value: '2019-10-04 11:00:00'
               - column:
                   name: is_approved
-                  value: true
+                  value: false
               - column:
                   name: is_disabled
                   value: false
@@ -106,8 +106,8 @@ databaseChangeLog:
                   name: title
                   value: 'Sample Article 5'
               - column:
-                  name: description
-                  value: 'This is a sample article description 5.'
+                  name: content
+                  value: 'This is a sample article content 5.'
               - column:
                   name: posted_at
                   value: '2022-07-20 14:30:00'
