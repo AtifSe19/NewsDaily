@@ -63,6 +63,17 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+    @PostMapping("/signup")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<ApiResponse<User>> signup(@RequestBody User accToInsert)
+    {
+        User createdAcc = userService.create(accToInsert);
+        if(createdAcc != null)
+        {
+            return ResponseEntity.ok(ApiResponse.of(createdAcc));
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
     public ResponseEntity<ApiResponse<User>> update(@RequestBody User updatedAccount, @PathVariable("id") Long id)
