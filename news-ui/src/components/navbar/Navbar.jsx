@@ -7,16 +7,6 @@ import Navbar from './Navbar.module.css';
 
 import { NavLink } from "react-router-dom"; // Import BrowserRouter
 
-//Pages
-const Home = () => {
-    return (
-        <div>
-            <h1>Home</h1>
-        </div>
-    );
-};
-
-
 function NavBar() {
     const [click, setClick] = React.useState(false);
 
