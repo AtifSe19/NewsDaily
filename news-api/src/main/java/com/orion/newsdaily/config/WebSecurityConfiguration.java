@@ -95,14 +95,10 @@ public class WebSecurityConfiguration {
         return web -> web.ignoring().requestMatchers(
                 new AntPathRequestMatcher("/h2-console/**", "GET"), // Allow GET requests to h2-console
                 new AntPathRequestMatcher("/h2-console/**", "POST"),
-//                new AntPathRequestMatcher("/api/v1/news/**", "GET"),
-//                new AntPathRequestMatcher("/api/v1/tags/**", "GET"),
-//                new AntPathRequestMatcher("/api/v1/tags/**", "POST"),
-//                new AntPathRequestMatcher("/api/v1/tags/**", "PUT"),
-//                new AntPathRequestMatcher("/api/v1/tags/**", "DELETE"),
-                new AntPathRequestMatcher("/actuator/**", "GET"),
-                new AntPathRequestMatcher("/actuator/**", "POST")
-
+//                new AntPathRequestMatcher("/actuator/**", "GET"),
+//                new AntPathRequestMatcher("/actuator/**", "POST"),
+                new AntPathRequestMatcher("/api/v1/users/signup", "POST"),
+                new AntPathRequestMatcher("/api/v1/news", "GET")
         );
     }
 
@@ -215,13 +211,10 @@ public class WebSecurityConfiguration {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(auth.getName())
                 .id(UUID.randomUUID().toString())
-                .expiresAt(LocalDateTime.now().plusSeconds(sessionExpirySeconds).toInstant(ZoneOffset.UTC))
                 .issuedAt(LocalDateTime.now().toInstant(ZoneOffset.UTC))
-//                .subject(auth.getCredentials().toString())
+                .expiresAt(LocalDateTime.now().plusSeconds(sessionExpirySeconds).toInstant(ZoneOffset.UTC))
                 .build();
         Jwt jwt = jwtEncoder.encode(JwtEncoderParameters.from(header, claims));
-
-        System.out.print("Token Starts: "+jwt.getTokenValue()+" :Token ends");
         return jwt.getTokenValue();
     }
 
