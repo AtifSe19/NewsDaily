@@ -10,4 +10,5 @@
     padding: 20px 0;
     transition: 0.5s;
     z-index: 100;
+    border: 1px solid black;
 }

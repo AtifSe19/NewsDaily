@@ -1,5 +1,6 @@
 package com.orion.newsdaily.newsArticle;
 
+import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import jakarta.persistence.EntityManager;
@@ -95,5 +96,9 @@ public class NewsArticleService {
 
     public void delete(NewsArticle newsArticle) {
         newsArticleRepo.delete(newsArticle);
+    }
+
+    public List<NewsArticle> findAllNewsForEditor() {
+        return newsArticleRepo.findAllNewsForEditor();
     }
 }

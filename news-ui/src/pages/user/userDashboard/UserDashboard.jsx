@@ -10,7 +10,8 @@ import AddUser from '../addUser/AddUser'
 import EditUser from '../editUser/EditUser'
 import SearchUser from '../searchUser/SearchUser'
 import AddNews from '../../../pages/reporter/home/AddNews'
-import ToggleNewsComStatus from '../editor/toggleNewsComStatus/ToggleNewsComStatus'
+import ToggleNewsComPendingStatus from '../editor/toggleNewsComPendingStatus/ToggleNewsComPendingStatus'
+import ToggleNewsComDisableStatus from '../editor/toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
 
 const UserDashboard = () => {
 
@@ -50,7 +51,8 @@ const UserDashboard = () => {
         <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
         <Route path="/searchUser" element={<SearchUser target = {targetUser} />} />
         <Route path="/AddNews" element={<AddNews target = {targetUser} />} />
-        <Route path="/newscom/:sectionType" element={<ToggleNewsComStatus />} />
+        <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
+        <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
       </Routes>
     </div>
   )

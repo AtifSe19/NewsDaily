@@ -17,7 +17,7 @@ databaseChangeLog:
                   value: '2023-09-19 10:00:00'
               - column:
                   name: is_approved
-                  value: false
+                  value: true
               - column:
                   name: is_disabled
                   value: false
@@ -47,7 +47,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: is_ad
-                  value: true
+                  value: false
               - column:
                   name: fk_user_id
                   value: 8
@@ -113,13 +113,13 @@ databaseChangeLog:
                   value: '2022-07-20 14:30:00'
               - column:
                   name: is_approved
-                  value: false
+                  value: true
               - column:
                   name: is_disabled
                   value: false
               - column:
                   name: is_ad
-                  value: false
+                  value: true
               - column:
                   name: fk_user_id
                   value: 8

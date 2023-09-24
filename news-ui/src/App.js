@@ -1,4 +1,5 @@
 import './lib/css/bootstrap.min.css';
+// import './lib/js/bootstrap.min.js';
 
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';

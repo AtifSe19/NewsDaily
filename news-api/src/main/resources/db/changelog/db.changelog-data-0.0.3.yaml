@@ -59,7 +59,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: is_disabled
-                  value: false
+                  value: true
               - column:
                   name: fk_user_id
                   value: 4
@@ -77,7 +77,7 @@ databaseChangeLog:
                   value: '2023-09-19 17:45:00'
               - column:
                   name: is_approved
-                  value: false
+                  value: true
               - column:
                   name: is_disabled
                   value: false

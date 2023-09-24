@@ -60,6 +60,14 @@ public class CommentController {
 
     }
 
+    @GetMapping("/editor")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<List<Comment>> findAllCommentsForEditor() {
+        List<Comment> comments = commentService.findAllCommentsForEditor();
+        return ResponseEntity.ok(comments);
+
+    }
+
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/approve/{id}")
     public ResponseEntity<Comment> approveCommentToggle(@PathVariable("id") long id) {

@@ -65,7 +65,7 @@ public class CommentService {
         return commentRepo.findPendingComments();
     }
     public List<Comment> findAll() {
-        return commentRepo.findAll();
+        return commentRepo.findAllNewsForUser();
     }
 
     public Comment findById(Long id) {
@@ -106,5 +106,9 @@ public class CommentService {
 
     public void delete(Comment comment) {
         commentRepo.delete(comment);
+    }
+
+    public List<Comment> findAllCommentsForEditor() {
+        return commentRepo.findAllCommentsForEditor();
     }
 }

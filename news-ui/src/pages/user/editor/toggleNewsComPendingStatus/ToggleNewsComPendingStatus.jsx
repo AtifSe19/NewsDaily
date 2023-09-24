@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BsCheck2Circle } from 'react-icons/bs';
-import {RiDeleteBin6Line} from 'react-icons/ri'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 
-import './ToggleNewsComStatus.css'
+import './ToggleNewsComPendingStatus.css'
 
 
-const ToggleNewsComStatus = () => {
+const ToggleNewsComPendingStatus = () => {
     const { sectionType } = useParams();
     const [newsCom, setNewsCom] = useState([]);
     const [perPage, setPerPage] = useState(10);
@@ -98,7 +98,7 @@ const ToggleNewsComStatus = () => {
                                             `Showing ${range[0]}-${range[1]} of ${total}`
                                         }
                                         onChange={PaginationChange}
-                                        total={newsCom.length} 
+                                        total={newsCom.length}
                                         current={current}
                                         pageSize={size}
                                         showSizeChanger={false}
@@ -116,8 +116,8 @@ const ToggleNewsComStatus = () => {
                                                 )}
                                                 <th>content</th>
                                                 <th>postedAt</th>
-                                                <th></th>
-                                                <th></th>
+                                                <th>Approve</th>
+                                                <th>Discard</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -131,11 +131,12 @@ const ToggleNewsComStatus = () => {
                                                     <td>{newsCom.postedAt}</td>
                                                     <td>
                                                         <button className='btn' onClick={() => approveNewsCom(newsCom.id)}>
-                                                            {/* Approve */}
                                                             <h4><BsCheck2Circle /></h4>
                                                         </button>
+
+                                                    </td>
+                                                    <td>
                                                         <button className='btn' onClick={() => deleteNewsCom(newsCom.id)}>
-                                                            {/* Reject */}
                                                             <h4><RiDeleteBin6Line /></h4>
                                                         </button>
                                                     </td>
@@ -169,4 +170,4 @@ const ToggleNewsComStatus = () => {
     );
 }
 
-export default ToggleNewsComStatus
+export default ToggleNewsComPendingStatus

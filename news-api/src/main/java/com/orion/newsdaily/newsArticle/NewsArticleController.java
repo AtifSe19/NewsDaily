@@ -1,5 +1,6 @@
 package com.orion.newsdaily.newsArticle;
 
+import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.newsTag.NewsTag;
 import com.orion.newsdaily.newsTag.NewsTagService;
 import com.orion.newsdaily.user.UserService;
@@ -109,6 +110,14 @@ public class NewsArticleController {
         NewsArticle newsArticle = newsArticleService.findById(id);
         String username = newsArticle.getUser().getUsername();
         return ResponseEntity.ok(username);
+    }
+
+    @GetMapping("/editor")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<List<NewsArticle>> findAllNewsForEditor() {
+        List<NewsArticle> newsArticles = newsArticleService.findAllNewsForEditor();
+        return ResponseEntity.ok(newsArticles);
+
     }
 
 }

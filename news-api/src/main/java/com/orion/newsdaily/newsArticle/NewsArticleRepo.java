@@ -19,4 +19,7 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
 
     @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_ad = true", nativeQuery = true)
     List<NewsArticle> findAllAds();
+
+    @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_ad = false", nativeQuery = true)
+    List<NewsArticle> findAllNewsForEditor();
 }
