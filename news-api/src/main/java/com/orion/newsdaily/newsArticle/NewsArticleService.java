@@ -1,6 +1,5 @@
 package com.orion.newsdaily.newsArticle;
 
-import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import jakarta.persistence.EntityManager;
@@ -43,15 +42,18 @@ public class NewsArticleService {
         newsArticle.setIsDisabled(false);
         return newsArticleRepo.save(newsArticle);
     }
-    public List<NewsArticle> findAllNews() {
-        return newsArticleRepo.findAllNewsForUser();
-    }
 
     public List<NewsArticle> findPendingNews()
     {
         return newsArticleRepo.findPendingNews();
     }
-
+    public List<NewsArticle> findMyPendingNews(long id)
+    {
+        return newsArticleRepo.findMyPendingNews(id);
+    }
+    public NewsArticle findById(Long id) {
+        return newsArticleRepo.findById(id).orElse(null);
+    }
     public NewsArticle approveNewsToggle(long id) {
         Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
         if (existingNewsOptional.isEmpty()) {
@@ -82,7 +84,6 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
-    @Transactional
     public void delete(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
 
@@ -93,12 +94,6 @@ public class NewsArticleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
-
-    @Transactional
-    public void delete(NewsArticle newsArticle) {
-        newsArticleRepo.delete(newsArticle);
-    }
-
     public List<NewsArticle> findAllNewsForEditor() {
         return newsArticleRepo.findAllNewsForEditor();
     }
@@ -112,7 +107,9 @@ public class NewsArticleService {
         return newsArticleRepo.findNewsByCommentId(cmtId);
     }
 
-    public NewsArticle findById(Long id) {
-        return newsArticleRepo.findById(id).orElse(null);
+
+
+    public void delete(NewsArticle newsArticle) {
+        newsArticleRepo.delete(newsArticle);
     }
 }

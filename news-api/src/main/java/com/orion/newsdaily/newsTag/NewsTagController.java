@@ -19,7 +19,7 @@ public class NewsTagController {
 
     @Autowired
     private final NewsTagService newsTagService;
-//
+
 //    @GetMapping("/{newsid}")
 //    public ResponseEntity<List<String>> findAll(@PathVariable("newsid") long newsId) {
 //        List<Long> newsTagIds = newsTagService.findTagsByNewsArticleId(newsId);

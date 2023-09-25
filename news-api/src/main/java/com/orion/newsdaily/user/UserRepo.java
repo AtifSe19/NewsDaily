@@ -19,4 +19,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Query(value = "SELECT role FROM users WHERE username = ?1", nativeQuery = true)
     String getRoleByUsername(String username);
 
+    @Query(value = "SELECT id FROM users WHERE username = ?1", nativeQuery = true)
+    Long findIdByUserName(String userName);
+
 }

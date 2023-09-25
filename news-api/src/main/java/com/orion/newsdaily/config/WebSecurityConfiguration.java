@@ -98,6 +98,7 @@ public class WebSecurityConfiguration {
 //                new AntPathRequestMatcher("/actuator/**", "GET"),
 //                new AntPathRequestMatcher("/actuator/**", "POST"),
                 new AntPathRequestMatcher("/api/v1/users/signup", "POST"),
+                //new AntPathRequestMatcher("api/v1/newsTag/{id}", "POST"),
                 new AntPathRequestMatcher("/api/v1/news", "GET")
         );
     }
