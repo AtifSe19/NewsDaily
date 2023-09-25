@@ -30,16 +30,20 @@ const SideMenu = (user) => {
                   HOME
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/addUser">
-                  ADD {user.target}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/searchUser">
-                  SEARCH {user.target}
-                </Link>
-              </li>
+              {user && (user.role === 'ADMIN' || user.role === 'EDITOR') && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/addUser">
+                      ADD {user.target}
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/searchUser">
+                      SEARCH {user.target}
+                    </Link>
+                  </li>
+                </>
+              )}
 
               {user && user.role === 'EDITOR' && (
                 <>
@@ -76,6 +80,36 @@ const SideMenu = (user) => {
                         <option value="comments">Comment</option>
                       </select>
                     </div>
+                  </li>
+                </>
+              )}
+
+              {user && user.role === 'REPORTER' && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link active" to="/uploadNews">
+                      Upload News
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link active" to="/pendingNews">
+                      See pending news
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              {user && user.role === 'USER' && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link active" to="/showNews">
+                      Show News
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link active" to="/pendingComments">
+                      See pending comments
+                    </Link>
                   </li>
                 </>
               )}

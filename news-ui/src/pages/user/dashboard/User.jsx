@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 import SideMenu from '../../../components/sideMenu/SideMenu'
-import AddNews from '../../../pages/reporter/home/AddNews'
+import AddNews from '../../reporter/home/AddNews'
 
 const User = () => {
 

@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import axios from 'axios'
 
-import './UserDashboard.css'
+import './AdminAndEditorPanel.css'
 
 import SideMenu from '../../../components/sideMenu/SideMenu'
 import Welcome from '../../../components/welcome/Welcome'
 import AddUser from '../addUser/AddUser'
 import EditUser from '../editUser/EditUser'
 import SearchUser from '../searchUser/SearchUser'
-import AddNews from '../../../pages/reporter/home/AddNews'
-import ToggleNewsComPendingStatus from '../editor/toggleNewsComPendingStatus/ToggleNewsComPendingStatus'
-import ToggleNewsComDisableStatus from '../editor/toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
+import ToggleNewsComPendingStatus from '../toggleNewsComPendingStatus/ToggleNewsComPendingStatus'
+import ToggleNewsComDisableStatus from '../toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
 import Popup from '../../../components/popup/Popup'
 
-const UserDashboard = () => {
+const AdminAndEditorPanel = () => {
 
   const [role, setRole] = useState(null);
   const [targetUser, setTargetUser] = useState(null);
@@ -44,7 +43,7 @@ const UserDashboard = () => {
   }, []);
 
   return (
-    <div className='userDashBoard'>
+    <div className='panel'>
       <div style={{ width: '15%' }}>
         <SideMenu role={role} target = {targetUser}/>
       </div>
@@ -54,7 +53,6 @@ const UserDashboard = () => {
           <Route path="/addUser" element={<AddUser role={role} target={targetUser} />} />
           <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
           <Route path="/searchUser" element={<SearchUser target={targetUser} />} />
-          <Route path="/AddNews" element={<AddNews target={targetUser} />} />
           <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
           <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
           <Route path="/newscom/popup/:status/:sectionType/:id" element={<Popup />} />
@@ -64,4 +62,4 @@ const UserDashboard = () => {
   )
 }
 
-export default UserDashboard
+export default AdminAndEditorPanel
