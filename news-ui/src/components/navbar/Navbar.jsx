@@ -10,7 +10,9 @@ import { NavLink } from "react-router-dom"; // Import BrowserRouter
 function NavBar() {
     const [click, setClick] = React.useState(false);
 
-    const handleClick = () => setClick(!click);
+    const handleClick = () => setClick("!click", () => {
+        // window.location.href = 'http://localhost:8080/login';
+    });
     const Close = () => setClick(false);
 
     return (
@@ -33,7 +35,7 @@ function NavBar() {
                         <li className={Navbar.navitem}>
                             <NavLink
                                 exact
-                                to="/"
+                                to="/login"
                                 activeClassName={Navbar.active}
                                 className= {Navbar.navlinks}
                                 onClick={click ? handleClick : null}
