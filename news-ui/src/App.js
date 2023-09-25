@@ -7,12 +7,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
+import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <AdminAndEditorPanel />
+      {/* <ReporterPanel /> */}
+      <AdminAndEditorPanel/>
     </Router>
   );
 }

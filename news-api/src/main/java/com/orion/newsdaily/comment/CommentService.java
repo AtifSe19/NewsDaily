@@ -112,10 +112,4 @@ public class CommentService {
     public List<Comment> findAllCommentsForEditor() {
         return commentRepo.findAllCommentsForEditor();
     }
-
-//    @Transactional
-//    public List<Comment> findDisableComments()
-//    {
-//        return commentRepo.findDisableComments();
-//    }
 }

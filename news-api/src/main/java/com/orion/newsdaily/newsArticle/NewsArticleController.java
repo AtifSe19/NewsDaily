@@ -47,8 +47,6 @@ public class NewsArticleController {
         System.out.print(created.getId()+"heheheheh");
         //code till here execuring
         List<NewsTag> created2 = newsTagService.addTag(created.getId(), tagsParam);
-        System.out.print("vargaye");
-        //this not executing
         if (created != null ) {
             return ResponseEntity.ok(created);
         }

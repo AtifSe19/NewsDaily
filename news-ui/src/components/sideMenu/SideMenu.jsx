@@ -93,7 +93,7 @@ const SideMenu = (user) => {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/pendingNews">
-                      See pending news
+                      Pending News
                     </Link>
                   </li>
                 </>
@@ -108,7 +108,7 @@ const SideMenu = (user) => {
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/pendingComments">
-                      See pending comments
+                      Pending Comments
                     </Link>
                   </li>
                 </>
