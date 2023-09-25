@@ -104,6 +104,7 @@ public class CommentService {
         return commentToUpdate;
     }
 
+    @Transactional
     public void delete(Comment comment) {
         commentRepo.delete(comment);
     }
@@ -111,4 +112,10 @@ public class CommentService {
     public List<Comment> findAllCommentsForEditor() {
         return commentRepo.findAllCommentsForEditor();
     }
+
+//    @Transactional
+//    public List<Comment> findDisableComments()
+//    {
+//        return commentRepo.findDisableComments();
+//    }
 }

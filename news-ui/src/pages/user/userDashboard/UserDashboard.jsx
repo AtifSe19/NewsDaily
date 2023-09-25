@@ -12,6 +12,7 @@ import SearchUser from '../searchUser/SearchUser'
 import AddNews from '../../../pages/reporter/home/AddNews'
 import ToggleNewsComPendingStatus from '../editor/toggleNewsComPendingStatus/ToggleNewsComPendingStatus'
 import ToggleNewsComDisableStatus from '../editor/toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
+import Popup from '../../../components/popup/Popup'
 
 const UserDashboard = () => {
 
@@ -44,16 +45,21 @@ const UserDashboard = () => {
 
   return (
     <div className='userDashBoard'>
-      <SideMenu role = {role}/>
-      <Routes>
-        <Route path="/" element={<Welcome role={role} target={targetUser} />} />
-        <Route path="/addUser" element={<AddUser role={role} target={targetUser} />} />
-        <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
-        <Route path="/searchUser" element={<SearchUser target = {targetUser} />} />
-        <Route path="/AddNews" element={<AddNews target = {targetUser} />} />
-        <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
-        <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
-      </Routes>
+      <div style={{ width: '15%' }}>
+        <SideMenu role={role} target = {targetUser}/>
+      </div>
+      <div style={{ width: '85%', display: 'flex', justifyContent: 'center'}} className='my-5'>
+        <Routes>
+          <Route path="/" element={<Welcome role={role} target={targetUser} />} />
+          <Route path="/addUser" element={<AddUser role={role} target={targetUser} />} />
+          <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
+          <Route path="/searchUser" element={<SearchUser target={targetUser} />} />
+          <Route path="/AddNews" element={<AddNews target={targetUser} />} />
+          <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
+          <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
+          <Route path="/newscom/popup/:status/:sectionType/:id" element={<Popup />} />
+        </Routes>
+      </div>
     </div>
   )
 }

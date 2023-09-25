@@ -43,16 +43,15 @@ public class NewsArticleService {
         newsArticle.setIsDisabled(false);
         return newsArticleRepo.save(newsArticle);
     }
-    public List<NewsArticle> findAll() {
-        return newsArticleRepo.findAllNews();
+    public List<NewsArticle> findAllNews() {
+        return newsArticleRepo.findAllNewsForUser();
     }
+
     public List<NewsArticle> findPendingNews()
     {
         return newsArticleRepo.findPendingNews();
     }
-    public NewsArticle findById(Long id) {
-        return newsArticleRepo.findById(id).orElse(null);
-    }
+
     public NewsArticle approveNewsToggle(long id) {
         Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
         if (existingNewsOptional.isEmpty()) {
@@ -83,6 +82,7 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
+    @Transactional
     public void delete(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
 
@@ -94,11 +94,25 @@ public class NewsArticleService {
         }
     }
 
+    @Transactional
     public void delete(NewsArticle newsArticle) {
         newsArticleRepo.delete(newsArticle);
     }
 
     public List<NewsArticle> findAllNewsForEditor() {
         return newsArticleRepo.findAllNewsForEditor();
+    }
+
+    @Transactional
+    public List<NewsArticle> findAll() {
+        return newsArticleRepo.findAllNewsForUser();
+    }
+
+    public NewsArticle findNewsByCommentId(Long cmtId) {
+        return newsArticleRepo.findNewsByCommentId(cmtId);
+    }
+
+    public NewsArticle findById(Long id) {
+        return newsArticleRepo.findById(id).orElse(null);
     }
 }

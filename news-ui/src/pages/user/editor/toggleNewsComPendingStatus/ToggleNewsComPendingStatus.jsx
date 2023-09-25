@@ -5,6 +5,7 @@ import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import axios from "axios";
 import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './ToggleNewsComPendingStatus.css'
 
@@ -12,6 +13,8 @@ import './ToggleNewsComPendingStatus.css'
 const ToggleNewsComPendingStatus = () => {
     const { sectionType } = useParams();
     const [newsCom, setNewsCom] = useState([]);
+    const [filteredNewsCom, setFilteredNewsCom] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
     const [perPage, setPerPage] = useState(10);
     const [size, setSize] = useState(perPage);
     const [current, setCurrent] = useState(1);
@@ -20,7 +23,12 @@ const ToggleNewsComPendingStatus = () => {
         try {
             const response = await axios.get(`/api/v1/${sectionType}/pending`);
             if (Array.isArray(response.data)) {
-                setNewsCom(response.data);
+                const formattedData = response.data.map((entry) => ({
+                    ...entry,
+                    formattedDate: formatDate(entry.postedAt),
+                }));
+                setNewsCom(formattedData);
+                setFilteredNewsCom(formattedData);
             } else {
                 console.error('API response is not an array:', response.data);
             }
@@ -60,6 +68,49 @@ const ToggleNewsComPendingStatus = () => {
             toast.error('Error approving');
         }
     };
+
+    const handleSearchInputChange = (event) => {
+        setSearchInput(event.target.value);
+      }
+    
+      const handleSearch = () => {
+        const filteredSearchResult = newsCom.filter(newsCom =>
+          newsCom.id.toString().includes(searchInput)
+        );
+        setFilteredNewsCom(filteredSearchResult);
+      }
+    
+
+
+    const formatDate = (dateString) => {
+        try {
+            const [year, month, day, hour, minute, second] = dateString.split(/\D/);
+            const date = new Date(year, month - 1, day, hour, minute, second);
+
+            if (isNaN(date.getTime())) {
+                return 'Invalid Date';
+            }
+
+            const options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true, // Use 24-hour format
+            };
+
+            const formattedDate = date.toLocaleString(undefined, options);
+
+            return formattedDate;
+        } catch (error) {
+            console.error('Error parsing date:', error);
+            return 'Invalid Date';
+        }
+    };
+
+
 
     const PaginationChange = (page, pageSize) => {
         setCurrent(page);
@@ -106,6 +157,21 @@ const ToggleNewsComPendingStatus = () => {
                                         onShowSizeChange={PerPageChange}
                                     />
                                 </div>
+                                <div className="col-md-12 text-center my-3">
+                                    <h1>PENDING {sectionType.toUpperCase()}</h1>
+                                </div>
+                                <div className="input-group mb-3 search-container">
+                                    <input
+                                        type="text"
+                                        className="form-control search-input"
+                                        placeholder="Search by News Id"
+                                        value={searchInput}
+                                        onChange={handleSearchInputChange}
+                                    />
+                                    <div className="input-group-append">
+                                        <button className="btn btn-primary search-btn" onClick={handleSearch}>Search</button>
+                                    </div>
+                                </div>
                                 <div className="table-responsive">
                                     <table className="table table-text-small mb-0 text-center">
                                         <thead className="thead-primary table-sorting">
@@ -121,14 +187,14 @@ const ToggleNewsComPendingStatus = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {newsCom.map((newsCom) => (
+                                            {filteredNewsCom.map((newsCom) => (
                                                 <tr key={newsCom.id}>
-                                                    <td>{newsCom.id}</td>
+                                                    <td style={{ textDecoration: 'underline' }}><Link to={`/newscom/popup/${'pending'}/${sectionType}/${newsCom.id}`}>{newsCom.id}</Link></td>
                                                     {sectionType && sectionType === 'news' && (
                                                         <td>newsCom.title</td>
                                                     )}
                                                     <td>{newsCom.content}</td>
-                                                    <td>{newsCom.postedAt}</td>
+                                                    <td>{newsCom.formattedDate}</td>
                                                     <td>
                                                         <button className='btn' onClick={() => approveNewsCom(newsCom.id)}>
                                                             <h4><BsCheck2Circle /></h4>

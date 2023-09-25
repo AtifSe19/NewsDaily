@@ -3,10 +3,11 @@ import axios from 'axios';
 import {toast} from 'react-toastify'
 import './EditUser.css';
 import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const EditUser = (user) => {
   const {userId} = useParams();
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
   const [User, setUser] = useState({
     username: '',
     password: '',
@@ -21,6 +22,11 @@ const EditUser = (user) => {
     const result = await axios.get(`/api/v1/users/${userId}`);
     setUser(result.data.content);
     };
+
+  const handleCancel = () => {
+    navigate("/searchUser");
+  };
+
 
 
   useEffect(() => {
@@ -102,6 +108,7 @@ const EditUser = (user) => {
               />
             </div>
             <button type="submit" className="btn btn-primary btns">Update</button>
+            <button className="btn btn-danger mx-2" onClick={handleCancel}>Cancel</button>
           </form>
         </div>
       </div>

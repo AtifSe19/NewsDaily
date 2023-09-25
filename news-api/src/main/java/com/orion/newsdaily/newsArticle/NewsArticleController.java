@@ -59,6 +59,7 @@ public class NewsArticleController {
 
     //Get all news that are approved and NOT ADS for every user !
     @GetMapping
+    @PreAuthorize("hasAuthority('USER, REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
                                           @RequestParam(name = "email", defaultValue = "") String email,
                                           @RequestParam(name = "name", defaultValue = "") String name)
@@ -120,4 +121,23 @@ public class NewsArticleController {
 
     }
 
+    @GetMapping("/newsByComment/{cmtId}")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<NewsArticle> findNewsByCommentId(@PathVariable Long cmtId) {
+        NewsArticle newsArticle = newsArticleService.findNewsByCommentId(cmtId);
+        if (newsArticle == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(newsArticle);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<NewsArticle> findById(@PathVariable Long id) {
+        NewsArticle newsArticle = newsArticleService.findById(id);
+        if (newsArticle == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(newsArticle);
+    }
 }

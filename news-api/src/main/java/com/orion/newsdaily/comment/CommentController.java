@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -33,21 +34,27 @@ public class CommentController {
     //for user to view own pending comments
     @GetMapping("/{id}")
     public ResponseEntity<List<Comment>> findPendingCommentsByUserId(@PathVariable("id") Long id) {
-        return  ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
+        return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
     }
 
     //to show all comments under a specific news
     @GetMapping("/{newsId}/all")
     public ResponseEntity<List<Comment>> NewsSpecificComments(@PathVariable("newsId") Long id) {
-        return  ResponseEntity.ok(commentService.NewsSpecificComments(id));
+        return ResponseEntity.ok(commentService.NewsSpecificComments(id));
     }
 
     //to show editor all pending comments
     @GetMapping("/pending")
     @PreAuthorize("hasAuthority('EDITOR')")
     public ResponseEntity<List<Comment>> findPendingComments() {
-        return  ResponseEntity.ok(commentService.findPendingComments());
+        return ResponseEntity.ok(commentService.findPendingComments());
     }
+//    @GetMapping("/disable")
+//    @PreAuthorize("hasAuthority('EDITOR')")
+//    public ResponseEntity<List<Comment>> findDisableComments() {
+//        return  ResponseEntity.ok(commentService.findDisableComments());
+//    }
+
 
     //-------------------ADMIN
 
@@ -72,7 +79,7 @@ public class CommentController {
     @PutMapping("/approve/{id}")
     public ResponseEntity<Comment> approveCommentToggle(@PathVariable("id") long id) {
         Comment updated = commentService.approveCommentToggle(id);
-        if (updated==null) {
+        if (updated == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
@@ -82,7 +89,7 @@ public class CommentController {
     @PutMapping("/disable/{id}")
     public ResponseEntity<Comment> disableCommentToggle(@PathVariable("id") long id) {
         Comment updated = commentService.disableCommentToggle(id);
-        if (updated==null) {
+        if (updated == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updated);
