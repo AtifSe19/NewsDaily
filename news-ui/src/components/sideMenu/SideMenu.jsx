@@ -1,124 +1,67 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './SideMenu.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const SideMenu = (user) => {
-  const [sectionType, setSectionType] = useState('select');
-  const navigate = useNavigate();
+import "./SideMenu.css";
 
-  const handleChange = (type) => {
-    setSectionType(type);
-    navigate(`/newscom/pending/${type}`);
-  };
+const SideMenu = user => {
+    const [sectionType, setSectionType] = useState("select");
+    const navigate = useNavigate();
 
-  return (
-    <div className="side-menu-container">
-      <nav className="navbar navbar-expand-lg navbar-dark sideMenu">
-        <div className="container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav flex-column">
-              <li className="nav-item">
-                <Link className="nav-link active" to="/">
-                  HOME
+    const handleChange = type => {
+        setSectionType(type);
+        navigate(`/newscom/${type}`);
+    };
+
+    return (
+        <div>
+            <nav className="navbar navbar-expand-lg navbar-dark sideMenu">
+                <div className="container-fluid">
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav flex-column">
+                            <li className="nav-item">
+                                <Link className="nav-link active" to="/">
+                                    Home
                 </Link>
-              </li>
-              {user && (user.role === 'ADMIN' || user.role === 'EDITOR') && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/addUser">
-                      ADD {user.target}
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/searchUser">
-                      SEARCH {user.target}
-                    </Link>
-                  </li>
-                </>
-              )}
-
-              {user && user.role === 'EDITOR' && (
-                <>
-                  <li className="nav-item">
-                    <div className="form-group my-2">
-                      <select
-                        id="sectionType"
-                        className="form-select"
-                        value={sectionType}
-                        onChange={(e) => handleChange(e.target.value)}
-                      >
-                        <option value="select">Approve / Disapprove</option>
-                        <option value="news">News</option>
-                        <option value="comments">Comment</option>
-                      </select>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/addUser">
+                                    Add
+                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/searchUser">
+                                    Search
+                </Link>
+                            </li>
+                            {user && user.role === "EDITOR" && (
+                                <div className="form-group my-2">
+                                    <select
+                                        id="sectionType"
+                                        className="form-control"
+                                        value={sectionType}
+                                        onChange={e => handleChange(e.target.value)}
+                                    >
+                                        <option value="select">Select Section Type</option>
+                                        <option value="news">News</option>
+                                        <option value="comments">Comment</option>
+                                    </select>
+                                </div>
+                            )}
+                            {user && user.role === "REPORTER" && (
+                                <div className="form-group my-2">
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/AddNews">
+                                            AddNews
+                                        </Link>
+                                    </li>
+                                </div>
+                            )}
+                        </ul>
                     </div>
-                  </li>
-                  <li className="nav-item">
-                    <div className="form-group my-2">
-                      <select
-                        id="newsOrComment"
-                        className="form-select"
-                        onChange={(e) => {
-                          const selectedOption = e.target.value;
-                          if (selectedOption === 'news') {
-                            navigate(`/newscom/disable/${selectedOption}`);
-                          } else if (selectedOption === 'comments') {
-                            navigate(`/newscom/disable/${selectedOption}`);
-                          }
-                        }}
-                      >
-                        <option value="">Enable / Disable</option>
-                        <option value="news">News</option>
-                        <option value="comments">Comment</option>
-                      </select>
-                    </div>
-                  </li>
-                </>
-              )}
-
-              {user && user.role === 'REPORTER' && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link active" to="/uploadNews">
-                      Upload News
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link active" to="/pendingNews">
-                      See pending news
-                    </Link>
-                  </li>
-                </>
-              )}
-
-              {user && user.role === 'USER' && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link active" to="/showNews">
-                      Show News
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link active" to="/pendingComments">
-                      See pending comments
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </div>
+                </div>
+            </nav>
         </div>
-      </nav>
-    </div>
-  );
+    );
 };
 
 export default SideMenu;

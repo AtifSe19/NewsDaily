@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,84 +22,91 @@ import java.util.Optional;
 @RequestMapping("/api/v1/users")
 public class UserController {
     final UserService userService;
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping
-    public ResponseEntity<List<User>> findAll()
-    {
+    public ResponseEntity<List<User>> findAll() {
         return ResponseEntity.ok((userService.findAll()));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id)
-    {
+    public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id) {
         Optional<User> acc = userService.findById(id);
 
-        if(acc == null)
-        {
+        if (acc == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ApiResponse.of(acc));
     }
+
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<User>>> findAllByName(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "100") int size,
             @RequestParam(name = "title", defaultValue = "") String title) {
-        List<User> news = userService.findAllByName(page, size, "%"+title+"%");
+        List<User> news = userService.findAllByName(page, size, "%" + title + "%");
         if (news.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ApiResponse.of(news));
     }
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
-    public ResponseEntity<ApiResponse<User>> create(@RequestBody User accToInsert)
-    {
+    public ResponseEntity<ApiResponse<User>> create(@RequestBody User accToInsert) {
         User createdAcc = userService.create(accToInsert);
-        if(createdAcc != null)
-        {
+        if (createdAcc != null) {
             return ResponseEntity.ok(ApiResponse.of(createdAcc));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+
     @PostMapping("/signup")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<ApiResponse<User>> signup(@RequestBody User accToInsert)
-    {
+    public ResponseEntity<ApiResponse<User>> signup(@RequestBody User accToInsert) {
         User createdAcc = userService.create(accToInsert);
-        if(createdAcc != null)
-        {
+        if (createdAcc != null) {
             return ResponseEntity.ok(ApiResponse.of(createdAcc));
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
-    public ResponseEntity<ApiResponse<User>> update(@RequestBody User updatedAccount, @PathVariable("id") Long id)
-    {
-        User updated = userService.update(updatedAccount,id);   //to save on db as well
+    public ResponseEntity<ApiResponse<User>> update(@RequestBody User updatedAccount, @PathVariable("id") Long id) {
+        User updated = userService.update(updatedAccount, id);   //to save on db as well
 
         if (updated != null) {
             return ResponseEntity.ok(ApiResponse.of(updated));
         }
         return ResponseEntity.notFound().build();
     }
+
     @DeleteMapping("/{userId}")
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
-    public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("userId") Long id)
-    {
+    public ResponseEntity<ApiResponse<List<User>>> delete(@PathVariable("userId") Long id) {
         userService.delete(id);
         List<User> list = userService.findAll();
         return ResponseEntity.ok(ApiResponse.of(list));
     }
+
     @GetMapping("/getRole")
-    public String getRole(Authentication auth){
+    public String getRole(Authentication auth) {
         return userService.getRoleByUsername(auth.getName());
     }
+
     @GetMapping("/getUsername")
-    public String getUsername(Authentication auth){
+    public String getUsername(Authentication auth) {
         return auth.getName();
+    }
+
+    @GetMapping("/getUserId")
+    public long getUserId(Authentication auth) {
+        String userName = auth.getName();
+        return(userService.findIdByUserName(userName));
     }
 }

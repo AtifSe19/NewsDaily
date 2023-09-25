@@ -29,8 +29,9 @@ public class NewsArticleController {
     @Autowired
     private final NewsArticleService newsArticleService;
     @Autowired
-    private UserService userService;
-    private NewsTagService newsTagService;
+    private final UserService userService;
+    @Autowired
+    private final NewsTagService newsTagService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
@@ -41,14 +42,8 @@ public class NewsArticleController {
             @RequestBody NewsArticle newsArticle,
             @RequestParam(name = "tags") String tagsParam
     ) {
-        //System.out.print(tagsParam+"hello");
         NewsArticle created = newsArticleService.create(newsArticle, authentication);
-        System.out.print(tagsParam+"hello");
-        System.out.print(created.getId()+"heheheheh");
-        //code till here execuring
-        List<NewsTag> created2 = newsTagService.addTag(created.getId(), tagsParam);
-        System.out.print("vargaye");
-        //this not executing
+        newsTagService.addTag(created.getId(), tagsParam);
         if (created != null ) {
             return ResponseEntity.ok(created);
         }
@@ -69,11 +64,28 @@ public class NewsArticleController {
         return ResponseEntity.ok(newsArticles);
     }
 
+    @PreAuthorize("hasAuthority('REPORTER')")
+    @GetMapping("/my-pending")
+    public ResponseEntity<List<NewsArticle>> findMyPendingNews(Authentication auth) {
+        Long reporterId = userService.findIdByUserName(auth.getName());
+        List<NewsArticle> pendingNews = newsArticleService.findMyPendingNews(reporterId);
+//
+//        System.out.println("List of Pending News Articles for Editor ID: " + reporterId);
+//        for (NewsArticle article : pendingNews) {
+//            System.out.println("News Article ID: " + article.getId());
+//            System.out.println("Title: " + article.getTitle());
+//            // Add more fields as needed
+//            System.out.println("------------------------------");
+//        }
+        return ResponseEntity.ok(pendingNews);
+    }
+
     @PreAuthorize("hasAuthority('EDITOR')")
     @GetMapping("/pending")
     public ResponseEntity<List<NewsArticle>> findPendingNews() {
-        return ResponseEntity.ok(newsArticleService.findPendingNews());
+        return ResponseEntity.ok((newsArticleService.findPendingNews()));
     }
+
 
     @PreAuthorize("hasAuthority('EDITOR')")
     @PutMapping("/approve/{id}")
@@ -96,10 +108,11 @@ public class NewsArticleController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('EDITOR')")
+    @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
     public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle == null) {
+        int res= newsTagService.deleteAllByNewsArticleId(id);
+        if (newsArticle == null && res == 0) {
             return ResponseEntity.notFound().build();
         }
         newsArticleService.delete(newsArticle);
