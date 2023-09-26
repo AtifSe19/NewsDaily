@@ -94,9 +94,18 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.of(list));
     }
 
+
+
     @GetMapping("/getRole")
     public String getRole(Authentication auth) {
         return userService.getRoleByUsername(auth.getName());
+    }
+
+    @GetMapping("/getAuthenticatedUser")
+    public Authentication getAuthenticatedUser() {
+        Authentication authenticationUser = SecurityContextHolder.getContext().getAuthentication();
+//        authenticationUser.getName();
+        return authenticationUser;
     }
 
     @GetMapping("/getUsername")
