@@ -169,8 +169,9 @@ public class WebSecurityConfiguration {
                 AntPathRequestMatcher.antMatcher(api)));
 
 
-        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+//        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+        http.csrf(config -> config.disable());
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -223,8 +224,11 @@ public class WebSecurityConfiguration {
             user.setPassword("password");
             user.setLoggedIn(true);
 
-            userService.create(user);
-//            userService.loadUserByUsername(username);
+            if(!userService.findAllByName(1,100, username).isEmpty())
+            {
+                userService.create(user);
+                userService.loadUserByUsername(username);
+            }
 
 //            try{
 //                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, user.getPassword());
