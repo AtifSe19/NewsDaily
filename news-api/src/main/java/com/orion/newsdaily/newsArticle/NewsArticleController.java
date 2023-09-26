@@ -51,7 +51,7 @@ public class NewsArticleController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER, REPORTER')")
+//    @PreAuthorize("hasAuthority('USER, REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
                                           @RequestParam(name = "email", defaultValue = "") String email,
                                           @RequestParam(name = "name", defaultValue = "") String name)
