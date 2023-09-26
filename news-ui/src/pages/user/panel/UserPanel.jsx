@@ -1,3 +1,19 @@
+import React, { Component } from 'react';
+
+export class UserPanel extends Component {
+    constructor(props) {
+        super(props);
+        this.props = props;
+    }
+    // state = {  }
+    render() { 
+        return ( <>
+            <div>Hi user</div>
+        </> );
+    }
+}
+ 
+//  default UserPanel;
 import { Routes, Route } from 'react-router-dom'
 
 import SideMenu from '../../../components/sideMenu/SideMenu'

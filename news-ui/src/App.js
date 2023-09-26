@@ -10,6 +10,7 @@ import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 import LoginWrapper from './components/login/LoginWrapper';
+import { UserPanel } from './pages/user/panel/UserPanel';
 
 function App() {
 	const [role, setRole] = useState(null);
@@ -65,13 +66,45 @@ function App() {
 			<Navbar />
 
 			{/* if I have authenticated user then go to module else go to login page */}
-			{user === null? <LoginWrapper username={username} /> :  <AdminAndEditorPanel role={role} target={targetUser} /> }
+			{/* {user === null ? <LoginWrapper username={username} /> : <AdminAndEditorPanel role={role} target={targetUser} />} */}
+
+			{/* if(user === null)
+			{
+				<LoginWrapper username={username} />
+			}
+			else
+			{
+				if (role === "admin" || role === "editor") {
+					<AdminAndEditorPanel role={role} target={targetUser} />
+				} else if (role === "reporter") {
+					<ReporterPanel role={role} target={targetUser} />
+				} else if (role === "USER") {
+					<UserPanel />
+				}
+			} */}
+
+			{user === null ? (
+				<LoginWrapper username={username} />
+			) : (
+				<>
+					{role === "admin" || role === "editor" ? (
+						<AdminAndEditorPanel role={role} target={targetUser} />
+					) : role === "reporter" ? (
+						<ReporterPanel role={role} target={targetUser} />
+					) : role === "USER" ? (
+						<UserPanel />
+					) : null}
+				</>
+			)}
 
 
 
-			
 
-{/* {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role={role} target={targetUser} />}
+
+
+
+
+			{/* {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role={role} target={targetUser} />}
 				{role === 'REPORTER' && <ReporterPanel role={role} />}
 				{role === 'USER' && <UserPanel />} */}
 
