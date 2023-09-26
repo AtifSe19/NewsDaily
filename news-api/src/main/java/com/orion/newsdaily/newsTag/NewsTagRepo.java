@@ -21,4 +21,7 @@ public interface NewsTagRepo extends JpaRepository<NewsTag, Long> {
     @Query(value = "DELETE FROM news_tags WHERE news_article_id = ?1", nativeQuery = true)
     int deleteAllByNewsArticleId(long id);
 
+    @Query(value = "SELECT news_article_id FROM news_tags WHERE tag_id = ?1", nativeQuery = true)
+    List<Long> findAllNewsByTagId(long tagId);
+
 }
