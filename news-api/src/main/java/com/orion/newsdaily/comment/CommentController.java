@@ -98,13 +98,17 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('EDITOR')")
+    @PreAuthorize("hasAnyAuthority('EDITOR', 'USER')")
     public ResponseEntity<Comment> delete(@PathVariable("id") Long id) {
         Comment comment = commentService.findById(id);
-        if (comment == null) {
-            return ResponseEntity.notFound().build();
-        }
         commentService.delete(comment);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(comment);
+    }
+
+    @GetMapping("/user-pending-comments")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<List<Comment>> findUserPendingComments(Authentication auth) {
+        List<Comment> comments = commentService.findUserPendingComments(auth.getName());
+        return ResponseEntity.ok(comments);
     }
 }

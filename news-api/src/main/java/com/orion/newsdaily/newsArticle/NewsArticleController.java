@@ -51,7 +51,7 @@ public class NewsArticleController {
     }
 
     @GetMapping
-//    @PreAuthorize("hasAuthority('USER, REPORTER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
                                           @RequestParam(name = "email", defaultValue = "") String email,
                                           @RequestParam(name = "name", defaultValue = "") String name)
@@ -131,7 +131,7 @@ public class NewsArticleController {
         return ResponseEntity.ok(newsArticle);
     }
 
-    @GetMapping("/reporter-pending")
+    @GetMapping("/reporter-pending-news")
     @PreAuthorize("hasAuthority('REPORTER')")
     public ResponseEntity<List<NewsArticle>> findReporterPendingNews(Authentication auth) {
         List<NewsArticle> newsArticles = newsArticleService.findReporterPendingNews(auth.getName());

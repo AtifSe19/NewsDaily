@@ -117,32 +117,38 @@ public class CommentService {
         return commentRepo.findAllCommentsForEditor();
     }
 
-    public String getUsernameFromCommentId(Long id){
-        Comment comment=findById(id);
-        return comment.getUser().getUsername();
+    public String getAuthorOfComment(Long id) {
+        Long userId= commentRepo.getUsernameOfComment(id);
+        Optional<User> u=userService.findById(userId);
+        return u.get().getUsername();
+    }
+
+    public List<Comment> findUserPendingComments(String name) {
+        return commentRepo.findUserPendingComments(name);
     }
 
     public CommentDTO NewsSpecificCommentsWithAuthor(Long id) {
 
         List<Comment> commentList=commentRepo.NewsSpecificComments(id);
-
-
-//        List<Comment> commentList=commentRepo.findAll();
         CommentDTO commentDTO = new CommentDTO();
         List<Long> commentIds = commentList.stream()
-                .map(Comment::getId) // get the id of each comment
-                .collect(Collectors.toList()); // collect the ids into a list
-        commentDTO.setCommentId(commentIds); // set the comment id list to the DTO
+                .map(Comment::getId)
+                .collect(Collectors.toList());
+        commentDTO.setCommentId(commentIds);
 
-        List<String> userNameList = new ArrayList<>(); // create an empty list of usernames
-        for (int i=0;i<commentList.size();i++) // loop through the comment list
+        List<String> userNameList = new ArrayList<>();
+        for (int i=0;i<commentList.size();i++)
         {
             String username=getUsernameFromCommentId(commentDTO.getCommentId().get(i)); // get the username of each comment
-            userNameList.add(username); // add the username to the list
+            userNameList.add(username);
         }
-        commentDTO.setUsername(userNameList); // set the username list to the DTO
+        commentDTO.setUsername(userNameList);
         commentDTO.setComments(commentList);
-        return commentDTO; // return the DTO
+        return commentDTO;
     }
 
+    public String getUsernameFromCommentId(Long id){
+        Comment comment=findById(id);
+        return comment.getUser().getUsername();
+    }
 }

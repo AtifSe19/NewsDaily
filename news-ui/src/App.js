@@ -1,5 +1,7 @@
 import './lib/css/bootstrap.min.css';
 // import './lib/js/bootstrap.min.js';
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import "../node_modules/bootstrap/dist/js/bootstrap.min.js"
 
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -9,6 +11,7 @@ import Navbar from './components/navbar/Navbar';
 import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
+import UserPanel from './pages/user/panel/UserPanel';
 
 function App() {
   const [role, setRole] = useState(null);
@@ -43,7 +46,7 @@ function App() {
       <Navbar />
       {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role = {role} target = {targetUser}/>}
       {role === 'REPORTER' && <ReporterPanel role = {role}/>}
-      {/* {role === 'USER' && <UserPanel />} */}
+      {role === 'USER' && <UserPanel role = {role}/>}
     </Router>
   );
 }

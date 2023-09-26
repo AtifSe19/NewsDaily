@@ -1,5 +1,6 @@
 package com.orion.newsdaily.comment;
 
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +28,9 @@ public interface CommentRepo extends JpaRepository <Comment, Long> {
 
     @Query(value = "SELECT fk_user_id FROM comments WHERE id = ?1", nativeQuery = true)
     Long getUsernameOfComment(Long id);
+
+    @Query(value = "SELECT * FROM comments WHERE fk_user_id = (SELECT id FROM users WHERE username = ?1) AND is_approved = false AND is_disabled = false", nativeQuery = true)
+    List<Comment> findUserPendingComments(String name);
 
     @Query(value = "SELECT fk_user_id FROM comments", nativeQuery = true)
     List<Long> getAllUserIds();

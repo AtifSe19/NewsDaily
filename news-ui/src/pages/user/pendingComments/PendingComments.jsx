@@ -3,22 +3,22 @@ import axios from "axios";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import { toast, ToastContainer } from 'react-toastify';
-const PendingNews = () => {
-    const [reporterPendings, setReporterPendings] = useState([]);
+const PendingComments = () => {
+    const [pendingComments, setPendingComments] = useState([]);
     const [perPage, setPerPage] = useState(10);
     const [size, setSize] = useState(perPage);
     const [current, setCurrent] = useState(1);
 
     useEffect(() => {
-        loadReporterPendings();
+        loadPendingComments();
     }, [current, size]);
 
-    const loadReporterPendings = async () => {
+    const loadPendingComments = async () => {
         try {
-            const response = await axios.get('/api/v1/news/reporter-pending-news');
+            const response = await axios.get('/api/v1/comments/user-pending-comments');
             if (Array.isArray(response.data)) {
-                setReporterPendings(response.data);
-                // console.log(reporterPendings)
+                setPendingComments(response.data);
+                // console.log(pendingComments)
             } else {
                 console.error('API response is not an array:', response.data);
             }
@@ -32,10 +32,10 @@ const PendingNews = () => {
         setCurrent(1);
     };
 
-    const deleteNews = async (id) => {
+    const deleteComment = async (id) => {
         try {
-            await axios.delete(`/api/v1/news/${id}`);
-            loadReporterPendings();
+            await axios.delete(`/api/v1/comments/${id}`);
+            loadPendingComments();
             toast.success('Deleted successfully!');
         } catch (error) {
             console.error('Error deleting:', error);
@@ -80,7 +80,7 @@ const PendingNews = () => {
                                             `Showing ${range[0]}-${range[1]} of ${total}`
                                         }
                                         onChange={PaginationChange}
-                                        total={reporterPendings.length} // Use the filtered data length as total count
+                                        total={pendingComments.length} // Use the filtered data length as total count
                                         current={current}
                                         pageSize={size}
                                         showSizeChanger={false}
@@ -93,21 +93,19 @@ const PendingNews = () => {
                                         <thead className="thead-primary table-sorting">
                                             <tr>
                                                 <th>#</th>
-                                                <th>Title</th>
                                                 <th>Content</th>
                                                 <th>postedAt</th>
                                                 <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {reporterPendings.map((news, index) => (
-                                                <tr key={news.id}>
-                                                    <td>{news.id}</td>
-                                                    <td>{news.title}</td>
-                                                    <td>{news.content}</td>
-                                                    <td>{news.postedAt}</td>
+                                            {pendingComments.map((comment, index) => (
+                                                <tr key={comment.id}>
+                                                    <td>{comment.id}</td>
+                                                    <td>{comment.content}</td>
+                                                    <td>{comment.postedAt}</td>
                                                     <td>
-                                                        <button className='btn' onClick={() => deleteNews(news.id)}>
+                                                        <button className='btn' onClick={() => deleteComment(comment.id)}>
                                                             <h4><AiTwotoneDelete /></h4>
                                                         </button>
                                                     </td>
@@ -123,7 +121,7 @@ const PendingNews = () => {
                                             `Showing ${range[0]}-${range[1]} of ${total}`
                                         }
                                         onChange={PaginationChange}
-                                        total={reporterPendings.length}
+                                        total={pendingComments.length}
                                         current={current}
                                         pageSize={size}
                                         showSizeChanger={false}
@@ -141,4 +139,4 @@ const PendingNews = () => {
     );
 }
 
-export default PendingNews;
+export default PendingComments;
