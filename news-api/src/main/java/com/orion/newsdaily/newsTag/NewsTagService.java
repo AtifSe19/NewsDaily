@@ -1,17 +1,20 @@
 package com.orion.newsdaily.newsTag;
 
+import com.orion.newsdaily.tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NewsTagService {
 
     @Autowired
     public NewsTagRepo newsTagRepo;
-
+    @Autowired
+    public TagService tagService;
     public List<Long> findTagsByNewsArticleId(long newsId) {
         return newsTagRepo.findAllByNewsArticleId(newsId);
     }
@@ -42,5 +45,11 @@ public class NewsTagService {
         }
         return newsTags;
     }
-
+    public List<String> getTagNamesByTagIds(List<Long> tagNames) {
+        return tagNames.stream()
+                .map(tagId -> tagService.getTagNameById(tagId))
+                .collect(Collectors.toList());
+    }
+//    public List<String> getTagNamesByTagIds(List<Long> newsTagIds) {
+//    }
 }
