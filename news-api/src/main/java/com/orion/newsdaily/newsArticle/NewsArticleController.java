@@ -88,10 +88,11 @@ public class NewsArticleController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER')")
+    @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
     public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle == null) {
+        int res= newsTagService.deleteAllByNewsArticleId(id);
+        if (newsArticle == null && res == 0) {
             return ResponseEntity.notFound().build();
         }
         newsArticleService.delete(newsArticle);
