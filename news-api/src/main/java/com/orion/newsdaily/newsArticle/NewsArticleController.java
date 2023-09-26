@@ -35,7 +35,7 @@ public class NewsArticleController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    @PreAuthorize("hasAuthority('REPORTER')")
+    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER')")
     @PostMapping
     public ResponseEntity<NewsArticle> create(
             Authentication authentication,

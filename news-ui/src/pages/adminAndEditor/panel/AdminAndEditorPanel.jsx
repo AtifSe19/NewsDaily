@@ -11,6 +11,8 @@ import SearchUser from '../searchUser/SearchUser'
 import ToggleNewsComPendingStatus from '../toggleNewsComPendingStatus/ToggleNewsComPendingStatus'
 import ToggleNewsComDisableStatus from '../toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
 import Popup from '../../../components/popup/Popup'
+import CreateAdd from '../CreateAdd/CreateAdd';
+
 
 const AdminAndEditorPanel = (user) => {
 
@@ -28,6 +30,7 @@ const AdminAndEditorPanel = (user) => {
           <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
           <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
           <Route path="/newscom/popup/:status/:sectionType/:id" element={<Popup />} />
+          <Route path="/createAdd" element={<CreateAdd role={user.role} />} />
         </Routes>
       </div>
     </div>
