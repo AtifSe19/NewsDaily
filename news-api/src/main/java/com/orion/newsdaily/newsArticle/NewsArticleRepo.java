@@ -29,4 +29,7 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
 
     @Query("SELECT na FROM NewsArticle na JOIN na.comments c WHERE c.id = :cmtId")
     NewsArticle findNewsByCommentId(Long cmtId);
+
+    @Query(value = "SELECT * FROM news_articles WHERE fk_user_id = (SELECT id FROM users WHERE username = ?1)", nativeQuery = true)
+    List<NewsArticle> findReporterPendingNews(String username);
 }

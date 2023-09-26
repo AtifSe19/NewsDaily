@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import axios from 'axios'
 
 import './AdminAndEditorPanel.css'
 
@@ -13,46 +12,19 @@ import ToggleNewsComPendingStatus from '../toggleNewsComPendingStatus/ToggleNews
 import ToggleNewsComDisableStatus from '../toggleNewsComDisableStatus/ToggleNewsComDisableStatus'
 import Popup from '../../../components/popup/Popup'
 
-const AdminAndEditorPanel = () => {
-
-  const [role, setRole] = useState(null);
-  const [targetUser, setTargetUser] = useState(null);
-  useEffect(() => {
-
-    const fetchUserRoles = async () => {
-      try {
-        const response = await axios.get('/api/v1/users/getRole');
-
-        if (response.status === 200) {
-          if (response.data.toUpperCase() === 'ADMIN') {
-            setTargetUser('EDITOR');
-          }
-          else if (response.data.toUpperCase() === 'EDITOR') {
-            setTargetUser('REPORTER');
-          }
-          setRole(response.data);
-        } else {
-          console.error('Failed to fetch user role');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
-    fetchUserRoles();
-  }, []);
+const AdminAndEditorPanel = (user) => {
 
   return (
     <div className='panel'>
       <div style={{ width: '15%' }}>
-        <SideMenu role={role} target = {targetUser}/>
+        <SideMenu role={user.role} target = {user.target}/>
       </div>
       <div style={{ width: '85%', display: 'flex', justifyContent: 'center'}} className='my-5'>
         <Routes>
-          <Route path="/" element={<Welcome role={role} target={targetUser} />} />
-          <Route path="/addUser" element={<AddUser role={role} target={targetUser} />} />
-          <Route path="/editUser/:userId" element={<EditUser role={role} target={targetUser} />} />
-          <Route path="/searchUser" element={<SearchUser target={targetUser} />} />
+          <Route path="/" element={<Welcome role={user.role} target={user.target} />} />
+          <Route path="/addUser" element={<AddUser role={user.role} target={user.target} />} />
+          <Route path="/editUser/:userId" element={<EditUser role={user.role} target={user.target} />} />
+          <Route path="/searchUser" element={<SearchUser target={user.target} />} />
           <Route path="/newscom/pending/:sectionType" element={<ToggleNewsComPendingStatus />} />
           <Route path="/newscom/disable/:sectionType" element={<ToggleNewsComDisableStatus />} />
           <Route path="/newscom/popup/:status/:sectionType/:id" element={<Popup />} />

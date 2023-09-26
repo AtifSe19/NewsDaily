@@ -29,33 +29,27 @@ public class NewsArticleController {
     @Autowired
     private final NewsArticleService newsArticleService;
     @Autowired
-    private UserService userService;
-    private NewsTagService newsTagService;
+    private final UserService userService;
+    @Autowired
+    private final NewsTagService newsTagService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-    @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
+    @PreAuthorize("hasAuthority('REPORTER')")
     @PostMapping
     public ResponseEntity<NewsArticle> create(
             Authentication authentication,
             @RequestBody NewsArticle newsArticle,
             @RequestParam(name = "tags") String tagsParam
     ) {
-        //System.out.print(tagsParam+"hello");
         NewsArticle created = newsArticleService.create(newsArticle, authentication);
-        System.out.print(tagsParam+"hello");
-        System.out.print(created.getId()+"heheheheh");
-        //code till here execuring
-        List<NewsTag> created2 = newsTagService.addTag(created.getId(), tagsParam);
+        newsTagService.addTag(created.getId(), tagsParam);
         if (created != null ) {
             return ResponseEntity.ok(created);
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    //---------USER & ADMIN
-
-    //Get all news that are approved and NOT ADS for every user !
     @GetMapping
     @PreAuthorize("hasAuthority('USER, REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
@@ -94,7 +88,7 @@ public class NewsArticleController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('EDITOR')")
+    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER')")
     public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
         if (newsArticle == null) {
@@ -138,4 +132,15 @@ public class NewsArticleController {
         }
         return ResponseEntity.ok(newsArticle);
     }
+
+    @GetMapping("/reporter-pending")
+    @PreAuthorize("hasAuthority('REPORTER')")
+    public ResponseEntity<List<NewsArticle>> findReporterPendingNews(Authentication auth) {
+        List<NewsArticle> newsArticles = newsArticleService.findReporterPendingNews(auth.getName());
+        if (newsArticles.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(newsArticles);
+    }
+
 }

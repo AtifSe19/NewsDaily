@@ -1,73 +1,143 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-
+import { AiTwotoneDelete } from 'react-icons/ai';
+import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
+import { toast, ToastContainer } from 'react-toastify';
 const PendingNews = () => {
-    const [allPendings, setAllPendings] = useState([]);
+    const [reporterPendings, setReporterPendings] = useState([]);
+    const [perPage, setPerPage] = useState(10);
+    const [size, setSize] = useState(perPage);
+    const [current, setCurrent] = useState(1);
 
     useEffect(() => {
-        fetchAllPendings();
-    }, []);
+        loadReporterPendings();
+    }, [current, size]);
 
-    const fetchAllPendings = async () => {
+    const loadReporterPendings = async () => {
         try {
-            const response = await axios.get("/api/v1/news/my-pending");
-
-            if (response.status === 200) {
-                const allPendings = response.data;
-                setAllPendings(allPendings);
+            const response = await axios.get('/api/v1/news/reporter-pending');
+            if (Array.isArray(response.data)) {
+                setReporterPendings(response.data);
+                // console.log(reporterPendings)
             } else {
-                console.error("Failed to fetch All pendings");
+                console.error('API response is not an array:', response.data);
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error('Error loading news articles:', error);
         }
     };
 
-    const deleteUser = async (id) => {
+    const PerPageChange = (value) => {
+        setSize(value);
+        setCurrent(1);
+    };
+
+    const deleteNews = async (id) => {
         try {
             await axios.delete(`/api/v1/news/${id}`);
-            fetchAllPendings();
+            loadReporterPendings();
+            toast.success('Deleted successfully!');
         } catch (error) {
-            console.error("Error:", error);
+            console.error('Error deleting:', error);
+            toast.error('Error deleting');
         }
+    };
+
+    const PaginationChange = (page, pageSize) => {
+        setCurrent(page);
+        setSize(pageSize);
+    };
+
+    const PrevNextArrow = (current, type, originalElement) => {
+        if (type === 'prev') {
+            return (
+                <button>
+                    <i className="fa fa-angle-double-left"></i>
+                </button>
+            );
+        }
+        if (type === 'next') {
+            return (
+                <button>
+                    <i className="fa fa-angle-double-right"></i>
+                </button>
+            );
+        }
+        return originalElement;
     };
 
     return (
-        <div className="container">
-            <div className="py-3">
-                <h2>Total pending news: {allPendings.length}</h2>
-
-                <table className="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">No.</th>
-                            <th scope="col">News Title</th>
-                            <th scope="col">News Content</th>
-                            <th scope="col">Posted at</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {allPendings.map((allPending, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{allPending.title}</td>
-                                <td>{allPending.content}</td>
-                                <td>{allPending.postedAt}</td>
-                                <td>Review In Progress</td>
-                                <button className="btn btn-danger mx-2" onClick={() => deleteUser(allPending.id)}>
-                                    Delete
-                                </button>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <Link className="btn btn-outline-danger" to="/">
-                    Back
-                </Link>
+        <>
+            <div className="container-fluid mt-5 mb-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-10">
+                        <div className="card">
+                            <div className="card-body p-0">
+                                <div className="table-filter-info">
+                                    <Pagination
+                                        className="pagination-data"
+                                        showTotal={(total, range) =>
+                                            `Showing ${range[0]}-${range[1]} of ${total}`
+                                        }
+                                        onChange={PaginationChange}
+                                        total={reporterPendings.length} // Use the filtered data length as total count
+                                        current={current}
+                                        pageSize={size}
+                                        showSizeChanger={false}
+                                        itemRender={PrevNextArrow}
+                                        onShowSizeChange={PerPageChange}
+                                    />
+                                </div>
+                                <div className="table-responsive">
+                                    <table className="table table-text-small mb-0 text-center">
+                                        <thead className="thead-primary table-sorting">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Title</th>
+                                                <th>Content</th>
+                                                <th>postedAt</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {reporterPendings.map((news, index) => (
+                                                <tr key={index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{news.title}</td>
+                                                    <td>{news.content}</td>
+                                                    <td>{news.postedAt}</td>
+                                                    <td>
+                                                        <button className='btn' onClick={() => deleteNews(news.id)}>
+                                                            <h4><AiTwotoneDelete /></h4>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div className="table-filter-info">
+                                    <Pagination
+                                        className="pagination-data"
+                                        showTotal={(total, range) =>
+                                            `Showing ${range[0]}-${range[1]} of ${total}`
+                                        }
+                                        onChange={PaginationChange}
+                                        total={reporterPendings.length}
+                                        current={current}
+                                        pageSize={size}
+                                        showSizeChanger={false}
+                                        itemRender={PrevNextArrow}
+                                        onShowSizeChange={PerPageChange}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            <ToastContainer />
+        </>
     );
 }
 

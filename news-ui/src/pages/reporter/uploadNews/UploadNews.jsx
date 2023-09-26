@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const UploadNews = () => {
   let navigate = useNavigate();
@@ -71,8 +72,9 @@ const UploadNews = () => {
           ...formData
         }
       );
-      navigate("/");
+      toast.success("Sent for approval!");
     } catch (error) {
+      toast.error("Error uploading news");
       console.error(error);
     }
   };

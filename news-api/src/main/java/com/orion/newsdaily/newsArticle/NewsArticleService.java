@@ -112,4 +112,8 @@ public class NewsArticleService {
     public void delete(NewsArticle newsArticle) {
         newsArticleRepo.delete(newsArticle);
     }
+
+    public List<NewsArticle> findReporterPendingNews(String username) {
+        return newsArticleRepo.findReporterPendingNews(username);
+    }
 }
