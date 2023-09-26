@@ -28,4 +28,6 @@ public interface CommentRepo extends JpaRepository <Comment, Long> {
     @Query(value = "SELECT fk_user_id FROM comments WHERE id = ?1", nativeQuery = true)
     Long getUsernameOfComment(Long id);
 
+    @Query(value = "SELECT fk_user_id FROM comments", nativeQuery = true)
+    List<Long> getAllUserIds();
 }
