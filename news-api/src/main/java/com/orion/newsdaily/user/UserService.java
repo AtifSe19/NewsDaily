@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -134,6 +135,9 @@ public class UserService implements UserDetailsService {
     }
     public boolean delete(Long id)
     {
+
+//        Authentication authentication = new Authentication();
+
         Optional<User> user = userRepo.findById(id);
         if(user.isPresent())
         {
@@ -145,5 +149,9 @@ public class UserService implements UserDetailsService {
 
     public String getRoleByUsername(String username) {
         return userRepo.getRoleByUsername(username);
+    }
+    public Long findIdByUserName(String userName)
+    {
+        return userRepo.findIdByUserName(userName);
     }
 }

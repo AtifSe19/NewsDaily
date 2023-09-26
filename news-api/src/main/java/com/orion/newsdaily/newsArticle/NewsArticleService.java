@@ -1,6 +1,5 @@
 package com.orion.newsdaily.newsArticle;
 
-import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import jakarta.persistence.EntityManager;
@@ -43,12 +42,14 @@ public class NewsArticleService {
         newsArticle.setIsDisabled(false);
         return newsArticleRepo.save(newsArticle);
     }
-    public List<NewsArticle> findAll() {
-        return newsArticleRepo.findAllNews();
-    }
+
     public List<NewsArticle> findPendingNews()
     {
         return newsArticleRepo.findPendingNews();
+    }
+    public List<NewsArticle> findMyPendingNews(long id)
+    {
+        return newsArticleRepo.findMyPendingNews(id);
     }
     public NewsArticle findById(Long id) {
         return newsArticleRepo.findById(id).orElse(null);
@@ -93,12 +94,22 @@ public class NewsArticleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
+    public List<NewsArticle> findAllNewsForEditor() {
+        return newsArticleRepo.findAllNewsForEditor();
+    }
+
+    @Transactional
+    public List<NewsArticle> findAll() {
+        return newsArticleRepo.findAllNewsForUser();
+    }
+
+    public NewsArticle findNewsByCommentId(Long cmtId) {
+        return newsArticleRepo.findNewsByCommentId(cmtId);
+    }
+
+
 
     public void delete(NewsArticle newsArticle) {
         newsArticleRepo.delete(newsArticle);
-    }
-
-    public List<NewsArticle> findAllNewsForEditor() {
-        return newsArticleRepo.findAllNewsForEditor();
     }
 }

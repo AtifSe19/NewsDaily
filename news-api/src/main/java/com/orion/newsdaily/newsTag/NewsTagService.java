@@ -19,8 +19,7 @@ public class NewsTagService {
         return newsTagRepo.findAllByNewsArticleId(newsId);
     }
 
-    public List<NewsTag> addTag(Long newsId, String tagIdList) {
-        System.out.print(tagIdList+"haha2");
+    public void addTag(Long newsId, String tagIdList) {
 
         List<Long> idList = new ArrayList<>();
         String[] idStrings = tagIdList.split(",");
@@ -34,7 +33,6 @@ public class NewsTagService {
                 System.err.println("Skipping non-numeric value: " + idString);
             }
         }
-       System.out.print(idList+"haha3");
         List<NewsTag> newsTags = new ArrayList<>();
         for (Long id : idList) {
             NewsTag newsTag = new NewsTag();
@@ -43,7 +41,10 @@ public class NewsTagService {
             newsTagRepo.save(newsTag);
             newsTags.add(newsTag);
         }
-        return newsTags;
+    }
+
+    public int deleteAllByNewsArticleId(Long id){
+        return newsTagRepo.deleteAllByNewsArticleId(id);
     }
     public List<String> getTagNamesByTagIds(List<Long> tagNames) {
         return tagNames.stream()

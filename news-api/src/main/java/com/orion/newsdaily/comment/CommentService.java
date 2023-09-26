@@ -106,6 +106,7 @@ public class CommentService {
         return commentToUpdate;
     }
 
+    @Transactional
     public void delete(Comment comment) {
         commentRepo.delete(comment);
     }

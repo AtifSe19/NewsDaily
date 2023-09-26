@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
     width: 250px;
-    height: 100%;
+    height: 100vh;
     background-image: linear-gradient(to right top, #206c72, #206970, #21676d, #21646b, #216268, #26666c, #2a6b71, #2f6f75, #397b81, #44878d, #4e9399, #59a0a6);
     padding: 20px 0;
     transition: 0.5s;

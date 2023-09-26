@@ -4,9 +4,15 @@ import { useParams } from 'react-router-dom';
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import { toast, ToastContainer } from 'react-toastify';
 import { BsToggleOn, BsToggleOff } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+
+import './ToggleNewsComDisableStatus.css';
 
 const ToggleNewsComDisableStatus = () => {
   const [newsCom, setNewsCom] = useState([]);
+  const [filteredNewsCom, setFilteredNewsCom] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [status, setStatus] = useState('all');
   const [perPage, setPerPage] = useState(10);
   const [size, setSize] = useState(perPage);
   const [current, setCurrent] = useState(1);
@@ -16,44 +22,122 @@ const ToggleNewsComDisableStatus = () => {
   useEffect(() => {
     const loadNewsCom = async () => {
       try {
-        if (!isRequesting.current) { // Check if a request is already in progress
-          isRequesting.current = true; // Set request to in progress
-          const response = await axios.get(`/api/v1/${sectionType}/editor`);
-          setNewsCom(response.data);
-          isRequesting.current = false; // Reset request state when request is complete
-        }
+        const response = await axios.get(`/api/v1/${sectionType}/editor`);
+        const formattedData = response.data.map((entry) => ({
+          ...entry,
+          formattedDate: formatDate(entry.postedAt),
+        }));
+        setNewsCom(formattedData);
+        setFilteredNewsCom(formattedData);
       } catch (error) {
         console.error('Error fetching search results:', error);
-        isRequesting.current = false; // Reset request state in case of an error
       }
     };
 
     loadNewsCom();
   }, [current, size, sectionType]);
 
+  useEffect(() => {
+    // Filter newsCom based on the status and update filteredNewsCom
+    if (status === 'enable') {
+      const filtered = newsCom.filter((item) => !item.isDisabled);
+      setFilteredNewsCom(filtered);
+      setStatus('enable');
+    } else if (status === 'disable') {
+      const filtered = newsCom.filter((item) => item.isDisabled);
+      setFilteredNewsCom(filtered);
+      setStatus('disable');
+    } else {
+      setFilteredNewsCom(newsCom);
+    }
+
+    console.log(status)
+
+  }, [status]);
+
+  // ... (the rest of your component remains the same)
+
+
   const toggleDisableNews = async (id, isDisabled) => {
     try {
-      if (!isRequesting.current) { // Check if a request is already in progress
-        isRequesting.current = true; // Set request to in progress
-        await axios.put(`/api/v1/${sectionType}/disable/${id}`);
-        setNewsCom((prevNewsCom) =>
-          prevNewsCom.map((item) =>
-            item.id === id ? { ...item, isDisabled: !isDisabled } : item
-          )
-        );
+      await axios.put(`/api/v1/${sectionType}/disable/${id}`);
+      setFilteredNewsCom((prevNewsCom) =>
+        prevNewsCom.map((item) =>
+          item.id === id ? { ...item, isDisabled: !isDisabled } : item
+        )
+      );
 
-        // Show a toast message based on the new status
-        if (!isDisabled) {
+      // Show a toast message based on the new status
+      if (!isDisabled) {
         //   toast.success(`${sectionType} disabled successfully!`);
-        } else {
+      } else {
         //   toast.success(`${sectionType} enabled successfully!`);
-        }
-        isRequesting.current = false; // Reset request state when request is complete
       }
+      isRequesting.current = false; // Reset request state when request is complete
     } catch (error) {
       console.error('Error toggling:', error);
       toast.error('Error toggling');
-      isRequesting.current = false; // Reset request state in case of an error
+    }
+  };
+
+  const fetchEnableNewsCom = async () => {
+    const filteredNewsCom = newsCom.filter((newsCom) => newsCom.isDisabled === false);
+    setFilteredNewsCom(filteredNewsCom);
+    setStatus('enable');
+  };
+
+  const fetchDisableNewsCom = async () => {
+    const filteredNewsCom = newsCom.filter((newsCom) => newsCom.isDisabled === true);
+    setFilteredNewsCom(filteredNewsCom);
+    setStatus('disable');
+  };
+
+  const fetchAllNewsCom = async () => {
+    setFilteredNewsCom(newsCom);
+    setStatus('all');
+  };
+
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  }
+
+  const handleSearch = () => {
+    // Filter accounts based on the search input
+    const filteredSearchResult = newsCom.filter(newsCom =>
+      newsCom.id.toString().includes(searchInput)
+    );
+    setFilteredNewsCom(filteredSearchResult);
+  }
+
+
+
+
+  const formatDate = (dateString) => {
+    try {
+      const [year, month, day, hour, minute, second] = dateString.split(/\D/);
+      const date = new Date(year, month - 1, day, hour, minute, second);
+
+      if (isNaN(date.getTime())) {
+        return 'Invalid Date';
+      }
+
+      const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true, // Use 24-hour format
+      };
+
+      const formattedDate = date.toLocaleString(undefined, options);
+
+      return formattedDate;
+    } catch (error) {
+      console.error('Error parsing date:', error);
+      return 'Invalid Date';
     }
   };
 
@@ -87,7 +171,7 @@ const ToggleNewsComDisableStatus = () => {
 
   return (
     <>
-      <div className="container-fluid mt-5 mb-5">
+      <div className="container-fluid mt-3 mb-5">
         <div className="row justify-content-center">
           <div className="col-md-10">
             <div className="card">
@@ -107,6 +191,21 @@ const ToggleNewsComDisableStatus = () => {
                     onShowSizeChange={PerPageChange}
                   />
                 </div>
+                <div className="col-md-12 text-center my-3">
+                  <h1>{sectionType.toUpperCase()}</h1>
+                </div>
+                <div className="input-group mb-3 search-container">
+                  <input
+                    type="text"
+                    className="form-control search-input"
+                    placeholder="Search by News Id"
+                    value={searchInput}
+                    onChange={handleSearchInputChange}
+                  />
+                  <div className="input-group-append">
+                    <button className="btn btn-primary search-btn" onClick={handleSearch}>Search</button>
+                  </div>
+                </div>
                 <div className="table-responsive">
                   <table className="table table-text-small mb-0 text-center">
                     <thead className="thead-primary table-sorting">
@@ -117,19 +216,21 @@ const ToggleNewsComDisableStatus = () => {
                         )}
                         <th>content</th>
                         <th>postedAt</th>
-                        <th>Enable / Disable</th>
+                        <th><i className='toggle-stat-btn' onClick={fetchEnableNewsCom}>Enable</i> /
+                          <i className='toggle-stat-btn' onClick={fetchDisableNewsCom}>Disable</i> /
+                          <i className='toggle-stat-btn' onClick={fetchAllNewsCom}>All</i></th>
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
-                      {newsCom.map((newsCom) => (
-                        <tr key={newsCom.id}>
-                          <td>{newsCom.id}</td>
+                      {filteredNewsCom.map((newsCom) => (
+                        <tr key={filteredNewsCom.id}>
+                          <td style={{ textDecoration: 'underline' }}><Link to={`/newscom/popup/${'disable'}/${sectionType}/${newsCom.id}`}>{newsCom.id}</Link></td>
                           {sectionType && sectionType === 'news' && (
                             <td>{newsCom.title}</td>
                           )}
                           <td>{newsCom.content}</td>
-                          <td>{newsCom.postedAt}</td>
+                          <td>{newsCom.formattedDate}</td>
                           <td>
                             <button
                               className="btn"
