@@ -299,18 +299,21 @@ const Login = ({ inputs, signUp, inUpClick, submitForm, validateField }) => {
 		// Handle the Google login logic here
 		window.location.href = 'http://localhost:8080/oauth2/authorization/google';
 
-		// Send the POST request
-//         try {
-//             const response = await axios.post('/login', userData);
-//             console.log("Sending" + userData);
-//             if (response.status === 200) {
-//                 toast.success(`User ${username} added successfully!`);
-//             } else {
-//                 toast.error('Something went wrong');
-//             }
-//         } catch (error) {
-//             toast.error(`User cannot be added! Try with different Email or User Name`);
-//         }
+		var googleUserName = "";
+		try {
+			const response = axios.get('/api/v1/users/getAuthenticatedUser');
+
+			if (response.status === 200) {
+				googleUserName = response.data.username;
+				toast.success(`User ${response.data.username} logged in!`);
+			} else {
+				console.error('Failed to fetch authenticated user from Login page');
+			}
+		} catch (error) {
+			console.error('Error:', error);
+		}
+
+        loginUser(googleUserName, "password");
 	};
 
 	return (

@@ -16,6 +16,7 @@ function App() {
 	const [targetUser, setTargetUser] = useState(null);
 
 	const [user, setUser] = useState(null);
+	const [username, setUserName] = useState(null);
 
 	useEffect(() => {
 		const fetchUserRoles = async () => {
@@ -44,6 +45,8 @@ function App() {
 
 				if (response.status === 200) {
 					setUser(response.data);
+
+					setUserName(response.data.name);
 				} else {
 					console.error('Failed to fetch authenticated user');
 				}
@@ -62,7 +65,7 @@ function App() {
 			<Navbar />
 
 			{/* if I have authenticated user then go to module else go to login page */}
-			{user === null? <LoginWrapper /> :  <AdminAndEditorPanel role={role} target={targetUser} /> }
+			{user === null? <LoginWrapper username={username} /> :  <AdminAndEditorPanel role={role} target={targetUser} /> }
 
 
 
