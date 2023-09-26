@@ -4,8 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UploadNews = () => {
-  let navigate = useNavigate();
-  const { userId } = useParams();
   const [formData, setFormData] = useState({
     title: "",
     content: "",
