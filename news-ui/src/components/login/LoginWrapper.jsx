@@ -298,6 +298,22 @@ const Login = ({ inputs, signUp, inUpClick, submitForm, validateField }) => {
 	const googleClickHandler = () => {
 		// Handle the Google login logic here
 		window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+
+		var googleUserName = "";
+		try {
+			const response = axios.get('/api/v1/users/getAuthenticatedUser');
+
+			if (response.status === 200) {
+				googleUserName = response.data.username;
+				toast.success(`User ${response.data.username} logged in!`);
+			} else {
+				console.error('Failed to fetch authenticated user from Login page');
+			}
+		} catch (error) {
+			console.error('Error:', error);
+		}
+
+        loginUser(googleUserName, "password");
 	};
 
 	return (

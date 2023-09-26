@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './SideMenu.css';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./SideMenu.css";
 
-const SideMenu = (user) => {
-  const [sectionType, setSectionType] = useState('select');
+const SideMenu = user => {
+  const [sectionType, setSectionType] = useState("select");
   const navigate = useNavigate();
 
-  const handleChange = (type) => {
+  const handleChange = type => {
     setSectionType(type);
     navigate(`/newscom/pending/${type}`);
   };
@@ -30,7 +30,7 @@ const SideMenu = (user) => {
                   HOME
                 </Link>
               </li>
-              {user && (user.role === 'ADMIN' || user.role === 'EDITOR') && (
+              {user && (user.role === "ADMIN" || user.role === "EDITOR") && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/addUser">
@@ -45,15 +45,22 @@ const SideMenu = (user) => {
                 </>
               )}
 
-              {user && user.role === 'EDITOR' && (
+              {user && user.role === "EDITOR" && (
                 <>
+                  <div className="form-group my-2">
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/createAdd">
+                        CREATE ADD
+                      </Link>
+                    </li>
+                  </div>
                   <li className="nav-item">
                     <div className="form-group my-2">
                       <select
                         id="sectionType"
                         className="form-select"
                         value={sectionType}
-                        onChange={(e) => handleChange(e.target.value)}
+                        onChange={e => handleChange(e.target.value)}
                       >
                         <option value="select">Approve / Disapprove</option>
                         <option value="news">News</option>
@@ -66,11 +73,11 @@ const SideMenu = (user) => {
                       <select
                         id="newsOrComment"
                         className="form-select"
-                        onChange={(e) => {
+                        onChange={e => {
                           const selectedOption = e.target.value;
-                          if (selectedOption === 'news') {
+                          if (selectedOption === "news") {
                             navigate(`/newscom/disable/${selectedOption}`);
-                          } else if (selectedOption === 'comments') {
+                          } else if (selectedOption === "comments") {
                             navigate(`/newscom/disable/${selectedOption}`);
                           }
                         }}
@@ -84,7 +91,7 @@ const SideMenu = (user) => {
                 </>
               )}
 
-              {user && user.role === 'REPORTER' && (
+              {user && user.role === "REPORTER" && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/uploadNews">
@@ -99,7 +106,7 @@ const SideMenu = (user) => {
                 </>
               )}
 
-              {user && user.role === 'USER' && (
+              {user && user.role === "USER" && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/showNews">

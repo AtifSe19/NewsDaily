@@ -14,7 +14,7 @@ const ReporterPanel = (user) => {
       <div style={{ width: '85%', display: 'flex', justifyContent: 'center'}} className='my-5'>
         <Routes>
           <Route path="/" element={<Welcome role={user.role} />} />
-          <Route path="/uploadNews" element={<UploadNews />} />
+          <Route path="/uploadNews" element={<UploadNews role={user.role} />} />
           <Route path="/pendingNews" element={<PendingNews />} />
         </Routes>
       </div>

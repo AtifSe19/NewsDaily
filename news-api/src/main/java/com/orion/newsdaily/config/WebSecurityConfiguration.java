@@ -168,9 +168,9 @@ public class WebSecurityConfiguration {
         http.exceptionHandling(config -> config.defaultAuthenticationEntryPointFor(authenticationEntryPoint(),
                 AntPathRequestMatcher.antMatcher(api)));
 
-
-        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+//        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+        http.csrf(config -> config.disable());
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -188,7 +188,7 @@ public class WebSecurityConfiguration {
 
     public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-        private String targetUrl = "/api/v1/news/customLoginRequest"; // Change this to your desired target URL
+        private String targetUrl = "http://localhost:8000/"; // Change this to your desired target URL
 
         @Override
         public void onAuthenticationSuccess(
@@ -208,8 +208,9 @@ public class WebSecurityConfiguration {
                 email = (String) tokenAttributes.get("email");
                 username = (String) tokenAttributes.get("name");
 
-                // Add the 'email' as a query parameter to the target URL
-                targetUrl += "?email=" + URLEncoder.encode(email, "UTF-8")+"&name=" + URLEncoder.encode(username, "UTF-8");
+                if (!targetUrl.contains("?email")) {
+                    targetUrl += "?email=" + URLEncoder.encode(email, "UTF-8") + "&name=" + URLEncoder.encode(username, "UTF-8");
+                }
 
                 // Log the token attributes
                 System.out.println("Token Attributes here: " + tokenAttributes);
@@ -223,8 +224,14 @@ public class WebSecurityConfiguration {
             user.setPassword("password");
             user.setLoggedIn(true);
 
-            userService.create(user);
-//            userService.loadUserByUsername(username);
+//            userService.create(user);
+
+            if(userService.findAllByName(0,100, username).isEmpty())
+            {
+                System.out.println("saved this data");
+                userService.create(user);
+//                userService.loadUserByUsername(username);
+            }
 
 //            try{
 //                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, user.getPassword());
