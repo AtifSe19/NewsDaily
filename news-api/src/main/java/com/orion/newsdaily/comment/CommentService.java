@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class CommentService {
         }
 
         comment.setPostedAt(LocalDateTime.now());
-        comment.setIsApproved(true);
+        comment.setIsApproved(false);
         comment.setIsDisabled(false);
 
         comment.setUser(user);
@@ -115,9 +117,32 @@ public class CommentService {
         return commentRepo.findAllCommentsForEditor();
     }
 
-    public String getAuthorOfComment(Long id) {
-        Long userId= commentRepo.getUsernameOfComment(id);
-        Optional<User> u=userService.findById(userId);
-        return u.get().getUsername();
+    public String getUsernameFromCommentId(Long id){
+        Comment comment=findById(id);
+        return comment.getUser().getUsername();
     }
+
+    public CommentDTO NewsSpecificCommentsWithAuthor(Long id) {
+
+        List<Comment> commentList=commentRepo.NewsSpecificComments(id);
+
+
+//        List<Comment> commentList=commentRepo.findAll();
+        CommentDTO commentDTO = new CommentDTO();
+        List<Long> commentIds = commentList.stream()
+                .map(Comment::getId) // get the id of each comment
+                .collect(Collectors.toList()); // collect the ids into a list
+        commentDTO.setCommentId(commentIds); // set the comment id list to the DTO
+
+        List<String> userNameList = new ArrayList<>(); // create an empty list of usernames
+        for (int i=0;i<commentList.size();i++) // loop through the comment list
+        {
+            String username=getUsernameFromCommentId(commentDTO.getCommentId().get(i)); // get the username of each comment
+            userNameList.add(username); // add the username to the list
+        }
+        commentDTO.setUsername(userNameList); // set the username list to the DTO
+        commentDTO.setComments(commentList);
+        return commentDTO; // return the DTO
+    }
+
 }
