@@ -91,9 +91,7 @@ public class NewsArticleController {
     @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER')")
     public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
-        if (newsArticle == null) {
-            return ResponseEntity.notFound().build();
-        }
+        newsTagService.deleteAllByNewsArticleId(id);
         newsArticleService.delete(newsArticle);
         return ResponseEntity.ok(newsArticle);
     }
@@ -137,9 +135,6 @@ public class NewsArticleController {
     @PreAuthorize("hasAuthority('REPORTER')")
     public ResponseEntity<List<NewsArticle>> findReporterPendingNews(Authentication auth) {
         List<NewsArticle> newsArticles = newsArticleService.findReporterPendingNews(auth.getName());
-        if (newsArticles.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(newsArticles);
     }
 
