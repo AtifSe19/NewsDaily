@@ -1,22 +1,27 @@
 package com.orion.newsdaily.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -45,10 +50,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -77,6 +79,38 @@ public class WebSecurityConfiguration {
     private final UserService userService;
     private final JwtEncoder jwtEncoder;
     private final JwtDecoder jwtDecoder;
+
+
+
+
+
+//    @Bean
+//    public AuthenticationManager authenticationManager() throws Exception {
+//        return new ProviderManager(Arrays.asList(yourAuthenticationProvider()));
+//    }
+//
+//    @Bean
+//    public AuthenticationProvider yourAuthenticationProvider() {
+//        return new DaoAuthenticationProvider() {{
+//            setUserDetailsService(userService);
+//        }};
+//    }
+
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+
+//    public WebSecurityConfiguration(AuthenticationManager authenticationManager)
+//    {
+//        this.authenticationManager = authenticationManager;
+//    }
+
+//    public WebSecurityConfiguration(UserService userService, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder)
+//    {
+//        this.jwtDecoder = jwtDecoder;
+//        this.jwtEncoder = jwtEncoder;
+//        this.userService = userService;
+//    }
+
 
     public WebSecurityConfiguration(UserService userService) {
         this.userService = userService;
@@ -154,7 +188,7 @@ public class WebSecurityConfiguration {
 
     public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-        private String targetUrl = "/api/v1/news"; // Change this to your desired target URL
+        private String targetUrl = "/api/v1/news/customLoginRequest"; // Change this to your desired target URL
 
         @Override
         public void onAuthenticationSuccess(
@@ -180,6 +214,48 @@ public class WebSecurityConfiguration {
                 // Log the token attributes
                 System.out.println("Token Attributes here: " + tokenAttributes);
             }
+
+            User user = new User();
+
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setRole("USER");
+            user.setPassword("password");
+            user.setLoggedIn(true);
+
+            userService.create(user);
+//            userService.loadUserByUsername(username);
+
+//            try{
+//                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, user.getPassword());
+//
+//                Authentication authentication2 = authenticationManager.authenticate(authReq);
+//
+//                System.out.println("My Authorities: "+ authentication2.getAuthorities());
+//            }catch (Exception e)
+//            {
+//                System.out.println("Custom Exception");
+//                System.out.println(e.getMessage());
+//            }
+
+
+
+
+
+
+
+//             Set the "USER" role for users logging in with Google
+//             Check if the user is logging in via Google
+
+//            System.out.println("Working");
+//            // Add the "USER" role to the existing authorities
+//            List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
+//            authorities.add(new SimpleGrantedAuthority("USER"));
+//            authentication = new UsernamePasswordAuthenticationToken(
+//                    authentication.getPrincipal(),
+//                    authentication.getCredentials(),
+//                    authorities
+//            );
 
             // Your custom logic here, e.g., adding cookies
             response.addCookie(createSessionCookie(encode(authentication)));

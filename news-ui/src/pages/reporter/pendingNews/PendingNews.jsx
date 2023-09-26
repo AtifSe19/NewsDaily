@@ -101,8 +101,8 @@ const PendingNews = () => {
                                         </thead>
                                         <tbody>
                                             {reporterPendings.map((news, index) => (
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
+                                                <tr key={news.id}>
+                                                    <td>{news.id}</td>
                                                     <td>{news.title}</td>
                                                     <td>{news.content}</td>
                                                     <td>{news.postedAt}</td>

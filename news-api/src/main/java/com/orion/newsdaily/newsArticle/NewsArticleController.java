@@ -51,7 +51,7 @@ public class NewsArticleController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER, REPORTER')")
+//    @PreAuthorize("hasAuthority('USER, REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,
                                           @RequestParam(name = "email", defaultValue = "") String email,
                                           @RequestParam(name = "name", defaultValue = "") String name)
@@ -88,13 +88,10 @@ public class NewsArticleController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('REPORTER', 'EDITOR')")
+    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER')")
     public ResponseEntity<NewsArticle> delete(@PathVariable("id") Long id) {
         NewsArticle newsArticle = newsArticleService.findById(id);
-        int res= newsTagService.deleteAllByNewsArticleId(id);
-        if (newsArticle == null && res == 0) {
-            return ResponseEntity.notFound().build();
-        }
+        newsTagService.deleteAllByNewsArticleId(id);
         newsArticleService.delete(newsArticle);
         return ResponseEntity.ok(newsArticle);
     }
@@ -138,9 +135,6 @@ public class NewsArticleController {
     @PreAuthorize("hasAuthority('REPORTER')")
     public ResponseEntity<List<NewsArticle>> findReporterPendingNews(Authentication auth) {
         List<NewsArticle> newsArticles = newsArticleService.findReporterPendingNews(auth.getName());
-        if (newsArticles.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(newsArticles);
     }
 
