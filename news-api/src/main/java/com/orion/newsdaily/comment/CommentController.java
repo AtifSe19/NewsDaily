@@ -37,6 +37,12 @@ public class CommentController {
         return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
     }
 
+    //Get usename of a particular comment:
+    @GetMapping("/author/{CommentId}")
+    public ResponseEntity<String> getAuthorOfComment(@PathVariable("CommentId") Long CommentId) {
+        return  ResponseEntity.ok(commentService.getAuthorOfComment(CommentId));
+    }
+
     //to show all comments under a specific news
     @GetMapping("/{newsId}/all")
     public ResponseEntity<List<Comment>> NewsSpecificComments(@PathVariable("newsId") Long id) {

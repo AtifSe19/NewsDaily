@@ -4,6 +4,7 @@ import com.orion.newsdaily.newsArticle.NewsArticle;
 import com.orion.newsdaily.newsArticle.NewsArticleRepo;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserRepo;
+import com.orion.newsdaily.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class CommentService {
 
     private final CommentRepo commentRepo;
     private final UserRepo userRepo;
+    private final UserService userService;
     private final NewsArticleRepo newsArticleRepo;
 
     @Transactional
@@ -31,7 +33,7 @@ public class CommentService {
         }
 
         comment.setPostedAt(LocalDateTime.now());
-        comment.setIsApproved(false);
+        comment.setIsApproved(true);
         comment.setIsDisabled(false);
 
         comment.setUser(user);
@@ -111,5 +113,11 @@ public class CommentService {
 
     public List<Comment> findAllCommentsForEditor() {
         return commentRepo.findAllCommentsForEditor();
+    }
+
+    public String getAuthorOfComment(Long id) {
+        Long userId= commentRepo.getUsernameOfComment(id);
+        Optional<User> u=userService.findById(userId);
+        return u.get().getUsername();
     }
 }

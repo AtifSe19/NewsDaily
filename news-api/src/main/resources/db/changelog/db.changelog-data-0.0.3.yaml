@@ -87,3 +87,45 @@ databaseChangeLog:
               - column:
                   name: fk_news_article_id
                   value: 2
+        - insert:
+            tableName: comments
+            columns:
+              - column:
+                  name: content
+                  value: 'This is a sample comment 5.'
+              - column:
+                  name: posted_at
+                  value: '2023-09-19 17:45:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 5
+              - column:
+                  name: fk_news_article_id
+                  value: 3
+        - insert:
+            tableName: comments
+            columns:
+              - column:
+                  name: content
+                  value: 'This is a sample comment 6.'
+              - column:
+                  name: posted_at
+                  value: '2023-09-19 17:45:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 5
+              - column:
+                  name: fk_news_article_id
+                  value: 3
