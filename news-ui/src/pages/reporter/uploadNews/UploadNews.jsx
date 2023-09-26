@@ -32,7 +32,7 @@ const UploadNews = () => {
   useEffect(() => {
     fetchAllTags();
   }, []);
-
+    
   const handleChange = e => {
     const { name, value } = e.target;
 
