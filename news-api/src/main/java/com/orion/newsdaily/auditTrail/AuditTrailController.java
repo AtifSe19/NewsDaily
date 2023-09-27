@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-
 @RestController
 @RequestMapping("/api/v1/audit")
 @RequiredArgsConstructor
@@ -18,19 +17,14 @@ public class AuditTrailController {
 
     @Autowired
     private final AuditTrailService auditTrailService;
-
-    @PostMapping("/{newsid}")
-    public ResponseEntity<AuditTrail> create(@PathVariable("newsid") long newsId, Authentication authentication) {
-
-        auditTrailService.create(authentication,newsId);
-
+    @PostMapping("/{newsId}")
+    public ResponseEntity<AuditTrail> create(@PathVariable("newsId") long newsId, Authentication authentication) {
+        auditTrailService.create(authentication, newsId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping
-    public ResponseEntity<Map<String, List>> getUserPreference(){
+    public ResponseEntity<Map<String, List>> getUserPreferences(){
         List userPreference=auditTrailService.getUserPreferences();
-
-        //All contents of Audit Trail + Tag names
         return ResponseEntity.ok(Map.of("content", userPreference));
     }
 }

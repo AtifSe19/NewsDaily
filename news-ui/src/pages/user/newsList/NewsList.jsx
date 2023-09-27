@@ -6,6 +6,7 @@ import './Models.css'
 import { LiaComments } from 'react-icons/lia'
 import { Link } from 'react-router-dom';
 import CommentBox from '../commentBox/CommentBox';
+import CommentPopup from '../../../components/commentPopup/CommentPopup';
 
 const NewsCard = ({
   imageSrc,
@@ -60,7 +61,7 @@ const NewsCard = ({
         <img className="newsbanner-img" src={imageSrc} alt="" />
       </div>
       <div className="newscard-body">
-        <p className="blog-hashtag">{hashtags.length == 0 ? '#No_Tags' : hashtags}</p>
+        <p className="blog-hashtag">{hashtags.length === 0 ? '#No_Tags' : hashtags}</p>
         <h2 className="blog-title">{title}</h2>
         <p className="blog-description" >
           {isDescriptionTruncated ? `${truncatedDescription}...` : description}
@@ -87,10 +88,10 @@ const NewsCard = ({
 
           {/* <LiaComments onClick={fetchComments} /> */}
           <LiaComments />
-          <span><Link to = '/popupComments'>Comments</Link></span>
+          <span><Link to = {`/commentsPopup/${id}`}>Comments</Link></span>
         </div>
         {/* {showComments && (
-          <CommentBox comments={comments} newsId={id} />
+          <CommentPopup comments={comments} newsId={id} />
         )} */}
       </div>
     </div>

@@ -1,5 +1,6 @@
 package com.orion.newsdaily.comment;
 
+import brave.Response;
 import com.orion.newsdaily.newsArticle.NewsArticle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,9 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    //-------------------USER
-
-    //to create a comment and save against a userId
     @PostMapping
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<Comment> create(Authentication auth, @RequestParam Long newsId, @RequestBody Comment comment) {
-
         Comment created = commentService.create(auth.getName(), newsId, comment);
         if (created != null) {
             return ResponseEntity.ok(created);
@@ -31,21 +28,18 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    //for user to view own pending comments
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Comment>> findPendingCommentsByUserId(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
-    }
 
+//    @GetMapping("/pending/{userId}")
+//    public ResponseEntity<List<Comment>> findPendingCommentsByUserId(@PathVariable("userId") Long id) {
+//        return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
+//    }
 
-
-    //to show all comments under a specific news
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{newsId}/all")
     public ResponseEntity<CommentDTO> NewsSpecificComments(@PathVariable("newsId") Long id) {
         return ResponseEntity.ok(commentService.NewsSpecificCommentsWithAuthor(id));
     }
 
-    //to show editor all pending comments
     @GetMapping("/pending")
     @PreAuthorize("hasAuthority('EDITOR')")
     public ResponseEntity<List<Comment>> findPendingComments() {

@@ -4,6 +4,7 @@ import SideMenu from '../../../components/sideMenu/SideMenu'
 import Welcome from '../../../components/welcome/Welcome'
 import NewsList from '../newsList/NewsList'
 import PendingComments from '../pendingComments/PendingComments'
+import CommentPopup from '../../../components/commentPopup/CommentPopup'
 
 const UserPanel = (user) => {
   return (
@@ -16,6 +17,7 @@ const UserPanel = (user) => {
           <Route path="/" element={<Welcome role={user.role} />} />
           <Route path="/showNews" element={<NewsList />} />
           <Route path="/pendingComments" element={<PendingComments />} />
+          <Route path = "/commentsPopup/:newsId" element = {<CommentPopup />} />
         </Routes>
       </div>
     </div>

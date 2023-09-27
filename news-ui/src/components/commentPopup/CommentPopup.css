@@ -1,6 +1,6 @@
 .comment-box {
 	width: 60%;
-    height: 72%;
+  height: fit-content;
 	margin: 20px auto;
 	padding: 20px;
 	border: 1px solid #ccc;
@@ -70,4 +70,11 @@
   .comment-form input[type="submit"]:disabled {
 	background-color: #ccc;
 	cursor: not-allowed;
+  }
+
+  .close_btn{
+    margin: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
   }
