@@ -81,37 +81,6 @@ public class WebSecurityConfiguration {
     private final JwtDecoder jwtDecoder;
 
 
-
-
-
-//    @Bean
-//    public AuthenticationManager authenticationManager() throws Exception {
-//        return new ProviderManager(Arrays.asList(yourAuthenticationProvider()));
-//    }
-//
-//    @Bean
-//    public AuthenticationProvider yourAuthenticationProvider() {
-//        return new DaoAuthenticationProvider() {{
-//            setUserDetailsService(userService);
-//        }};
-//    }
-
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-
-//    public WebSecurityConfiguration(AuthenticationManager authenticationManager)
-//    {
-//        this.authenticationManager = authenticationManager;
-//    }
-
-//    public WebSecurityConfiguration(UserService userService, JwtEncoder jwtEncoder, JwtDecoder jwtDecoder)
-//    {
-//        this.jwtDecoder = jwtDecoder;
-//        this.jwtEncoder = jwtEncoder;
-//        this.userService = userService;
-//    }
-
-
     public WebSecurityConfiguration(UserService userService) {
         this.userService = userService;
         SecretKeySpec secretKeySpec = new SecretKeySpec(Base64.getDecoder().decode(secretKey), "RSA");
@@ -132,8 +101,6 @@ public class WebSecurityConfiguration {
 //                new AntPathRequestMatcher("/actuator/**", "GET"),
 //                new AntPathRequestMatcher("/actuator/**", "POST"),
                 new AntPathRequestMatcher("/api/v1/users/signup", "POST")
-                //new AntPathRequestMatcher("api/v1/newsTag/{id}", "POST"),
-//                new AntPathRequestMatcher("/api/v1/news", "GET")
         );
     }
 
@@ -142,22 +109,6 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-//        http.authorizeRequests().requestMatchers("GET", Arrays.toString(ignoredGet)).permitAll();
-//        http.authorizeRequests().requestMatchers(Arrays.toString(ignored)).permitAll();
-
-//        http.authorizeHttpRequests(config -> {
-//            config.requestMatchers("/api/v1/news/").permitAll();
-//            config.anyRequest().authenticated();
-//        }).oauth2Login(Customizer.withDefaults());
-
-//        http.oauth2Login(withDefaults())
-//                .oauth2Login(oauth2Login -> oauth2Login
-//                        .successHandler(customAuthenticationSuccessHandler())
-//                        .userInfoEndpoint(userInfo -> userInfo
-//                                .scope("email") // Request the 'email' scope
-//                                .userAuthoritiesAttributeName("email") // Map 'email' to authorities
-//                        )
-//                );
         http.oauth2Login(withDefaults())
                 .oauth2Login(oauth2Login -> oauth2Login
                         .successHandler(customAuthenticationSuccessHandler())
@@ -170,7 +121,7 @@ public class WebSecurityConfiguration {
 
         http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-//        http.csrf(config -> config.disable());
+
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -178,101 +129,10 @@ public class WebSecurityConfiguration {
         http.logout(config -> config.addLogoutHandler(new CookieClearingLogoutHandler(sessionId)));
         return http.build();
     }
-
-
+    
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
-    }
-
-
-    public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
-        private String targetUrl = "http://localhost:8000/";
-
-        @Override
-        public void onAuthenticationSuccess(
-                HttpServletRequest request,
-                HttpServletResponse response,
-                Authentication authentication) throws IOException, ServletException {
-
-            String email = "";
-            String username = "";
-
-            if (authentication.getPrincipal() instanceof OAuth2User) {
-                OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-
-                // Retrieve OAuth2 token details
-                Map<String, Object> tokenAttributes = oauth2User.getAttributes();
-
-                email = (String) tokenAttributes.get("email");
-                username = (String) tokenAttributes.get("name");
-
-                if (!targetUrl.contains("?email")) {
-                    targetUrl += "?email=" + URLEncoder.encode(email, "UTF-8") + "&name=" + URLEncoder.encode(username, "UTF-8");
-                }
-
-                // Log the token attributes
-                System.out.println("Token Attributes here: " + tokenAttributes);
-            }
-
-            User user = new User();
-
-            user.setUsername(username);
-            user.setEmail(email);
-            user.setRole("USER");
-            user.setPassword("password");
-            user.setLoggedIn(true);
-
-//            userService.create(user);
-
-            if(userService.findAllByName(0,100, username).isEmpty())
-            {
-                System.out.println("saved this data");
-                userService.create(user);
-//                userService.loadUserByUsername(username);
-            }
-
-//            try{
-//                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(username, user.getPassword());
-//
-//                Authentication authentication2 = authenticationManager.authenticate(authReq);
-//
-//                System.out.println("My Authorities: "+ authentication2.getAuthorities());
-//            }catch (Exception e)
-//            {
-//                System.out.println("Custom Exception");
-//                System.out.println(e.getMessage());
-//            }
-
-
-
-
-
-
-
-//             Set the "USER" role for users logging in with Google
-//             Check if the user is logging in via Google
-
-//            System.out.println("Working");
-//            // Add the "USER" role to the existing authorities
-//            List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
-//            authorities.add(new SimpleGrantedAuthority("USER"));
-//            authentication = new UsernamePasswordAuthenticationToken(
-//                    authentication.getPrincipal(),
-//                    authentication.getCredentials(),
-//                    authorities
-//            );
-
-            // Your custom logic here, e.g., adding cookies
-            response.addCookie(createSessionCookie(encode(authentication)));
-
-            // Set the target URL before invoking the default behavior
-            setDefaultTargetUrl(targetUrl);
-
-            // Continue with the default behavior of saving and redirecting to the original request
-            super.onAuthenticationSuccess(request, response, authentication);
-        }
     }
 
     private AuthenticationEntryPoint authenticationEntryPoint() {
@@ -283,14 +143,14 @@ public class WebSecurityConfiguration {
         return (request, response, auth) -> response.addCookie(createSessionCookie(encode(auth)));
     }
 
-    private Cookie createSessionCookie(String token) {
+    public Cookie createSessionCookie(String token) {
         Cookie cookie = new Cookie(sessionId, token);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         return cookie;
     }
 
-    private String encode(Authentication auth) {
+    public String encode(Authentication auth) {
         JwsHeader header = JwsHeader.with(MacAlgorithm.HS256).build();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(auth.getName())
