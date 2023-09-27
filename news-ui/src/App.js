@@ -72,7 +72,7 @@ function App() {
             <Routes>
 				<Route path="/login" element={<LoginWrapper /> } />
                 <Route path="/logout" element={<Logout /> } /> {/* Use element prop for the /logout route */}
-                <Route path="/" element={user === null ? (
+                <Route path="*" element={user === null ? (
                     <LoginWrapper username={username} />
                 ) : (
                     <>
