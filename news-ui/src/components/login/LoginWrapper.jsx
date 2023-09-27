@@ -3,6 +3,7 @@ import './style.css';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 
 
 const loginInputs = [
@@ -135,9 +136,19 @@ const loginUser = async (username, password) => {
 			console.log(response);
 
 			if (response.status === 200) {
-				toast.success(`User ${username} logged in!`);
+				// toast.success(`User ${username} logged in!`);
 
-				
+				toast.success(`User ${username} logged in!`, {
+					onClose: () => {
+					  // Wait for 2 seconds (2000 milliseconds) before redirecting
+					  setTimeout(() => {
+						window.location.href = "/";
+					  }, 4000);
+					},
+				  });
+
+				// Redirect to "/"
+				// window.location.href = "/";
 
 				break; // Successful login, exit the loop
 			} else {
@@ -270,6 +281,24 @@ const LoginWrapper = () => {
 		}
 	};
 
+	useEffect(() => {
+		// Function to check if the URL contains the 'email' query parameter
+		const checkForEmailQueryParam = () => {
+		  const urlParams = new URLSearchParams(window.location.search);
+		  if (urlParams.has('email')) {
+			// The 'email' parameter exists in the URL, you can trigger the button click event here
+			// Replace 'myGoogleButton' with the actual ID or selector of your button element
+			const button = document.getElementById('myGoogleButton');
+			if (button) {
+			  button.click();
+			}
+		  }
+		};
+	
+		// Call the function when the component mounts
+		checkForEmailQueryParam();
+
+	}, []);
 
 	return (
 		<div>
@@ -339,7 +368,7 @@ const Login = ({ inputs, signUp, inUpClick, submitForm, validateField }) => {
 			<Form inputs={inputs} submitForm={submitForm} validateField={validateField} />
 			<SignupLink inUpClick={inUpClick} />
 			<div id='google'>
-				<button type="button" className="login-with-google-btn" onClick={googleClickHandler}>
+				<button type="button" id="myGoogleButton" className="login-with-google-btn" onClick={googleClickHandler}>
 					Sign in with Google
 				</button>
 			</div>

@@ -98,16 +98,9 @@ function App() {
 			)}
 
 
-
-
-
-
-
-
 			{/* {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role={role} target={targetUser} />}
 				{role === 'REPORTER' && <ReporterPanel role={role} />}
 				{role === 'USER' && <UserPanel />} */}
-
 
 		</Router>
 	);
