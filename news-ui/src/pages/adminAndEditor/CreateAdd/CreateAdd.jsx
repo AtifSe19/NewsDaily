@@ -72,7 +72,7 @@ const CreateAdd = () => {
           );
           toast.success("ADD is Active now!");
         } catch (error) {
-          toast.error("Error uploading news");
+          toast.error("Error creating add");
           console.error(error);
         }
       };
