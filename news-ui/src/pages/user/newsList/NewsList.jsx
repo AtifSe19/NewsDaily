@@ -7,6 +7,7 @@ import { LiaComments } from 'react-icons/lia'
 import { Link } from 'react-router-dom';
 import CommentBox from '../commentBox/CommentBox';
 import CommentPopup from '../../../components/commentPopup/CommentPopup';
+import AddComponent from '../adComponent/AddComponent';
 
 const NewsCard = ({
   imageSrc,
@@ -160,6 +161,8 @@ const NewsList = () => {
           openModal={openModal}
         />
       ))}
+      <div><AddComponent/>
+      </div>
       {showModal && (
         <div className="modal-wrapper" onClick={closeModal}>
           <div className="modal-container">
