@@ -143,7 +143,7 @@ const loginUser = async (username, password) => {
 					  // Wait for 2 seconds (2000 milliseconds) before redirecting
 					  setTimeout(() => {
 						window.location.href = "/";
-					  }, 4000);
+					  }, 1000);
 					},
 				  });
 
@@ -172,6 +172,8 @@ const LoginWrapper = () => {
 	const [signUp, setSignUp] = useState(false);
 	const [signupInputsState, setSignupInputsState] = useState(signupInputs);
 	const [loginInputsState, setLoginInputsState] = useState(loginInputs);
+
+	
 
 	const inUpClick = () => {
 		setSignUp(!signUp);

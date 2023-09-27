@@ -4,24 +4,37 @@ import React from 'react';
 
 import Navbar from './Navbar.module.css';
 
+import { Link } from 'react-router-dom';
+
 
 import { NavLink } from "react-router-dom"; // Import BrowserRouter
+
+import LoginWrapper from '../login/LoginWrapper';
 
 function NavBar() {
     const [click, setClick] = React.useState(false);
 
+    const [showLoginWrapper, setShowLoginWrapper] = React.useState(false);
+
+
+    // const handleClick = () => {
+    //     setShowLoginWrapper(true);
+    // };
+
+    // Function to handle the click event
     const handleClick = () => setClick("!click", () => {
-        // window.location.href = 'http://localhost:8080/login';
+        // window.location.href = 'http://localhost:8000/login';
+        setShowLoginWrapper(true);
     });
     const Close = () => setClick(false);
 
     return (
         <div>
             <div className={click ? `${Navbar.mainContainer}` : ""} onClick={() => Close()} />
-            <nav className={Navbar.navbar}  onClick={e => e.stopPropagation()}>
-                <div className= {Navbar.navcontainer}>
-                    <NavLink exact to="/" className= {Navbar.navlogo}
-                        //style={{ fontFamily: 'ClashDisplay-Regular, sans-serif' }}
+            <nav className={Navbar.navbar} onClick={e => e.stopPropagation()}>
+                <div className={Navbar.navcontainer}>
+                    <NavLink exact to="/" className={Navbar.navlogo}
+                    //style={{ fontFamily: 'ClashDisplay-Regular, sans-serif' }}
                     >
                         Thynk News
                         <>{' '}</>
@@ -29,22 +42,44 @@ function NavBar() {
                             <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zM13.991 3l.024.001a1.46 1.46 0 0 1 .538.143.757.757 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.464 1.464 0 0 1-.143.538.758.758 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.464 1.464 0 0 1-.538-.143.758.758 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.46 1.46 0 0 1 .143-.538.758.758 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3h11.991zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z" />
                         </svg>
                     </NavLink>
-                    <ul className={click ? `${Navbar.navmenu} ${Navbar.active}` : Navbar.navmenu}>
+                    {/* <ul className={click ? `${Navbar.navmenu} ${Navbar.active}` : Navbar.navmenu}> */}
 
                     {/*<ul className={click ? "Navbar navmenu active" : "Navbar navmenu"}>*/}
-                        <li className={Navbar.navitem}>
-                            <NavLink
-                                exact
-                                to="/login"
-                                activeClassName={Navbar.active}
-                                className= {Navbar.navlinks}
-                                onClick={click ? handleClick : null}
-                            >
-                                Login
-                            </NavLink>
-                        </li>
+                    {/* <li className={Navbar.navitem}> */}
+                    {/* <Linktag  */}
+                    {/* <NavLink */}
+                    {/* // exact */}
+                    {/* // to="/login" */}
+                    {/* // activeClassName={Navbar.active} */}
+                    {/* // className={Navbar.navlinks} */}
+                    {/* // onClick={click ? handleClick : null} */}
+                    {/* // > */}
+                    {/* <Link to="/login" >Login</Link> */}
 
-                    </ul>
+                    {/* </NavLink> */}
+                    {/* </li> */}
+
+                    {/* </ul>  */}
+
+
+                    {/* <div> */}
+                        {/* Toggle the click state when the menu is clicked */}
+                        <ul className={click ? `${Navbar.navmenu} ${Navbar.active}` : Navbar.navmenu} onClick={() => setClick(!click)}>
+                            <li className={Navbar.navitem}>
+                                {showLoginWrapper ? (
+                                    <LoginWrapper />
+                                ) : (
+                                    <NavLink
+                                        exact
+                                        activeClassName={Navbar.active}
+                                        className={Navbar.navlinks}
+                                    >
+                                        <Link to="/login" style={{color: "white"}}>Login</Link>
+                                    </NavLink>
+                                )}
+                            </li>
+                        </ul>
+                    {/* </div> */}
                     <div className={Navbar.navicon} onClick={handleClick}>
                         {/*<ul className={click ? `${Navbar.navmenu} ${Navbar.active}` : Navbar.navmenu}>*/}
                         <i className={click ? "fa fa-times" : "fa fa-bars"}></i>

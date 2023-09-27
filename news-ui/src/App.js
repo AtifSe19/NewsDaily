@@ -2,15 +2,17 @@ import './lib/css/bootstrap.min.css';
 // import './lib/js/bootstrap.min.js';
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
+
+// import { Route } from 'react-router-dom';
 
 import Navbar from './components/navbar/Navbar';
 import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 import LoginWrapper from './components/login/LoginWrapper';
-import UserPanel  from './pages/user/panel/UserPanel';
+import UserPanel from './pages/user/panel/UserPanel';
 
 function App() {
 	const [role, setRole] = useState(null);
@@ -65,6 +67,41 @@ function App() {
 		<Router>
 			<Navbar />
 
+			<Routes>
+				<Route path="/login" element={<LoginWrapper username={username} />} />
+				{user === null ? (
+					<Route path="/" element={<LoginWrapper username={username} />} />
+				) : (
+					<>
+						{role === "ADMIN" || role === "EDITOR" ? (
+							<Route path="/" element={<AdminAndEditorPanel role={role} target={targetUser} />} />
+						) : role === "REPORTER" ? (
+							<Route path="/" element={<ReporterPanel role={role} target={targetUser} />} />
+						) : role === "USER" ? (
+							<Route path="/" element={<UserPanel role={role} />} />
+						) : null}
+					</>
+				)}
+			</Routes>
+
+			{/* <Routes>
+				<Route path="/login" element={<LoginWrapper username={username} />} />
+			</Routes> */}
+
+			{/* {user === null ? (
+				<LoginWrapper username={username} />
+			) : (
+				<>
+					{role === "ADMIN" || role === "EDITOR" ? (
+						<AdminAndEditorPanel role={role} target={targetUser} />
+					) : role === "REPORTER" ? (
+						<ReporterPanel role={role} target={targetUser} />
+					) : role === "USER" ? (
+						<UserPanel role={role} />
+					) : null}
+				</>
+			)} */}
+
 			{/* if I have authenticated user then go to module else go to login page */}
 			{/* {user === null ? <LoginWrapper username={username} /> : <AdminAndEditorPanel role={role} target={targetUser} />} */}
 
@@ -82,20 +119,6 @@ function App() {
 					<UserPanel />
 				}
 			} */}
-
-			{user === null ? (
-				<LoginWrapper username={username} />
-			) : (
-				<>
-					{role === "ADMIN" || role === "EDITOR" ? (
-						<AdminAndEditorPanel role={role} target={targetUser} />
-					) : role === "REPORTER" ? (
-						<ReporterPanel role={role} target={targetUser} />
-					) : role === "USER" ? (
-						<UserPanel role = {role}/>
-					) : null}
-				</>
-			)}
 
 
 			{/* {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role={role} target={targetUser} />}
