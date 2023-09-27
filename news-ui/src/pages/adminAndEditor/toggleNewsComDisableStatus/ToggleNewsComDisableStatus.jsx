@@ -99,13 +99,18 @@ const ToggleNewsComDisableStatus = () => {
 
 
   const handleSearchInputChange = (event) => {
+    if(event.target.value === '')
+    {
+      setFilteredNewsCom(newsCom);
+      setStatus('all');
+    }
     setSearchInput(event.target.value);
   }
 
   const handleSearch = () => {
     // Filter accounts based on the search input
     const filteredSearchResult = newsCom.filter(newsCom =>
-      newsCom.id.toString().includes(searchInput)
+      newsCom.id === parseInt(searchInput)
     );
     setFilteredNewsCom(filteredSearchResult);
   }
@@ -198,7 +203,7 @@ const ToggleNewsComDisableStatus = () => {
                   <input
                     type="text"
                     className="form-control search-input"
-                    placeholder="Search by News Id"
+                    placeholder={`Search by ${sectionType} Id`}
                     value={searchInput}
                     onChange={handleSearchInputChange}
                   />
