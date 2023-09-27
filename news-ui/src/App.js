@@ -12,8 +12,8 @@ import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 import LoginWrapper from './components/login/LoginWrapper';
-import UserPanel from './pages/user/panel/UserPanel';
 import Logout from './components/login/Logout';
+import UserPanel from './pages/user/panel/UserPanel';
 
 function App() {
 	const [role, setRole] = useState(null);
@@ -22,7 +22,6 @@ function App() {
 	const [user, setUser] = useState(null);
 	const [username, setUserName] = useState(null);
 
-	const [isLoggedOut, setIsLoggedOut] = useState(true);
 
 	useEffect(() => {
 		const fetchUserRoles = async () => {
@@ -68,26 +67,26 @@ function App() {
 
 	return (
 		<Router>
-			{/* <Logout /> */}
-
-			<Navbar showLogout={!isLoggedOut} />
-
-			{/* <Route exact path="/logout" component={Logout} /> */}
-
-			{user === null ? (
-				<LoginWrapper username={username} />
-			) : (
-				<>
-					{role === "ADMIN" || role === "EDITOR" ? (
-						<AdminAndEditorPanel role={role} target={targetUser} />
-					) : role === "REPORTER" ? (
-						<ReporterPanel role={role} target={targetUser} />
-					) : role === "USER" ? (
-						<UserPanel role={role} />
-					) : null}
-				</>
-			)}
-		</Router>
+            <Navbar showLogout={user !== null} /> {/* Show "Logout" when user is logged in */}
+            
+            <Routes>
+				<Route path="/login" element={<LoginWrapper /> } />
+                <Route path="/logout" element={<Logout /> } /> {/* Use element prop for the /logout route */}
+                <Route path="/" element={user === null ? (
+                    <LoginWrapper username={username} />
+                ) : (
+                    <>
+                        {role === "ADMIN" || role === "EDITOR" ? (
+                            <AdminAndEditorPanel role={role} target={targetUser} />
+                        ) : role === "REPORTER" ? (
+                            <ReporterPanel role={role} target={targetUser} />
+                        ) : role === "USER" ? (
+                            <UserPanel role={role} />
+                        ) : null}
+                    </>
+                )} />
+            </Routes>
+        </Router>
 	);
 }
 

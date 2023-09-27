@@ -25,8 +25,6 @@ const Logout = () => {
 		}
 	}
 
-
-
 	// Function to perform the logout
 	const handleLogout = async () => {
 		try {
@@ -71,11 +69,33 @@ const Logout = () => {
 		}
 	};
 
+	const buttonStyle = {
+		backgroundColor: 'blue',
+		color: 'white',
+		padding: '10px 20px',
+		border: 'none',
+		borderRadius: '5px',
+		fontSize: '16px',
+		cursor: 'pointer',
+		boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
+		transition: 'background-color 0.3s ease-in-out',
+	};
+
+	const divStyle = {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center', // Center horizontally
+		justifyContent: 'center', // Center vertically
+		height: '100vh', // Set the height to the full viewport height
+	};
+
+
+
 	return (
-		<div>
-			<h1>The button Element</h1>
-			<button type="button" onClick={handleLogout}>
-				Click Me!
+		<div style={divStyle}>
+			<h1 style={{ color: 'white' }}>Logout from News Daily App</h1>
+			<button type="button" style={buttonStyle} onClick={handleLogout}>
+				Log Out
 			</button>
 		</div>
 	);

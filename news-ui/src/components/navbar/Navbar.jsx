@@ -47,21 +47,7 @@ function NavBar({ showLogout }) {
                                     Login
                                 </NavLink>
                             )}
-                            {/* {showLogout === true ? (
-                                <>
-                                    <Link to="/logout" style={{ color: "white" }}>Logout</Link>
-                                </>
-                            ) : (
-                                <NavLink
-                                    exact
-                                    activeClassName={Navbar.active}
-                                    className={Navbar.navlinks}
-                                    to="/login"
-                                    style={{ color: "white" }}
-                                >
-                                    Login
-                                </NavLink>
-                            )} */}
+                            
                         </li>
                     </ul>
                     <div className={Navbar.navicon} onClick={handleClick}>
