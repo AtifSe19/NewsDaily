@@ -1,6 +1,6 @@
 .sideMenu{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     position: fixed;
     top: 0;
     left: 0;

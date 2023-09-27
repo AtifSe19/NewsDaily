@@ -65,9 +65,10 @@ function App() {
 
 	return (
 		<Router>
-			<Navbar />
 
-			<Routes>
+			<Navbar user = { user } />
+
+			{/* <Routes>
 				<Route path="/login" element={<LoginWrapper username={username} />} />
 				{user === null ? (
 					<Route path="/" element={<LoginWrapper username={username} />} />
@@ -82,13 +83,15 @@ function App() {
 						) : null}
 					</>
 				)}
-			</Routes>
+			</Routes> */}
+
+
 
 			{/* <Routes>
 				<Route path="/login" element={<LoginWrapper username={username} />} />
 			</Routes> */}
 
-			{/* {user === null ? (
+			{user === null ? (
 				<LoginWrapper username={username} />
 			) : (
 				<>
@@ -100,7 +103,7 @@ function App() {
 						<UserPanel role={role} />
 					) : null}
 				</>
-			)} */}
+			)}
 
 			{/* if I have authenticated user then go to module else go to login page */}
 			{/* {user === null ? <LoginWrapper username={username} /> : <AdminAndEditorPanel role={role} target={targetUser} />} */}
