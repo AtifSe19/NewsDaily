@@ -13,6 +13,7 @@ import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPane
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 import LoginWrapper from './components/login/LoginWrapper';
 import UserPanel from './pages/user/panel/UserPanel';
+import Logout from './components/login/Logout';
 
 function App() {
 	const [role, setRole] = useState(null);
@@ -20,6 +21,8 @@ function App() {
 
 	const [user, setUser] = useState(null);
 	const [username, setUserName] = useState(null);
+
+	const [isLoggedOut, setIsLoggedOut] = useState(true);
 
 	useEffect(() => {
 		const fetchUserRoles = async () => {
@@ -65,33 +68,11 @@ function App() {
 
 	return (
 		<Router>
+			{/* <Logout /> */}
 
-			<Navbar user = { user } />
+			<Navbar showLogout={!isLoggedOut} />
 
-			{/* <Routes>
-				<Route path="/login" element={<LoginWrapper username={username} />} />
-				{user === null ? (
-					<Route path="/" element={<LoginWrapper username={username} />} />
-				) : (
-					<>
-						{role === "ADMIN" || role === "EDITOR" ? (
-							<Route path="/" element={<AdminAndEditorPanel role={role} target={targetUser} />} />
-						) : role === "REPORTER" ? (
-							<Route path="/" element={<ReporterPanel role={role} target={targetUser} />} />
-						) : role === "USER" ? (
-							<Route path="/" element={<UserPanel role={role} />} />
-						) : null}
-					</>
-				)}
-			</Routes> */}
-
-
-
-
-
-			{/* <Routes>
-				<Route path="/login" element={<LoginWrapper username={username} />} />
-			</Routes> */}
+			{/* <Route exact path="/logout" component={Logout} /> */}
 
 			{user === null ? (
 				<LoginWrapper username={username} />
@@ -106,30 +87,6 @@ function App() {
 					) : null}
 				</>
 			)}
-
-			{/* if I have authenticated user then go to module else go to login page */}
-			{/* {user === null ? <LoginWrapper username={username} /> : <AdminAndEditorPanel role={role} target={targetUser} />} */}
-
-			{/* if(user === null)
-			{
-				<LoginWrapper username={username} />
-			}
-			else
-			{
-				if (role === "admin" || role === "editor") {
-					<AdminAndEditorPanel role={role} target={targetUser} />
-				} else if (role === "reporter") {
-					<ReporterPanel role={role} target={targetUser} />
-				} else if (role === "USER") {
-					<UserPanel />
-				}
-			} */}
-
-
-			{/* {(role === 'ADMIN' || role === 'EDITOR') && <AdminAndEditorPanel role={role} target={targetUser} />}
-				{role === 'REPORTER' && <ReporterPanel role={role} />}
-				{role === 'USER' && <UserPanel />} */}
-
 		</Router>
 	);
 }

@@ -168,9 +168,9 @@ public class WebSecurityConfiguration {
         http.exceptionHandling(config -> config.defaultAuthenticationEntryPointFor(authenticationEntryPoint(),
                 AntPathRequestMatcher.antMatcher(api)));
 
-//        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-//                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
-        http.csrf(config -> config.disable());
+        http.csrf(config -> config.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()));
+//        http.csrf(config -> config.disable());
         http.authorizeHttpRequests(config -> config.anyRequest().authenticated());
 
         http.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -140,12 +140,12 @@ const loginUser = async (username, password) => {
 
 				toast.success(`User ${username} logged in!`, {
 					onClose: () => {
-					  // Wait for 2 seconds (2000 milliseconds) before redirecting
-					  setTimeout(() => {
-						window.location.href = "/";
-					  }, 1000);
+						// Wait for 2 seconds (2000 milliseconds) before redirecting
+						setTimeout(() => {
+							window.location.href = "/";
+						}, 1000);
 					},
-				  });
+				});
 
 				// Redirect to "/"
 				// window.location.href = "/";
@@ -173,7 +173,7 @@ const LoginWrapper = () => {
 	const [signupInputsState, setSignupInputsState] = useState(signupInputs);
 	const [loginInputsState, setLoginInputsState] = useState(loginInputs);
 
-	
+
 
 	const inUpClick = () => {
 		setSignUp(!signUp);
@@ -286,17 +286,17 @@ const LoginWrapper = () => {
 	useEffect(() => {
 		// Function to check if the URL contains the 'email' query parameter
 		const checkForEmailQueryParam = () => {
-		  const urlParams = new URLSearchParams(window.location.search);
-		  if (urlParams.has('email')) {
-			// The 'email' parameter exists in the URL, you can trigger the button click event here
-			// Replace 'myGoogleButton' with the actual ID or selector of your button element
-			const button = document.getElementById('myGoogleButton');
-			if (button) {
-			  button.click();
+			const urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.has('email')) {
+				// The 'email' parameter exists in the URL, you can trigger the button click event here
+				// Replace 'myGoogleButton' with the actual ID or selector of your button element
+				const button = document.getElementById('myGoogleButton');
+				if (button) {
+					button.click();
+				}
 			}
-		  }
 		};
-	
+
 		// Call the function when the component mounts
 		checkForEmailQueryParam();
 
