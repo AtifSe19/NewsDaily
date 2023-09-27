@@ -43,6 +43,11 @@ const PendingComments = () => {
         }
     };
 
+    
+    //   const getData = () => {
+    //     return newsArticles.slice((current - 1) * size, current * size);
+    //   };
+
     const PaginationChange = (page, pageSize) => {
         setCurrent(page);
         setSize(pageSize);

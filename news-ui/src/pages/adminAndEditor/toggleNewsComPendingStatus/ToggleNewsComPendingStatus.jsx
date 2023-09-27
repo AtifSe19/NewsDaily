@@ -70,16 +70,19 @@ const ToggleNewsComPendingStatus = () => {
     };
 
     const handleSearchInputChange = (event) => {
+        if (event.target.value === '') {
+            setFilteredNewsCom(newsCom);
+        }
         setSearchInput(event.target.value);
-      }
-    
-      const handleSearch = () => {
+    }
+
+    const handleSearch = () => {
         const filteredSearchResult = newsCom.filter(newsCom =>
-          newsCom.id.toString().includes(searchInput)
+            newsCom.id === parseInt(searchInput),
         );
         setFilteredNewsCom(filteredSearchResult);
-      }
-    
+    }
+
 
 
     const formatDate = (dateString) => {
@@ -164,7 +167,7 @@ const ToggleNewsComPendingStatus = () => {
                                     <input
                                         type="text"
                                         className="form-control search-input"
-                                        placeholder="Search by News Id"
+                                        placeholder={`Search by ${sectionType} Id`}
                                         value={searchInput}
                                         onChange={handleSearchInputChange}
                                     />

@@ -11,7 +11,7 @@ const Welcome = user => {
     fontSize: '36px',
     marginBottom: '20px',
     fontWeight: 'bold', 
-    color: '#1E5939', 
+    color: 'white', 
     fontFamily: 'Arial, sans-serif' 
   };
   const styles2 = {
