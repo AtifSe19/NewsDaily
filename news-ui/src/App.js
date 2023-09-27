@@ -10,7 +10,7 @@ import './App.css';
 import AdminAndEditorPanel from './pages/adminAndEditor/panel/AdminAndEditorPanel';
 import ReporterPanel from './pages/reporter/panel/ReporterPanel';
 import LoginWrapper from './components/login/LoginWrapper';
-import { UserPanel } from './pages/user/panel/UserPanel';
+import UserPanel  from './pages/user/panel/UserPanel';
 
 function App() {
 	const [role, setRole] = useState(null);
@@ -87,12 +87,12 @@ function App() {
 				<LoginWrapper username={username} />
 			) : (
 				<>
-					{role === "admin" || role === "editor" ? (
+					{role === "ADMIN" || role === "EDITOR" ? (
 						<AdminAndEditorPanel role={role} target={targetUser} />
-					) : role === "reporter" ? (
+					) : role === "REPORTER" ? (
 						<ReporterPanel role={role} target={targetUser} />
 					) : role === "USER" ? (
-						<UserPanel />
+						<UserPanel role = {role}/>
 					) : null}
 				</>
 			)}

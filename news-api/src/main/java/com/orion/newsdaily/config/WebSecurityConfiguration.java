@@ -188,7 +188,7 @@ public class WebSecurityConfiguration {
 
     public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-        private String targetUrl = "http://localhost:8000/"; // Change this to your desired target URL
+        private String targetUrl = "http://localhost:8000/";
 
         @Override
         public void onAuthenticationSuccess(
