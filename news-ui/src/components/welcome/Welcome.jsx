@@ -21,9 +21,7 @@ const Welcome = user => {
   };
   
   const handleWelcome = () => {
-    toast.success(`Welcome, @_${username}! to the ${user.role} dashboard`, {
-      position: toast.POSITION.TOP_CENTER
-    });
+    toast.success(`Welcome, @_${username}! to the ${user.role} dashboard`);
   };
   const fetchData = async () => {
     try {

@@ -191,7 +191,7 @@ const ToggleNewsComPendingStatus = () => {
                                                 <tr key={newsCom.id}>
                                                     <td style={{ textDecoration: 'underline' }}><Link to={`/newscom/popup/${'pending'}/${sectionType}/${newsCom.id}`}>{newsCom.id}</Link></td>
                                                     {sectionType && sectionType === 'news' && (
-                                                        <td>newsCom.title</td>
+                                                        <td>{newsCom.title}</td>
                                                     )}
                                                     <td>{newsCom.content}</td>
                                                     <td>{newsCom.formattedDate}</td>
