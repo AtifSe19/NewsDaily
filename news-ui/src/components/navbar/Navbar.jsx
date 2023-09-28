@@ -19,9 +19,9 @@ function NavBar({ showLogout }) {
 
     return (
         <div>
-            <div className={click ? `${Navbar.mainContainer}` : ""} onClick={() => Close()} />
+            <div  className={click ? `${Navbar.mainContainer}` : ""} onClick={() => Close()} />
             <nav className={Navbar.navbar} onClick={e => e.stopPropagation()}>
-                <div className={Navbar.navcontainer}>
+                <div style={{ position: 'fixed'}}className={Navbar.navcontainer}>
                     <NavLink exact to="/" className={Navbar.navlogo}
                     >
                         Thynk News

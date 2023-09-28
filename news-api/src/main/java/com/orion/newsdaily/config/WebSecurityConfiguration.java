@@ -104,8 +104,6 @@ public class WebSecurityConfiguration {
         );
     }
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -129,7 +127,7 @@ public class WebSecurityConfiguration {
         http.logout(config -> config.addLogoutHandler(new CookieClearingLogoutHandler(sessionId)));
         return http.build();
     }
-    
+
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler();
