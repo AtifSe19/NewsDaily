@@ -6,7 +6,7 @@ import NewsList from '../newsList/NewsList'
 import PendingComments from '../pendingComments/PendingComments'
 import CommentPopup from '../../../components/commentPopup/CommentPopup'
 
-const UserPanel = (user) => {
+const UserPanel = ({user}) => {
   return (
     <div className='panel'>
       <div style={{ width: '15%' }}>
@@ -14,7 +14,7 @@ const UserPanel = (user) => {
       </div>
       <div style={{ width: '85%', display: 'flex', justifyContent: 'center'}} className='my-5'>
         <Routes>
-          <Route path="/" element={<Welcome role={user.role} />} />
+          <Route path="/" element={<Welcome user = {user} />} />
           <Route path="/showNews" element={<NewsList />} />
           <Route path="/pendingComments" element={<PendingComments />} />
           <Route path = "/commentsPopup/:newsId" element = {<CommentPopup />} />

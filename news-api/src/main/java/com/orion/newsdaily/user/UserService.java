@@ -1,5 +1,6 @@
 package com.orion.newsdaily.user;
 
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -98,6 +101,7 @@ public class UserService implements UserDetailsService {
             return null;
         }
         user.setPassword(passwordEncoder().encode(user.getPassword()));
+
         return userRepo.save(user);
     }
 
@@ -122,7 +126,6 @@ public class UserService implements UserDetailsService {
 //        existingUser.setPassword(passwordEncoder().encode(updatedUser.getPassword()));
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setRole(existingUser.getRole());
-        existingUser.setLoggedIn(updatedUser.isLoggedIn());
 
         // Save the updated news item back to the repository
         userRepo.save(existingUser);
@@ -141,7 +144,7 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepo.findById(id);
         if(user.isPresent())
         {
-            userRepo.deleteById(id);
+            userRepo.delete(user.get());
             return true;
         }
         return false;
@@ -153,5 +156,21 @@ public class UserService implements UserDetailsService {
     public Long findIdByUserName(String userName)
     {
         return userRepo.findIdByUserName(userName);
+    }
+
+    @Transactional
+    public User disableUserToggle(long userId) {
+        Optional<User> user = userRepo.findById(userId);
+        if (user.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        User userToUpdate = user.get();
+        if(userToUpdate.getIsDisabled().equals(Boolean.FALSE)){
+            userToUpdate.setIsDisabled(true);
+        } else if (userToUpdate.getIsDisabled().equals(Boolean.TRUE)) {
+            userToUpdate.setIsDisabled(false);
+        }
+        userRepo.save(userToUpdate);
+        return userToUpdate;
     }
 }

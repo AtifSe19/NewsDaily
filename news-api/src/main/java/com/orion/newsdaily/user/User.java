@@ -31,10 +31,10 @@ public class User {
     @NonNull
     private String role;
     @NonNull
-    @Column(name = "is_logged_in")
-    private boolean isLoggedIn;
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<NewsArticle> newsArticles;
 
@@ -45,4 +45,5 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<AuditTrail> auditTrails;
+
 }

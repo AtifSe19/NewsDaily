@@ -19,8 +19,8 @@ databaseChangeLog:
                   name: role
                   value: 'ADMIN'
               - column:
-                  name: is_logged_in
-                  value: true
+                  name: is_disabled
+                  value: false
         - insert:
             tableName: users
             columns:
@@ -37,7 +37,7 @@ databaseChangeLog:
                   name: role
                   value: 'EDITOR'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
         - insert:
             tableName: users
@@ -55,8 +55,8 @@ databaseChangeLog:
                   name: role
                   value: 'REPORTER'
               - column:
-                  name: is_logged_in
-                  value: false
+                  name: is_disabled
+                  value: true
         - insert:
             tableName: users
             columns:
@@ -73,7 +73,7 @@ databaseChangeLog:
                   name: role
                   value: 'USER'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
         - insert:
             tableName: users
@@ -91,7 +91,7 @@ databaseChangeLog:
                   name: role
                   value: 'USER'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
         - insert:
             tableName: users
@@ -109,7 +109,7 @@ databaseChangeLog:
                   name: role
                   value: 'EDITOR'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
         - insert:
             tableName: users
@@ -127,7 +127,7 @@ databaseChangeLog:
                   name: role
                   value: 'EDITOR'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
         - insert:
             tableName: users
@@ -145,6 +145,6 @@ databaseChangeLog:
                   name: role
                   value: 'REPORTER'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: false
 

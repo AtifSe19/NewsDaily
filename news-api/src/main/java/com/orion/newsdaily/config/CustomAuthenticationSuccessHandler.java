@@ -55,7 +55,7 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         user.setEmail(email);
         user.setRole("USER");
         user.setPassword("password");
-        user.setLoggedIn(true);
+        user.setIsDisabled(false);
 
         if(userService.findAllByName(0,100, username).isEmpty())
         {

@@ -91,7 +91,7 @@ const SideMenu = user => {
                 </>
               )}
 
-              {user && user.role === "REPORTER" && (
+              {user && (user.role === "REPORTER" && user.isDisabled === false) && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/uploadNews">

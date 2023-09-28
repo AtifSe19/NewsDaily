@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Pagination from "https://cdn.skypack.dev/rc-pagination@3.1.15";
 import './SearchUser.css';
 import axios from "axios";
-import { AiTwotoneDelete, AiTwotoneEdit } from 'react-icons/ai';
+import { AiTwotoneEdit } from 'react-icons/ai';
+import { BsToggleOff, BsToggleOn } from 'react-icons/bs';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
@@ -36,14 +37,12 @@ const SearchUser = (passedUser) => {
         setCurrent(1);
     };
 
-    const deleteUser = async (id) => {
+    const toggleDisableNews = async (id) => {
         try {
-            await axios.delete(`/api/v1/users/${id}`);
+            await axios.put(`/api/v1/users/disable/${id}`);
             loadUsers();
-            toast.success('Deleted successfully!');
         } catch (error) {
-            console.error('Error deleting:', error);
-            toast.error('Error deleting');
+            console.error('Error disabling:', error);
         }
     };
 
@@ -122,9 +121,22 @@ const SearchUser = (passedUser) => {
                                                                 <h4><AiTwotoneEdit /></h4>
                                                             </button>
                                                         </Link>
-                                                        <button className='btn' onClick={() => deleteUser(user.id)}>
-                                                            <h4><AiTwotoneDelete /></h4>
-                                                        </button>
+                                                        {passedUser.role === 'EDITOR' && (
+                                                            <button
+                                                                className="btn"
+                                                                onClick={() => toggleDisableNews(user.id, user.isDisabled)}
+                                                            >
+                                                                {user.isDisabled ? (
+                                                                    <h4>
+                                                                        <BsToggleOff />
+                                                                    </h4>
+                                                                ) : (
+                                                                    <h4>
+                                                                        <BsToggleOn />
+                                                                    </h4>
+                                                                )}
+                                                            </button>
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}

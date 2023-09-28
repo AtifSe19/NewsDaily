@@ -16,26 +16,26 @@ import Logout from './components/login/Logout';
 import UserPanel from './pages/user/panel/UserPanel';
 
 function App() {
-	const [role, setRole] = useState(null);
+	const [user, setUser] = useState({});
 	const [targetUser, setTargetUser] = useState(null);
 
-	const [user, setUser] = useState(null);
+	const [authUser, setAuthUser] = useState(null);
 	const [username, setUserName] = useState(null);
 
 
 	useEffect(() => {
-		const fetchUserRoles = async () => {
+		const fetchUser = async () => {
 			try {
-				const response = await axios.get('/api/v1/users/getRole');
-
+				const response = await axios.get('/api/v1/users/user');
 				if (response.status === 200) {
-					if (response.data.toUpperCase() === 'ADMIN') {
+					if (response.data.content.role.toUpperCase() === 'ADMIN') {
+
 						setTargetUser('EDITOR');
 					}
-					else if (response.data.toUpperCase() === 'EDITOR') {
+					else if (response.data.content.role.toUpperCase() === 'EDITOR') {
 						setTargetUser('REPORTER');
 					}
-					setRole(response.data.toUpperCase());
+					setUser(response.data.content);
 				} else {
 					console.error('Failed to fetch user role');
 				}
@@ -49,41 +49,38 @@ function App() {
 				const response = await axios.get('/api/v1/users/getAuthenticatedUser');
 
 				if (response.status === 200) {
-					setUser(response.data);
+					setAuthUser(response.data);
 
 					setUserName(response.data.name);
 				} else {
 					console.error('Failed to fetch authenticated user');
 				}
-				// console.log(response);
-				// console.log(user);
 			} catch (error) {
 				console.error('Error:', error);
 			}
 		};
-		fetchUserRoles();
+		fetchUser();
 		fetchAuthenticatedUserRoles();
 	}, []);
 
 	return (
 		<Router>
-            <Navbar showLogout={user !== null} /> {/* Show "Logout" when user is logged in */}
-            
+            <Navbar showLogout={authUser !== null} /> {/* Show "Logout" when user is logged in */}
             <Routes>
 				<Route path="/login" element={<LoginWrapper /> } />
                 <Route path="/logout" element={<Logout /> } /> {/* Use element prop for the /logout route */}
-                <Route path="*" element={user === null ? (
+                <Route path="*" element={authUser === null ? (
                     <LoginWrapper username={username} />
                 ) : (
-                    <>
-                        {role === "ADMIN" || role === "EDITOR" ? (
-                            <AdminAndEditorPanel role={role} target={targetUser} />
-                        ) : role === "REPORTER" ? (
-                            <ReporterPanel role={role} target={targetUser} />
-                        ) : role === "USER" ? (
-                            <UserPanel role={role} />
+                    <p>
+                        {user.role === "ADMIN" || user.role === "EDITOR" ? (
+                            <AdminAndEditorPanel user = {user} target={targetUser} />
+                        ) : user.role === "REPORTER" ? (
+                            <ReporterPanel user = {user} />			
+                        ) : user.role === "USER" ? (
+                            <UserPanel user = {user}/>
                         ) : null}
-                    </>
+                    </p>
                 )} />
             </Routes>
         </Router>
