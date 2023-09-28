@@ -41,9 +41,9 @@ function AddComponent() {
 		}, 20000);
 
 		fetchAllAds();
-		
+
 		return () => clearInterval(intervalId);
-		
+
 	}, [isAdVisible]);
 
 	const handleHideAd = () => {
@@ -51,10 +51,12 @@ function AddComponent() {
 		showAdAfterDelay(20);
 	};
 
+	// const 
+
 	return (
 		<div className="container">
 			{isAdVisible && (
-				<div className="ad-panel">
+				<div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999, maxWidth: '300px', backgroundColor: '#fff', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', }} className="ad-panel">
 					<button className="close-button" onClick={handleHideAd}>
 						X
 					</button>
