@@ -58,37 +58,40 @@ function AddComponent() {
 
 	return (
 		<div className="container">
-			{isAdVisible && (
-				<div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999, maxWidth: '300px', backgroundColor: '#fff', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', }} className="ad-panel">
-					<button className="close-button" onClick={handleHideAd}>
-						X
-					</button>
-					<div className="py-3">
-						{ads.length > 0 ? ( // Check if there are records
-							<table className="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th scope="col">Ad Title</th>
-										<th scope="col">Ad Content</th>
-									</tr>
-								</thead>
-								<tbody>
-									{ads.map((ad, index) => (
-										<tr key={index}>
-											<td>{ad.title}</td>
-											<td>{ad.content}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						) : (
-							<p>No records available</p> // Display a message when there are no records
-						)}
-					</div>
-				</div>
-			)}
+		  {isAdVisible && (
+			<div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999, maxWidth: '300px', backgroundColor: '#fff', boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)' }} className="ad-panel">
+			  {ads.length > 0 ? (
+				<>
+				  <button className="close-button" onClick={handleHideAd}>
+					X
+				  </button>
+				  <div className="py-3">
+					{ads.length > 0 ? (
+					  <table className="table table-bordered table-striped">
+						<thead>
+						  <tr>
+							<th scope="col">Ad Title</th>
+							<th scope="col">Ad Content</th>
+						  </tr>
+						</thead>
+						<tbody>
+						  {ads.map((ad, index) => (
+							<tr key={index}>
+							  <td>{ad.title}</td>
+							  <td>{ad.content}</td>
+							</tr>
+						  ))}
+						</tbody>
+					  </table>
+					) : (
+					  <p></p>
+					)}
+				  </div>
+				</>
+			  ) : null}
+			</div>
+		  )}
 		</div>
-	);
-}
-
+	  );
+	}	  
 export default AddComponent;
