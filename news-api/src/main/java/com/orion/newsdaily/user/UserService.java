@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -145,6 +146,14 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    public Authentication getAuth()
+    {
+        // Get the current authentication object
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        return auth;
     }
 
     public String getRoleByUsername(String username) {

@@ -36,6 +36,7 @@ public class AuditTrailService {
     private final UserService userService;
 
 
+
     public void create(Authentication authentication, long newsId) {
         String username=authentication.getName();
 
