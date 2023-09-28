@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -41,8 +42,16 @@ public class AdsService {
     }
 
 
+//    public List<NewsArticle> findMyAds() {
+//        return getAdsByTagList(auditTrailService.getUserPreferencesByUserId(userService.getAuth()));
+//    }
     public List<NewsArticle> findMyAds() {
-//        List<Long> list = auditTrailService.getUserPreferencesByUserId(auth);
-        return getAdsByTagList(auditTrailService.getUserPreferencesByUserId(userService.getAuth()));
+        List<NewsArticle> adsList = getAdsByTagList(auditTrailService.getUserPreferencesByUserId(userService.getAuth()));
+        Collections.shuffle(adsList);
+        if (!adsList.isEmpty()) {
+            return Collections.singletonList(adsList.get(0));
+        } else {
+            return Collections.emptyList();
+        }
     }
 }
