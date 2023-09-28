@@ -8,10 +8,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Sample Article 1'
+                  value: 'Breaking: Major Discovery in Space Exploration'
               - column:
                   name: content
-                  value: 'This is a sample article content 1.'
+                  value: 'Scientists have made a groundbreaking discovery in space exploration, unlocking new mysteries of the cosmos.'
               - column:
                   name: posted_at
                   value: '2023-09-19 10:00:00'
@@ -32,10 +32,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Sample Article 2'
+                  value: 'Economic Forecast 2023: What Lies Ahead?'
               - column:
                   name: content
-                  value: 'This is a sample article content 2.'
+                  value: 'Analysts and experts weigh in on the economic outlook for the year 2023, offering insights into potential challenges and opportunities.'
               - column:
                   name: posted_at
                   value: '2023-09-20 14:30:00'
@@ -56,10 +56,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Sample Article 3'
+                  value: 'COVID-19 Vaccination Milestone Reached'
               - column:
                   name: content
-                  value: 'This is a sample article content 3.'
+                  value: 'The global vaccination campaign against COVID-19 has achieved a significant milestone, with millions of people now protected against the virus.'
               - column:
                   name: posted_at
                   value: '2019-10-04 10:00:00'
@@ -74,22 +74,22 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 8
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
               - column:
                   name: title
-                  value: 'Sample Article 4'
+                  value: 'Climate Change Summit Addresses Urgent Environmental Concerns'
               - column:
                   name: content
-                  value: 'This is a sample article content 4.'
+                  value: 'World leaders gather to address the pressing issues of climate change and its impact on our planets future.'
               - column:
                   name: posted_at
                   value: '2019-10-04 11:00:00'
               - column:
                   name: is_approved
-                  value: false
+                  value: true
               - column:
                   name: is_disabled
                   value: false
@@ -104,10 +104,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Ad 1'
+                  value: 'Tech Giants Unveil Innovative New Gadgets at Expo'
               - column:
                   name: content
-                  value: 'This is a sample ad content 1.'
+                  value: 'Leading technology companies showcase their latest innovations, promising to revolutionize the way we live and work.'
               - column:
                   name: posted_at
                   value: '2022-07-20 14:30:00'
@@ -119,7 +119,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_ad
-                  value: true
+                  value: false
               - column:
                   name: fk_user_id
                   value: 2
@@ -128,10 +128,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Ad 2'
+                  value: 'Local Community Rallies Together for Charity Event'
               - column:
                   name: content
-                  value: 'This is a sample ad content 2.'
+                  value: 'Residents come together for a charitable cause, demonstrating the power of community support.'
               - column:
                   name: posted_at
                   value: '2022-07-20 14:30:00'
@@ -143,7 +143,103 @@ databaseChangeLog:
                   value: false
               - column:
                   name: is_ad
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 2
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Political Turbulence: Key Developments in Global Politics'
+              - column:
+                  name: content
+                  value: 'Political shifts and international relations take center stage as nations navigate a changing geopolitical landscape.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
                   value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 2
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Historic Archaeological Find Rewrites Ancient History'
+              - column:
+                  name: content
+                  value: 'Archaeologists uncover an ancient site that challenges previous assumptions about early civilizations.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 2
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Innovative Healthcare Solutions Transform Patient Care'
+              - column:
+                  name: content
+                  value: 'Medical breakthroughs and cutting-edge technology redefine healthcare, improving outcomes for patients worldwide.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
+                  value: false
+              - column:
+                  name: fk_user_id
+                  value: 2
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Sports World Celebrates Record-Breaking Performance'
+              - column:
+                  name: content
+                  value: 'Athletes make history with remarkable achievements, captivating sports enthusiasts around the globe.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
+                  value: false
               - column:
                   name: fk_user_id
                   value: 2
