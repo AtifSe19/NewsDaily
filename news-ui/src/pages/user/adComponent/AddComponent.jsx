@@ -20,16 +20,16 @@ function AddComponent() {
         }
       });
 
-      if (response.status === 200) {
-        const newAds = response.data;
-        setAds(newAds);
-      } else {
-        console.error("Failed to fetch Ad");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+			if (response.status === 200) {
+				const newAds = response.data;
+				setAds(newAds);
+			} else {
+				console.error("Failed to fetch Ad");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
 
   useEffect(() => {
     showAdAfterDelay(20);
