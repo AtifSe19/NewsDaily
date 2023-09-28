@@ -64,22 +64,26 @@ function AddComponent() {
 						X
 					</button>
 					<div className="py-3">
-						<table className="table table-bordered table-striped">
-							<thead>
-								<tr>
-									<th scope="col">Ad Title</th>
-									<th scope="col">Ad Content</th>
-								</tr>
-							</thead>
-							<tbody>
-								{ads.map((ad, index) => (
-									<tr key={index}>
-										<td>{ad.title}</td>
-										<td>{ad.content}</td>
+						{ads.length > 0 ? ( // Check if there are records
+							<table className="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th scope="col">Ad Title</th>
+										<th scope="col">Ad Content</th>
 									</tr>
-								))}
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									{ads.map((ad, index) => (
+										<tr key={index}>
+											<td>{ad.title}</td>
+											<td>{ad.content}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						) : (
+							<p>No records available</p> // Display a message when there are no records
+						)}
 					</div>
 				</div>
 			)}
