@@ -146,22 +146,23 @@ const NewsList = () => {
 
   return (
     <div className="wrapperNewsCard">
-      {newsArticles.map((article) => (
+      {newsArticles.map((article, index) => (
         <NewsCard
           key={article.id}
           // category="Popular"
-          imageSrc="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+          imageSrc={`https://source.unsplash.com/random/400x300?${index}`} // Generate a unique URL with an index
           hashtags={article.hashtags}
           title={article.title}
           description={article.content}
-          profileImageSrc="https://images.unsplash.com/photo-1554780336-390462301acf?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
+          profileImageSrc={`https://source.unsplash.com/random/400x400?profile-${index}`} // Generate a unique profile image URL with an index
           author={article.reporter}
           followers={article.postedAt.slice(0, 10)}
-          id={article.id} 
+          id={article.id}
           openModal={openModal}
         />
       ))}
-      <div><AddComponent/>
+      <div>
+        <AddComponent />
       </div>
       {showModal && (
         <div className="modal-wrapper" onClick={closeModal}>
@@ -175,7 +176,7 @@ const NewsList = () => {
         </div>
       )}
     </div>
-  )
-};
+  );
+} 
 
 export default NewsList;
