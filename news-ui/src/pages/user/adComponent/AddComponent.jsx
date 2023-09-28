@@ -22,6 +22,11 @@ function AddComponent() {
 
 			if (response.status === 200) {
 				const newAds = response.data;
+
+				// if(newAds === null || newAds.length === 0)
+				// {
+				// 	setIsAdVisible(false);
+				// }
 				setAds(newAds);
 			} else {
 				console.error("Failed to fetch Ad");
