@@ -57,7 +57,17 @@ public class NewsArticleService {
 
         newsArticle.setUser(user);
         newsArticle.setPostedAt(LocalDateTime.now());
-        newsArticle.setIsApproved(false);
+
+        newsArticle.setIsApproved(newsArticle.getIsAd());
+
+//        if(newsArticle.getIsAd())   //same as above
+//        {
+//            newsArticle.setIsApproved(true);
+//        }
+//        else
+//        {
+//            newsArticle.setIsApproved(false);
+//        }
         newsArticle.setIsDisabled(false);
         return newsArticleRepo.save(newsArticle);
     }

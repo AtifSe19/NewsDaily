@@ -46,6 +46,7 @@ public class NewsArticleController {
             @RequestBody NewsArticle newsArticle,
             @RequestParam(name = "tags") String tagsParam
     ) {
+
         NewsArticle created = newsArticleService.create(newsArticle, authentication);
         newsTagService.addTag(created.getId(), tagsParam);
         if (created != null ) {
