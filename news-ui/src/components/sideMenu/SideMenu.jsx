@@ -12,7 +12,7 @@ const SideMenu = user => {
   };
 
   return (
-    <div className="side-menu-container">
+    <div style={{ position: 'fixed'}}className="side-menu-container">
       <nav className="navbar navbar-expand-lg navbar-dark sideMenu">
         <div className="container-fluid">
           <button

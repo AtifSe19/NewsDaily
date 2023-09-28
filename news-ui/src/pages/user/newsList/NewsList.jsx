@@ -150,11 +150,11 @@ const NewsList = () => {
         <NewsCard
           key={article.id}
           // category="Popular"
-          imageSrc={`https://source.unsplash.com/random/400x300?${index}`} // Generate a unique URL with an index
+          imageSrc={`https://source.unsplash.com/random/400x300?${index}`}
           hashtags={article.hashtags}
           title={article.title}
           description={article.content}
-          profileImageSrc={`https://source.unsplash.com/random/400x400?profile-${index}`} // Generate a unique profile image URL with an index
+          profileImageSrc={`https://source.unsplash.com/random/400x400?profile-${index}`}
           author={article.reporter}
           followers={article.postedAt.slice(0, 10)}
           id={article.id}
