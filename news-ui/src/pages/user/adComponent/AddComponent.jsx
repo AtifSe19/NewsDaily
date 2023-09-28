@@ -21,7 +21,17 @@ function AddComponent() {
 
 			if (response.status === 200) {
 				const ads = response.data;
-				setAds(ads);
+
+				const intervalId = setInterval(() => {
+
+					if (!isAdVisible) {
+						// showAdAfterDelay(0);
+						setAds(ads);
+					}
+				}, 20000);
+
+
+				
 			} else {
 				console.error("Failed to fetch Add");
 			}
