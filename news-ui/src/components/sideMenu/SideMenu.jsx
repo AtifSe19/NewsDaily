@@ -12,7 +12,7 @@ const SideMenu = user => {
   };
 
   return (
-    <div className="side-menu-container">
+    <div style={{ position: 'fixed'}}className="side-menu-container">
       <nav className="navbar navbar-expand-lg navbar-dark sideMenu">
         <div className="container-fluid">
           <button
@@ -91,7 +91,7 @@ const SideMenu = user => {
                 </>
               )}
 
-              {user && user.role === "REPORTER" && (
+              {user && (user.role === "REPORTER" && user.isDisabled === false) && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/uploadNews">

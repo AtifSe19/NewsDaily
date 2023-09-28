@@ -1,5 +1,6 @@
 package com.orion.newsdaily.newsArticle;
 
+import com.orion.newsdaily.ads.AdsService;
 import com.orion.newsdaily.comment.Comment;
 import com.orion.newsdaily.newsTag.NewsTag;
 import com.orion.newsdaily.newsTag.NewsTagService;
@@ -32,6 +33,9 @@ public class NewsArticleController {
     private final UserService userService;
     @Autowired
     private final NewsTagService newsTagService;
+
+    @Autowired
+    private final AdsService adsService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
@@ -113,8 +117,8 @@ public class NewsArticleController {
 
     @GetMapping("/my-ads")
 //    @PreAuthorize("hasAuthority('EDITOR')")
-    public ResponseEntity<List<NewsArticle>> findMyAds(Authentication auth) {
-        List<NewsArticle> newsArticles = newsArticleService.findMyAds(auth);
+    public ResponseEntity<List<NewsArticle>> findMyAds() {
+        List<NewsArticle> newsArticles = adsService.findMyAds();
         return ResponseEntity.ok(newsArticles);
 
     }

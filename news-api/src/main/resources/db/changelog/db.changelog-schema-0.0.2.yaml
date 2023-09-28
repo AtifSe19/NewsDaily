@@ -31,6 +31,7 @@ databaseChangeLog:
               - column:
                   name: fk_user_id
                   type: BIGINT
+#                  nullable: true
         - addPrimaryKey:
             tableName: news_articles
             columnNames: id
@@ -40,3 +41,4 @@ databaseChangeLog:
             referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_user_id
+            nullable: true

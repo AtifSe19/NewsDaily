@@ -2,6 +2,7 @@ package com.orion.newsdaily.user;
 
 
 import com.orion.newsdaily.basic.ApiResponse;
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -35,12 +36,32 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Optional<User>>> findById(@PathVariable("id") Long id) {
-        Optional<User> acc = userService.findById(id);
+        Optional<User> user = userService.findById(id);
 
-        if (acc == null) {
+        if (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(ApiResponse.of(acc));
+        return ResponseEntity.ok(ApiResponse.of(user));
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR', 'USER', 'REPORTER')")
+    @GetMapping("/user")
+    public ResponseEntity<ApiResponse<User>> findUserByUsername(Authentication auth) {
+        String username=" ";
+        if(auth==null || auth.getPrincipal()==null){
+
+            username="anonymous";
+
+        }
+        else {
+            username = auth.getName();
+        }
+        User user = userService.findByUserName(username);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ApiResponse.of(user));
     }
 
     @GetMapping("/search")
@@ -115,29 +136,39 @@ public class UserController {
         List<User> list = userService.findAll();
         return ResponseEntity.ok(ApiResponse.of(list));
     }
-
-
-
-    @GetMapping("/getRole")
-    public String getRole(Authentication auth) {
-        return userService.getRoleByUsername(auth.getName());
-    }
-
+//
+//    @GetMapping("/getRole")
+//    public String getRole(Authentication auth) {
+//        return userService.getRoleByUsername(auth.getName());
+//    }
+//
     @GetMapping("/getAuthenticatedUser")
     public Authentication getAuthenticatedUser() {
         Authentication authenticationUser = SecurityContextHolder.getContext().getAuthentication();
 //        authenticationUser.getName();
         return authenticationUser;
     }
-
-    @GetMapping("/getUsername")
-    public String getUsername(Authentication auth) {
-        return auth.getName();
-    }
+//
+//    @GetMapping("/getUsername")
+//    public String getUsername(Authentication auth) {
+//        return auth.getName();
+//    }
 
     @GetMapping("/getUserId")
     public long getUserId(Authentication auth) {
         String userName = auth.getName();
         return(userService.findIdByUserName(userName));
     }
+
+    @PreAuthorize("hasAuthority('EDITOR')")
+    @PutMapping("/disable/{userId}")
+    public ResponseEntity<User> disableUserToggle(@PathVariable("userId") long id) {
+        User updated = userService.disableUserToggle(id);
+        if (updated==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
+
 }
