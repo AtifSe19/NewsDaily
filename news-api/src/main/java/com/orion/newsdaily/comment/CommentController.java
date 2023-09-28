@@ -33,9 +33,10 @@ public class CommentController {
 //        return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
 //    }
 
-    @PreAuthorize("hasAuthority('USER')")
+//    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{newsId}/all")
     public ResponseEntity<CommentDTO> NewsSpecificComments(@PathVariable("newsId") Long id) {
+
         return ResponseEntity.ok(commentService.NewsSpecificCommentsWithAuthor(id));
     }
 

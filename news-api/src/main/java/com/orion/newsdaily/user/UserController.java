@@ -76,6 +76,28 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.of(news));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR', 'USER', 'REPORTER')")
+    @GetMapping("/user")
+    public ResponseEntity<ApiResponse<User>> findUserByUsername(Authentication auth) {
+        String username=" ";
+        if(auth==null || auth.getPrincipal()==null){
+
+            username="anonymous";
+
+        }
+        else {
+            username = auth.getName();
+        }
+        User user = userService.findByUserName(username);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ApiResponse.of(user));
+    }
+
+
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR')")
     public ResponseEntity<ApiResponse<User>> create(@RequestBody User accToInsert) {

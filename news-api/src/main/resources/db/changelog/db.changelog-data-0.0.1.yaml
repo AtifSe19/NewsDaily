@@ -8,6 +8,24 @@ databaseChangeLog:
             columns:
               - column:
                   name: username
+                  value: 'anonymous'
+              - column:
+                  name: password
+                  value: '$2a$12$Ud.tPNB/XsVdUBImlZ0Fk.K4L.o4kAgcBxMgCaNLL6.B4ZHMVuR7a'
+              - column:
+                  name: email
+                  value: anonymous@newsdaily.com
+              - column:
+                  name: role
+                  value: 'USER'
+              - column:
+                  name: is_logged_in
+                  value: true
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
                   value: 'admin'
               - column:
                   name: password
