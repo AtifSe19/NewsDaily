@@ -102,7 +102,7 @@ public class UserService implements UserDetailsService {
             return null;
         }
         user.setPassword(passwordEncoder().encode(user.getPassword()));
-
+        user.setIsDisabled(false);
         return userRepo.save(user);
     }
 
