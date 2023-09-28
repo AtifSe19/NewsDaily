@@ -30,3 +30,30 @@ databaseChangeLog:
               - column:
                   name: tag_id
                   value: 2
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 5
+              - column:
+                  name: tag_id
+                  value: 1
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 5
+              - column:
+                  name: tag_id
+                  value: 2
+        - insert:
+            tableName: news_tags
+            columns:
+              - column:
+                  name: news_article_id
+                  value: 6
+              - column:
+                  name: tag_id
+                  value: 1

@@ -111,6 +111,14 @@ public class NewsArticleController {
 
     }
 
+    @GetMapping("/my-ads")
+//    @PreAuthorize("hasAuthority('EDITOR')")
+    public ResponseEntity<List<NewsArticle>> findMyAds(Authentication auth) {
+        List<NewsArticle> newsArticles = newsArticleService.findMyAds(auth);
+        return ResponseEntity.ok(newsArticles);
+
+    }
+
     @GetMapping("/newsByComment/{cmtId}")
     @PreAuthorize("hasAuthority('EDITOR')")
     public ResponseEntity<NewsArticle> findNewsByCommentId(@PathVariable Long cmtId) {

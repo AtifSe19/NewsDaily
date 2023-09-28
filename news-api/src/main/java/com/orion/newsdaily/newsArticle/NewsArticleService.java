@@ -1,5 +1,7 @@
 package com.orion.newsdaily.newsArticle;
 
+import com.orion.newsdaily.auditTrail.AuditTrail;
+import com.orion.newsdaily.auditTrail.AuditTrailService;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
 import jakarta.persistence.EntityManager;
@@ -27,14 +29,29 @@ public class NewsArticleService {
     private final NewsArticleRepo newsArticleRepo;
     @Autowired
     private final UserService userService;
+
+//    private final AuditTrailService auditTrailService;
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @PersistenceContext
     private EntityManager entityManager;
 
+
+    public List<NewsArticle> getAdsByTagList(List<Long> taglist) {
+        return entityManager.createQuery(
+                        "SELECT DISTINCT na " +
+                                "FROM NewsArticle na " +
+                                "JOIN FETCH na.tags nt " + // Assuming "tags" is the name of the relationship in NewsArticle entity
+                                "WHERE na.isAd = true " +
+                                "AND nt.tagId IN :taglist", NewsArticle.class)
+                .setParameter("taglist", taglist)
+                .getResultList();
+    }
+
+
     @Transactional
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
-        String username=authentication.getName();
-        User user=userService.findByUserName(username);
+        String username = authentication.getName();
+        User user = userService.findByUserName(username);
 
         newsArticle.setUser(user);
         newsArticle.setPostedAt(LocalDateTime.now());
@@ -43,24 +60,32 @@ public class NewsArticleService {
         return newsArticleRepo.save(newsArticle);
     }
 
-    public List<NewsArticle> findPendingNews()
-    {
+    public List<NewsArticle> findPendingNews() {
         return newsArticleRepo.findPendingNews();
     }
-    public List<NewsArticle> findMyPendingNews(long id)
-    {
+
+    public List<NewsArticle> findMyAds(Authentication auth) {
+//        List<Long> list = auditTrailService.getUserPreferencesByUserId(auth);
+
+        AuditTrailService auditTrailService = null;
+        return getAdsByTagList(auditTrailService.getUserPreferencesByUserId(auth));
+    }
+
+    public List<NewsArticle> findMyPendingNews(long id) {
         return newsArticleRepo.findMyPendingNews(id);
     }
+
     public NewsArticle findById(Long id) {
         return newsArticleRepo.findById(id).orElse(null);
     }
+
     public NewsArticle approveNewsToggle(long id) {
-        Optional<NewsArticle> existingNewsOptional=newsArticleRepo.findById(id);
+        Optional<NewsArticle> existingNewsOptional = newsArticleRepo.findById(id);
         if (existingNewsOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
-        NewsArticle newsArticleToUpdate=existingNewsOptional.get();
-        if(newsArticleToUpdate.getIsApproved().equals(Boolean.FALSE)){
+        NewsArticle newsArticleToUpdate = existingNewsOptional.get();
+        if (newsArticleToUpdate.getIsApproved().equals(Boolean.FALSE)) {
             newsArticleToUpdate.setIsApproved(true);
         } else if (newsArticleToUpdate.getIsApproved().equals(Boolean.TRUE)) {
             newsArticleToUpdate.setIsApproved(false);
@@ -69,6 +94,7 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
+
     @Transactional
     public NewsArticle disableNewsToggle(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
@@ -76,7 +102,7 @@ public class NewsArticleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "News not found");
         }
         NewsArticle newsArticleToUpdate = newsArticle.get();
-        if(newsArticleToUpdate.getIsDisabled().equals(Boolean.FALSE)){
+        if (newsArticleToUpdate.getIsDisabled().equals(Boolean.FALSE)) {
             newsArticleToUpdate.setIsDisabled(true);
         } else if (newsArticleToUpdate.getIsDisabled().equals(Boolean.TRUE)) {
             newsArticleToUpdate.setIsDisabled(false);
@@ -84,16 +110,17 @@ public class NewsArticleService {
         newsArticleRepo.save(newsArticleToUpdate);
         return newsArticleToUpdate;
     }
+
     public void delete(long id) {
         Optional<NewsArticle> newsArticle = newsArticleRepo.findById(id);
 
         if (newsArticle.isPresent()) {
             newsArticleRepo.deleteById(id);
-        }
-        else {
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
     }
+
     public List<NewsArticle> findAllNewsForEditor() {
         return newsArticleRepo.findAllNewsForEditor();
     }
@@ -106,7 +133,6 @@ public class NewsArticleService {
     public NewsArticle findNewsByCommentId(Long cmtId) {
         return newsArticleRepo.findNewsByCommentId(cmtId);
     }
-
 
 
     public void delete(NewsArticle newsArticle) {

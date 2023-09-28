@@ -2,6 +2,7 @@ package com.orion.newsdaily.auditTrail;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orion.newsdaily.newsArticle.NewsArticle;
 import com.orion.newsdaily.newsTag.NewsTagService;
 import com.orion.newsdaily.tag.TagService;
 import com.orion.newsdaily.user.User;
@@ -19,6 +20,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -107,5 +109,28 @@ public class AuditTrailService {
                 )
                 .collect(Collectors.toList());
     }
+
+//    public List<Long> getUserPreferences(Authentication auth) {
+//        List<AuditTrail> auditTrails = auditTrailRepo.findAllByUserId(userService.findIdByUserName(auth.getName()));
+//
+//
+//
+//        return auditTrails.stream()
+//                .map(auditTrail -> new UserPreferenceDTO(
+//                                auditTrail.getId(),
+//                                auditTrail.getUser().getId(),
+//                                getTagNamesByTagIds(newsTagService.findTagsByNewsArticleId(auditTrail.getNewsId()))
+//                        )
+//                )
+//                .collect(Collectors.toList());
+//    }
+    public List<Long> getUserPreferencesByUserId(Authentication auth) {
+        List<AuditTrail> auditTrails = auditTrailRepo.findLatest2ByUserId(userService.findIdByUserName(auth.getName())); // Assuming you have a custom repository method for filtering by user ID
+
+        return auditTrails.stream()
+                .flatMap(auditTrail -> newsTagService.findTagsByNewsArticleId(auditTrail.getNewsId()).stream())
+                .collect(Collectors.toList());
+    }
+
 
 }

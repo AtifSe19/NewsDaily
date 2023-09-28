@@ -104,10 +104,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: title
-                  value: 'Sample Article 5'
+                  value: 'Ad 1'
               - column:
                   name: content
-                  value: 'This is a sample article content 5.'
+                  value: 'This is a sample ad content 1.'
               - column:
                   name: posted_at
                   value: '2022-07-20 14:30:00'
@@ -122,4 +122,28 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 8
+                  value: 2
+        - insert:
+            tableName: news_articles
+            columns:
+              - column:
+                  name: title
+                  value: 'Ad 2'
+              - column:
+                  name: content
+                  value: 'This is a sample ad content 2.'
+              - column:
+                  name: posted_at
+                  value: '2022-07-20 14:30:00'
+              - column:
+                  name: is_approved
+                  value: true
+              - column:
+                  name: is_disabled
+                  value: false
+              - column:
+                  name: is_ad
+                  value: true
+              - column:
+                  name: fk_user_id
+                  value: 2
