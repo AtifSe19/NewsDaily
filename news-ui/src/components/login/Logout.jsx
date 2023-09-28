@@ -65,7 +65,7 @@ const Logout = () => {
 
 			window.location.href = "/";
 			// Call the clearAllCookies function to clear all cookies
-			// clearAllCookies();
+			clearAllCookies();
 		}
 	};
 

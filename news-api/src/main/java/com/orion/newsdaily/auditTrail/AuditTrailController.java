@@ -23,8 +23,8 @@ public class AuditTrailController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping
-    public ResponseEntity<Map<String, List>> getUserPreferences(){
-        List userPreference=auditTrailService.getUserPreferences();
+    public ResponseEntity<Map<String, List<UserPreferenceDTO>>> getUserPreferences(){
+        List<UserPreferenceDTO> userPreference=auditTrailService.getUserPreferences();
         return ResponseEntity.ok(Map.of("content", userPreference));
     }
 }

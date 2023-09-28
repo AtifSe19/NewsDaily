@@ -76,12 +76,24 @@ const ToggleNewsComPendingStatus = () => {
         setSearchInput(event.target.value);
     }
 
+    // const handleSearch = () => {
+    //     const filteredSearchResult = newsCom.filter(newsCom =>
+    //         newsCom.id === parseInt(searchInput),
+    //     );
+    //     setFilteredNewsCom(filteredSearchResult);
+    // }
+
     const handleSearch = () => {
-        const filteredSearchResult = newsCom.filter(newsCom =>
-            newsCom.id === parseInt(searchInput),
-        );
-        setFilteredNewsCom(filteredSearchResult);
-    }
+		// Convert searchInput to lowercase for case-insensitive search
+		const searchInputLower = searchInput.toLowerCase();
+
+		// Filter accounts based on the search input using String.includes()
+		const filteredSearchResult = newsCom.filter(newsCom =>
+			newsCom.content.toLowerCase().includes(searchInputLower)
+		);
+
+		setFilteredNewsCom(filteredSearchResult);
+	}
 
 
 
@@ -167,7 +179,7 @@ const ToggleNewsComPendingStatus = () => {
                                     <input
                                         type="text"
                                         className="form-control search-input"
-                                        placeholder={`Search by ${sectionType} Id`}
+                                        placeholder={`Search by ${sectionType} content`}
                                         value={searchInput}
                                         onChange={handleSearchInputChange}
                                     />
