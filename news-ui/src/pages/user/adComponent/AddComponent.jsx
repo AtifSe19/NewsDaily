@@ -10,6 +10,7 @@ function AddComponent() {
 			setIsAdVisible(true);
 		}, delayInSeconds * 1000);
 	};
+
 	const fetchAllAds = async () => {
 		try {
 			const response = await axios.get("/api/v1/news/my-ads", {
@@ -20,10 +21,10 @@ function AddComponent() {
 			});
 
 			if (response.status === 200) {
-				const ads = response.data;
-				setAds(ads);
+				const newAds = response.data;
+				setAds(newAds);
 			} else {
-				console.error("Failed to fetch Add");
+				console.error("Failed to fetch Ad");
 			}
 		} catch (error) {
 			console.error("Error:", error);
@@ -34,24 +35,26 @@ function AddComponent() {
 		showAdAfterDelay(20);
 
 		const intervalId = setInterval(() => {
-
 			if (!isAdVisible) {
 				showAdAfterDelay(0);
 			}
 		}, 20000);
 
-		fetchAllAds();
+		// Fetch new ads after 20 seconds
+		const fetchNewAdsInterval = setInterval(() => {
+			fetchAllAds();
+		}, 20000);
 
-		return () => clearInterval(intervalId);
-
+		return () => {
+			clearInterval(intervalId);
+			clearInterval(fetchNewAdsInterval);
+		};
 	}, [isAdVisible]);
 
 	const handleHideAd = () => {
 		setIsAdVisible(false);
 		showAdAfterDelay(20);
 	};
-
-	// const 
 
 	return (
 		<div className="container">
