@@ -35,7 +35,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         if (authentication.getPrincipal() instanceof OAuth2User) {
             OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
 
-            // Retrieve OAuth2 token details
             Map<String, Object> tokenAttributes = oauth2User.getAttributes();
 
             email = (String) tokenAttributes.get("email");
@@ -45,7 +44,6 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
                 targetUrl += "?email=" + URLEncoder.encode(email, "UTF-8") + "&name=" + URLEncoder.encode(username, "UTF-8");
             }
 
-            // Log the token attributes
             System.out.println("Token Attributes here: " + tokenAttributes);
         }
 
@@ -63,13 +61,11 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
             userService.create(user);
         }
 
-        // Your custom logic here, e.g., adding cookies
+
         response.addCookie(webSecurityConfiguration.createSessionCookie(webSecurityConfiguration.encode(authentication)));
 
-        // Set the target URL before invoking the default behavior
         setDefaultTargetUrl(targetUrl);
 
-        // Continue with the default behavior of saving and redirecting to the original request
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

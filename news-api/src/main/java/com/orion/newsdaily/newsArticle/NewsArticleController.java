@@ -1,8 +1,6 @@
 package com.orion.newsdaily.newsArticle;
 
 import com.orion.newsdaily.ads.AdsService;
-import com.orion.newsdaily.comment.Comment;
-import com.orion.newsdaily.newsTag.NewsTag;
 import com.orion.newsdaily.newsTag.NewsTagService;
 import com.orion.newsdaily.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +15,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -55,7 +51,7 @@ public class NewsArticleController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER', 'USER')")
+    @PreAuthorize("hasAnyAuthority('REPORTER', 'USER')")
     @GetMapping("/filter")
     public ResponseEntity<List<NewsArticle>> filter(
             Authentication authentication,
@@ -128,7 +124,7 @@ public class NewsArticleController {
     }
 
     @GetMapping("/my-ads")
-//    @PreAuthorize("hasAuthority('EDITOR')")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<NewsArticle>> findMyAds() {
         List<NewsArticle> newsArticles = adsService.findMyAds();
         return ResponseEntity.ok(newsArticles);

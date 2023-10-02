@@ -1,7 +1,6 @@
 package com.orion.newsdaily.newsTag;
 
 import com.orion.newsdaily.newsArticle.NewsArticle;
-import com.orion.newsdaily.newsArticle.NewsArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

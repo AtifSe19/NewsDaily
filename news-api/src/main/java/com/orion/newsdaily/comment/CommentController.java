@@ -1,7 +1,5 @@
 package com.orion.newsdaily.comment;
 
-import brave.Response;
-import com.orion.newsdaily.newsArticle.NewsArticle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +25,6 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
-
-//    @GetMapping("/pending/{userId}")
-//    public ResponseEntity<List<Comment>> findPendingCommentsByUserId(@PathVariable("userId") Long id) {
-//        return ResponseEntity.ok(commentService.findPendingCommentsByUserId(id));
-//    }
-
-//    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{newsId}/all")
     public ResponseEntity<CommentDTO> NewsSpecificComments(@PathVariable("newsId") Long id) {
 
@@ -45,16 +36,7 @@ public class CommentController {
     public ResponseEntity<List<Comment>> findPendingComments() {
         return ResponseEntity.ok(commentService.findPendingComments());
     }
-//    @GetMapping("/disable")
-//    @PreAuthorize("hasAuthority('EDITOR')")
-//    public ResponseEntity<List<Comment>> findDisableComments() {
-//        return  ResponseEntity.ok(commentService.findDisableComments());
-//    }
 
-
-    //-------------------ADMIN
-
-    //to show admin all the comments against news id and user id
     @GetMapping
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<Comment>> findAll() {

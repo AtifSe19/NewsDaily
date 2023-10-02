@@ -37,34 +37,21 @@ public class TagService {
 
         Tag tag = new Tag();
         tag.setName(tagDTO.getName());
-        Tag myTag = tagRepository.save(tag);     //TId, name
+        Tag myTag = tagRepository.save(tag);
 
         NewsTag newsTag = new NewsTag();
         newsTag.setNewsArticleId(tagDTO.getNewsId());
         newsTag.setTagId(myTag.getId());
 
-        newsTagRepo.save(newsTag);    //tagId, NewsId
+        newsTagRepo.save(newsTag);
 
         return myTag;
     }
 
     public Tag updateTag(long id, TagDTO tagDTO) {
         Tag tag = getTagById(id);
-        tag.setName(tagDTO.getName());             //just updating name.
-        // Update other fields as needed
+        tag.setName(tagDTO.getName());
         Tag myTag = tagRepository.save(tag);
-
-//        tid = id;
-//        nid = tagDTO.getNewsId();
-
-//        NewsTag newsTagObj = newsTagRepo.getIdByNTID(id, tagDTO.getNewsId());
-//
-//        NewsTag newsTag = newsTagRepo.getIdByNTID(id, tagDTO.getNewsId());
-//        newsTag.setNewsArticleId(tagDTO.getNewsId());
-//        newsTag.setTagId(myTag.getId());
-//
-//        newsTagRepo.save(newsTag);    //tagId, NewsId
-
         return myTag;
     }
 

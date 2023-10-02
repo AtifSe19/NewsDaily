@@ -1,6 +1,5 @@
 package com.orion.newsdaily.auditTrail;
 
-import com.orion.newsdaily.tag.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

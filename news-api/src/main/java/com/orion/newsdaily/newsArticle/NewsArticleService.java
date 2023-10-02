@@ -1,13 +1,7 @@
 package com.orion.newsdaily.newsArticle;
 
-import com.orion.newsdaily.auditTrail.AuditTrail;
-import com.orion.newsdaily.auditTrail.AuditTrailRepo;
-import com.orion.newsdaily.auditTrail.AuditTrailService;
 import com.orion.newsdaily.user.User;
 import com.orion.newsdaily.user.UserService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -15,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -33,23 +26,8 @@ public class NewsArticleService {
     @Autowired
     private final UserService userService;
 
-//    private final AuditTrailService auditTrailService;
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-//    @PersistenceContext
-//    private EntityManager entityManager;
-//
-//
-//    public List<NewsArticle> getAdsByTagList(List<Long> taglist) {
-//        return entityManager.createQuery(
-//                        "SELECT DISTINCT na " +
-//                                "FROM NewsArticle na " +
-//                                "JOIN FETCH na.tags nt " + // Assuming "tags" is the name of the relationship in NewsArticle entity
-//                                "WHERE na.isAd = true " +
-//                                "AND nt.tagId IN :taglist", NewsArticle.class)
-//                .setParameter("taglist", taglist)
-//                .getResultList();
-//    }
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Transactional
     public NewsArticle create(NewsArticle newsArticle, Authentication authentication) {
@@ -61,14 +39,6 @@ public class NewsArticleService {
 
         newsArticle.setIsApproved(newsArticle.getIsAd());
 
-//        if(newsArticle.getIsAd())   //same as above
-//        {
-//            newsArticle.setIsApproved(true);
-//        }
-//        else
-//        {
-//            newsArticle.setIsApproved(false);
-//        }
         newsArticle.setIsDisabled(false);
         return newsArticleRepo.save(newsArticle);
     }
@@ -76,16 +46,6 @@ public class NewsArticleService {
     public List<NewsArticle> findPendingNews() {
         return newsArticleRepo.findPendingNews();
     }
-
-//    public List<NewsArticle> findMyAds() {
-////        List<Long> list = auditTrailService.getUserPreferencesByUserId(auth);
-//
-//        // Get the current authentication object
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        AuditTrailService auditTrailService = new AuditTrailService();
-//        return getAdsByTagList(auditTrailService.getUserPreferencesByUserId(authentication));
-//    }
 
     public List<NewsArticle> findMyPendingNews(long id) {
         return newsArticleRepo.findMyPendingNews(id);

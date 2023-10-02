@@ -20,7 +20,7 @@ const NewsCard = ({
   id,
   openModal
 }) => {
-  const [showComments, setShowComments] = useState(false); 
+  const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
 
   const fetchComments = async () => {
@@ -156,34 +156,34 @@ const NewsList = () => {
   };
   const onFilter = async () => {
     try {
-      const tagsParam = formData.selectedTags.join(","); 
+      const tagsParam = formData.selectedTags.join(",");
       const response = await axios.get(
         `/api/v1/news/filter?tags=${tagsParam}`);
-        const fetchedNews = response.data;
-        console.log("Fetched News:", fetchedNews);
-  
-        const newsWithHashtags = await Promise.all(
-          fetchedNews.map(async article => {
-            const reporterResponse = await axios.get(
-              `/api/v1/news/report/${article.id}`
-            );
-            const reporterName = reporterResponse.data;
-  
-            const hashtagsResponse = await axios.get(
-              `/api/v1/newstag/${article.id}`
-            );
-            const hashtags = hashtagsResponse.data.map(tag => `#${tag} `);
-            console.log("Hashtags:", hashtags);
-  
-            return { ...article, hashtags, reporter: reporterName };
-          })
-        );
-  
-        setNewsArticles(newsWithHashtags);
-      } catch (error) {
-        console.error("Error fetching news articles:", error);
-      }
-        
+      const fetchedNews = response.data;
+      console.log("Fetched News:", fetchedNews);
+
+      const newsWithHashtags = await Promise.all(
+        fetchedNews.map(async article => {
+          const reporterResponse = await axios.get(
+            `/api/v1/news/report/${article.id}`
+          );
+          const reporterName = reporterResponse.data;
+
+          const hashtagsResponse = await axios.get(
+            `/api/v1/newstag/${article.id}`
+          );
+          const hashtags = hashtagsResponse.data.map(tag => `#${tag} `);
+          console.log("Hashtags:", hashtags);
+
+          return { ...article, hashtags, reporter: reporterName };
+        })
+      );
+
+      setNewsArticles(newsWithHashtags);
+    } catch (error) {
+      console.error("Error fetching news articles:", error);
+    }
+
   };
   const handleChange = e => {
     const { name, value } = e.target;
@@ -229,24 +229,24 @@ const NewsList = () => {
   return (
     <div className="wrapperNewsCard">
       <div className="mb-3">
-      <button className="model-btn" onClick={fetchNews}>
-              All
-            </button>
+        <button className="model-btn" onClick={fetchNews}>
+          All
+          </button>
         <label className="form-label">Filter Topics</label>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {allTags.map((tag, index) => (
             <span
-            key={tag.id}
-            style={{
-              marginRight: "8px",
-              display: "inline-block",
-              backgroundColor: formData.selectedTags.includes(tag.id.toString()) ? "#007bff" : "#f0f0f0",
-              color: formData.selectedTags.includes(tag.id.toString()) ? "#fff" : "#000",
-              borderRadius: "20px",
-              padding: "5px 15px",
-              cursor: "pointer",
-            }}
-          >
+              key={tag.id}
+              style={{
+                marginRight: "8px",
+                display: "inline-block",
+                backgroundColor: formData.selectedTags.includes(tag.id.toString()) ? "#007bff" : "#f0f0f0",
+                color: formData.selectedTags.includes(tag.id.toString()) ? "#fff" : "#000",
+                borderRadius: "20px",
+                padding: "5px 15px",
+                cursor: "pointer",
+              }}
+            >
               <label>
                 <input
                   type="checkbox"
@@ -261,7 +261,7 @@ const NewsList = () => {
           ))}
         </div>
         <button className="model-btn" onClick={onFilter}>
-              Filter
+          Filter
             </button>
       </div>
       {newsArticles.map((article, index) => (

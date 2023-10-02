@@ -1,6 +1,5 @@
 package com.orion.newsdaily.user;
 
-import com.orion.newsdaily.newsArticle.NewsArticle;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,29 +108,27 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User update(User updatedUser, Long id) {
 
-        // Check if the account item with the given id exists in the repository
         Optional<User> existingUserOptional = userRepo.findById(id);
 
         logger.debug("check this.");
 
         if (existingUserOptional.isEmpty()) {
             logger.trace("There is nothing to update with id = {}",id);
-            return null; // Return null or throw an exception to handle the case where the account item doesn't exist
+            return null;
         }
 
-        // Get the existing news item from the Optional
+
         User existingUser = existingUserOptional.get();
 
         existingUser.setUsername(updatedUser.getUsername());
         existingUser.setPassword(updatedUser.getPassword());
-//        existingUser.setPassword(passwordEncoder().encode(updatedUser.getPassword()));
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setRole(existingUser.getRole());
 
-        // Save the updated news item back to the repository
+
         userRepo.save(existingUser);
 
-        return existingUser; // Return the updated news item
+        return existingUser;
     }
 
     public User findByUserName(String username){
@@ -139,8 +136,6 @@ public class UserService implements UserDetailsService {
     }
     public boolean delete(Long id)
     {
-
-//        Authentication authentication = new Authentication();
 
         Optional<User> user = userRepo.findById(id);
         if(user.isPresent())
@@ -153,7 +148,6 @@ public class UserService implements UserDetailsService {
 
     public Authentication getAuth()
     {
-        // Get the current authentication object
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return auth;

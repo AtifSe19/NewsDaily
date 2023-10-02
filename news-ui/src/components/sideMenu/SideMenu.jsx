@@ -106,7 +106,7 @@ const SideMenu = user => {
                 </>
               )}
 
-              {user && user.role === "USER" && (
+              {user && (user.role === "USER" || user.role === "REPORTER") && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link active" to="/showNews">

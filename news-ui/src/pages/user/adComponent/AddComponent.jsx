@@ -68,10 +68,10 @@ function AddComponent() {
             maxWidth: "300px",
             backgroundColor: "#fff",
             boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-            borderRadius: "10px", // Add rounded edges
-            padding: "10px", // Add some padding
-            fontFamily: "Arial, sans-serif", // Change font family
-            color: "#333" // Change font color
+            borderRadius: "10px", 
+            padding: "10px", 
+            fontFamily: "Arial, sans-serif", 
+            color: "#333" 
           }}
           className="ad-panel"
         >
@@ -88,7 +88,7 @@ function AddComponent() {
                   border: "none",
                   fontSize: "18px",
                   cursor: "pointer",
-                  color: "#888" // Change close button color
+                  color: "#888"
                 }}
               >
                 X

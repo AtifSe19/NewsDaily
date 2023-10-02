@@ -2,18 +2,12 @@ package com.orion.newsdaily.user;
 
 
 import com.orion.newsdaily.basic.ApiResponse;
-import com.orion.newsdaily.newsArticle.NewsArticle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,26 +37,6 @@ public class UserController {
         }
         return ResponseEntity.ok(ApiResponse.of(user));
     }
-
-//    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR', 'USER', 'REPORTER')")
-//    @GetMapping("/user")
-//    public ResponseEntity<ApiResponse<User>> findUserByUsername(Authentication auth) {
-//        String username=" ";
-//        if(auth==null || auth.getPrincipal()==null){
-//
-//            username="anonymous";
-//
-//        }
-//        else {
-//            username = auth.getName();
-//        }
-//        User user = userService.findByUserName(username);
-//
-//        if (user == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(ApiResponse.of(user));
-//    }
 
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<User>>> findAllByName(
@@ -136,24 +110,12 @@ public class UserController {
         List<User> list = userService.findAll();
         return ResponseEntity.ok(ApiResponse.of(list));
     }
-//
-//    @GetMapping("/getRole")
-//    public String getRole(Authentication auth) {
-//        return userService.getRoleByUsername(auth.getName());
-//    }
-//
+
     @GetMapping("/getAuthenticatedUser")
     public Authentication getAuthenticatedUser() {
         Authentication authenticationUser = SecurityContextHolder.getContext().getAuthentication();
-//        authenticationUser.getName();
         return authenticationUser;
     }
-//
-//    @GetMapping("/getUsername")
-//    public String getUsername(Authentication auth) {
-//        return auth.getName();
-//    }
-
     @GetMapping("/getUserId")
     public long getUserId(Authentication auth) {
         String userName = auth.getName();

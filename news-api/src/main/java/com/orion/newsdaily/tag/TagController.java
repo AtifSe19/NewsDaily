@@ -18,13 +18,6 @@ public class TagController {
         this.tagService = tagService;
     }
 
-
-//    @GetMapping
-//    public ResponseEntity<ApiResponse<List<Tag>>> getAllTags() {
-//        List<Tag> tags = tagService.getAllTags();
-//        return ResponseEntity.ok(ApiResponse.of(tags));
-//    }
-
     @GetMapping
     public List<Tag> getAllTags() {
         List<Tag> tags = tagService.getAllTags();

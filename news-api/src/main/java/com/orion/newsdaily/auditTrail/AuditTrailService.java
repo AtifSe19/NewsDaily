@@ -2,7 +2,6 @@ package com.orion.newsdaily.auditTrail;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orion.newsdaily.newsArticle.NewsArticle;
 import com.orion.newsdaily.newsTag.NewsTagService;
 import com.orion.newsdaily.tag.TagService;
 import com.orion.newsdaily.user.User;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 public class AuditTrailService {
     @Autowired
     private final AuditTrailRepo auditTrailRepo;
-
     @Autowired
     private final NewsTagService newsTagService;
     @Autowired
@@ -59,12 +57,9 @@ public class AuditTrailService {
 
     public String getIpAddress(){
         try {
-            // Send an HTTP GET request to httpbin.org
             URL url = new URL("https://httpbin.org/ip");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-
-            // Read the response
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder response = new StringBuilder();
             String line;
@@ -73,13 +68,9 @@ public class AuditTrailService {
                 response.append(line);
             }
             reader.close();
-
-            // Parse the JSON response using Jackson
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(response.toString());
             String ipAddress = jsonNode.get("origin").asText();
-
-//            System.out.println("External IP Address: " + ipAddress);
             return ipAddress;
 
 
@@ -95,10 +86,6 @@ public class AuditTrailService {
     }
     public List<UserPreferenceDTO> getUserPreferences() {
         List<AuditTrail> auditTrails = auditTrailRepo.findAll();
-
-        //Audit Trail Id
-        // News Id (On which we click)
-        // Tags!
         return auditTrails.stream()
                 .map(auditTrail -> new UserPreferenceDTO(
                                         auditTrail.getId(), auditTrail.getNewsId(),
@@ -111,20 +98,6 @@ public class AuditTrailService {
                 .collect(Collectors.toList());
     }
 
-//    public List<Long> getUserPreferences(Authentication auth) {
-//        List<AuditTrail> auditTrails = auditTrailRepo.findAllByUserId(userService.findIdByUserName(auth.getName()));
-//
-//
-//
-//        return auditTrails.stream()
-//                .map(auditTrail -> new UserPreferenceDTO(
-//                                auditTrail.getId(),
-//                                auditTrail.getUser().getId(),
-//                                getTagNamesByTagIds(newsTagService.findTagsByNewsArticleId(auditTrail.getNewsId()))
-//                        )
-//                )
-//                .collect(Collectors.toList());
-//    }
     public List<Long> getUserPreferencesByUserId(Authentication auth) {
         List<AuditTrail> auditTrails = auditTrailRepo.findLatest2ByUserId(userService.findIdByUserName(auth.getName())); // Assuming you have a custom repository method for filtering by user ID
 
