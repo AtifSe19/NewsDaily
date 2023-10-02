@@ -26,7 +26,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 8
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -50,7 +50,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 8
+                  value: 4
         - insert:
             tableName: news_articles
             columns:
@@ -74,7 +74,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -98,7 +98,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 3
+                  value: 4
         - insert:
             tableName: news_articles
             columns:
@@ -122,7 +122,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -146,7 +146,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 4
         - insert:
             tableName: news_articles
             columns:
@@ -170,7 +170,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -194,7 +194,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -218,7 +218,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 4
         - insert:
             tableName: news_articles
             columns:
@@ -242,7 +242,7 @@ databaseChangeLog:
                   value: false
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 9
         - insert:
             tableName: news_articles
             columns:
@@ -266,7 +266,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -290,7 +290,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -314,7 +314,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -338,7 +338,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -362,7 +362,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -386,7 +386,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -410,7 +410,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -434,7 +434,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -458,7 +458,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -482,7 +482,7 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
         - insert:
             tableName: news_articles
             columns:
@@ -506,5 +506,5 @@ databaseChangeLog:
                   value: true
               - column:
                   name: fk_user_id
-                  value: 2
+                  value: 3
 

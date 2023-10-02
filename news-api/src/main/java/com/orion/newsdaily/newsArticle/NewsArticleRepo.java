@@ -21,7 +21,6 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
     @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_ad = true", nativeQuery = true)
     List<NewsArticle> findAllAds();
 
-
     @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_disabled = false AND is_ad = true ORDER BY 2", nativeQuery = true)
     List<NewsArticle> findAllAdsByUserPref();
     @Query(value = "SELECT * FROM news_articles WHERE is_approved = true AND is_ad = false", nativeQuery = true)
@@ -38,4 +37,8 @@ public interface NewsArticleRepo extends JpaRepository<NewsArticle, Long > {
 
     @Query(value = "SELECT DISTINCT na.* FROM news_articles na JOIN news_tags nt ON na.id = nt.news_article_id WHERE na.is_ad = true AND nt.tag_id IN ?1", nativeQuery = true)
     List<NewsArticle> getMyAds(List<Long> list);
+
+    @Query(value = "SELECT DISTINCT na.* FROM news_articles na JOIN news_tags nt ON na.id = nt.news_article_id WHERE na.is_ad = false AND nt.tag_id IN ?1", nativeQuery = true)
+    List<NewsArticle> findFilteredNews(List<Long> list);
+
 }

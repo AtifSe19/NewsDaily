@@ -19,7 +19,7 @@ databaseChangeLog:
                   name: role
                   value: 'USER'
               - column:
-                  name: is_logged_in
+                  name: is_disabled
                   value: true
         - insert:
             tableName: users

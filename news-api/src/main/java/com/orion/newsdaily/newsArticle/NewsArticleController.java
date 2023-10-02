@@ -55,6 +55,17 @@ public class NewsArticleController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
+    @PreAuthorize("hasAnyAuthority('EDITOR', 'REPORTER', 'USER')")
+    @GetMapping("/filter")
+    public ResponseEntity<List<NewsArticle>> filter(
+            Authentication authentication,
+            @RequestParam(name = "tags") String tagsParam
+    ) {
+        System.out.print(tagsParam+"acha");
+        List<NewsArticle> newsArticles = newsArticleService.findFilteredNews(tagsParam);
+        return ResponseEntity.ok(newsArticles);
+    }
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'REPORTER')")
     public ResponseEntity<List<NewsArticle>> findAll(@AuthenticationPrincipal OAuth2User principal,

@@ -44,25 +44,25 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.of(user));
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR', 'USER', 'REPORTER')")
-    @GetMapping("/user")
-    public ResponseEntity<ApiResponse<User>> findUserByUsername(Authentication auth) {
-        String username=" ";
-        if(auth==null || auth.getPrincipal()==null){
-
-            username="anonymous";
-
-        }
-        else {
-            username = auth.getName();
-        }
-        User user = userService.findByUserName(username);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(ApiResponse.of(user));
-    }
+//    @PreAuthorize("hasAnyAuthority('ADMIN','EDITOR', 'USER', 'REPORTER')")
+//    @GetMapping("/user")
+//    public ResponseEntity<ApiResponse<User>> findUserByUsername(Authentication auth) {
+//        String username=" ";
+//        if(auth==null || auth.getPrincipal()==null){
+//
+//            username="anonymous";
+//
+//        }
+//        else {
+//            username = auth.getName();
+//        }
+//        User user = userService.findByUserName(username);
+//
+//        if (user == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(ApiResponse.of(user));
+//    }
 
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<List<User>>> findAllByName(

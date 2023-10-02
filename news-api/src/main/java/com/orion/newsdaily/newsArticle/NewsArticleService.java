@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,6 +144,22 @@ public class NewsArticleService {
     @Transactional
     public List<NewsArticle> findAll() {
         return newsArticleRepo.findAllNewsForUser();
+    }
+    @Transactional
+    public List<NewsArticle> findFilteredNews(String tagIdList) {
+        List<Long> idList = new ArrayList<>();
+        String[] idStrings = tagIdList.split(",");
+
+        for (String idString : idStrings) {
+            try {
+                Long id = Long.parseLong(idString.trim());
+                idList.add(id);
+            } catch (NumberFormatException e) {
+
+                System.err.println("Skipping non-numeric value: " + idString);
+            }
+        }
+        return newsArticleRepo.findFilteredNews(idList);
     }
 
     public NewsArticle findNewsByCommentId(Long cmtId) {

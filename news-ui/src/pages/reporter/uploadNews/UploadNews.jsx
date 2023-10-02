@@ -62,9 +62,9 @@ const UploadNews = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const tagsParam = formData.selectedTags.join(","); // Convert selected tags to a comma-separated string
+      const tagsParam = formData.selectedTags.join(","); 
       await axios.post(
-        `/api/v1/news?tags=${tagsParam}`, // Send tags as a query parameter
+        `/api/v1/news?tags=${tagsParam}`,
         {
           ...formData
         }
